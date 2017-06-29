@@ -1,0 +1,228 @@
+scopeName: 'source.exp'
+name: 'EXP'
+fileTypes: [
+  'exp'
+]
+
+# Rules to be implemented. Please add to repository and link here to include.
+patterns: [
+    {
+        include: '#commentMeta'
+    }
+    {
+        include: '#usepackage'
+    }
+    {
+        include: '#documentclass'
+    }
+    {
+        include: '#genericMacro'
+    }
+]
+
+# List of available rules. Must 'include' a rule to patterns for it to be implemented.
+repository:
+    lineComment: {
+        comment: 'Line comment. This will find an available % sign and match it and all that follows as a comment. Be sure to prevent edge cases like \\% or \\\% by implementing in this order: doublebackslash -> escaped % -> %.'
+        name: 'comment.line.percentage.latex'
+        match: '''(?x)      # Allows regex breakdown like this
+            %               # Is a percent sign
+            .*              # And all that follows
+        '''
+    }
+    escapedPercent: {
+        comment: 'Escaped % sign.'
+        name: 'constant.character.latex'
+        match: '\\\\%'
+    }
+    escapedCloseCurlyBracket: {
+        comment: 'Escaped }.'
+        name: 'constant.character.latex'
+        match: '\\\\}'
+    }
+    usepackage: {
+        comment: 'Package finder. Similar to documentclass, but allows custom colours. #correctspelling.'
+        begin: '(\\\\)usepackage(?=[^a-zA-Z@])'
+        beginCaptures:
+            0:
+                name: 'keyword.control.preamble.latex'
+            1:
+                name: 'punctuation.definition.function.latex'
+        end: '(?<=\\})'
+        endCaptures:
+            0:
+                name: 'punctuation.definition.argument.end.latex'
+        patterns:[
+            {
+                include: '#awaitingArgumentBrackets'
+            }
+            {
+                include: '#lineComment'
+            }
+            {
+                include: '#optionalArgumentScope'
+            }
+            {
+                include: '#nestedBrackets'
+            }
+        ]
+    }
+    doubleBackslash: {
+        match: '\\\\\\\\'
+        name: 'punctuation.break.latex'
+    }
+    commentMeta: {
+        patterns: [
+            {
+                include: '#doubleBackslash'
+            }
+            {
+                include: '#escapedPercent'
+            }
+            {
+                include: '#magicComment'
+            }
+            {
+                include: '#lineComment'
+            }
+        ]
+    }
+    genericMacro: {
+        comment: 'A catch all for latex macros that have not already been identified.'
+        name: 'support.function.general.latex'
+        match: '\\\\[a-zA-Z]+'
+    }
+    magicComment: {
+        comment: 'Magic commands work in first 20 lines. Can be improved to change color depending if the command matches a known string'
+        name: 'keyword.control.magic.latex'
+        match: '''(?x)    # Allow comments like this
+            ((              # Capture groups 1 & 2
+                (%)         # Capture percent sign
+                (\\ !(?>TEX|BIB)\\ )    # Exact match required
+                (\\S+)      # A word (this is required as far as I know)
+                )           # End capture group 2
+                (\\ = \\ )  # Match = with space (required)
+            )               # End capture group 1
+            (\\S+)(\\s*)$   # Any non whitespace then only wspace to end
+        '''
+    }
+    documentclass: {
+        comment: 'Documentclass finder.'
+        begin: '(\\\\)documentclass(?=[^a-zA-Z@])'
+        beginCaptures:
+            0:
+                name: 'keyword.control.preamble.latex'
+            1:
+                name: 'punctuation.definition.function.latex'
+        end: '(?<=\\})'
+        endCaptures:
+            0:
+                name: 'punctuation.definition.argument.end.latex'
+        patterns:[
+            {
+                include: '#awaitingArgumentBrackets'
+            }
+            {
+                include: '#lineComment'
+            }
+            {
+                include: '#optionalArgumentScope'
+            }
+            {
+                include: '#nestedBrackets'
+            }
+        ]
+    }
+    awaitingArgumentBrackets: {
+        comment: 'Anything not whitespace, opening bracket or comment will be flagged as invalid.illegal. Should take priority over other matches (even comments, as comments have the escaped % exception).'
+        match: '[^{\\[\\s%]+'
+        name: 'invalid.illegal.latex'
+    }
+    optionalArgumentScope: {
+        comment: 'Matches options brackets and everything inside them.'
+        contentName: 'variable.parameter.optional.latex'
+        begin: '\\['
+        beginCaptures:
+            0:
+                name: 'punctuation.definition.optional.start.latex'
+        end: '\\]'
+        endCaptures:
+            0:
+                name: 'punctuation.definition.optional.end.latex'
+        patterns: [
+            {
+                include: '#lineComment'
+            }
+        ]
+    }
+    argumentScope: {
+        comment: 'Matches arguments brackets'
+        contentName: 'variable.parameter.argument.latex'
+        begin: '\\{'
+        beginCaptures:
+            0:
+                name: 'punctuation.definition.argument.start.latex'
+        end: '\\}'
+        endCaptures:
+            0:
+                name: 'punctuation.definition.argument.end.latex'
+        patterns: [
+            {
+                include: '#commentMeta'
+            }
+            {
+                include: '#escapedCloseCurlyBracket'
+            }
+            {
+                include: '#nestedBrackets'
+            }
+        ]
+    }
+    nestedBrackets: {
+        contentName: 'variable.parameter.argument.latex'
+        begin: '{'
+        beginCaptures:
+            0:
+                name: 'punctuation.definition.argument.begin.latex'
+        end: '}'
+        endCaptures:
+            0:
+                name: 'punctuation.definition.argument.end.latex'
+        patterns: [
+            comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
+            {
+                include: '#commentMeta'
+            }
+            {
+                include: '#escapedCloseCurlyBracket'
+            }
+            {
+                include: '#nestedBrackets'
+            }
+        ]
+    }
+    endArgumentsMeta: {
+        patterns: [
+            {
+                include: '#doubleBackslash'
+            }
+            {
+                include: '#escapedCloseCurlyBracket'
+            }
+        ]
+    }
+    texKeywords: {
+        comment: 'Official TeX keywords that can be used in certain situations.'
+        name: 'support.constant.keyword.latex'
+        match: '''(?x)
+        at | by | bp | cc | cm | dd | depth | em | ex | fil | fill | filll | height | in | minus | mm | mu | pc | plus | pt | sp | spread | to | true | width
+        '''
+    }
+    texPrimitives: {
+        comment: 'Primitives (no smaller definitions) can be confirmed using \show\<cm>. This list is not finished.'
+        match: '''(?x)
+        (\\\\)(
+        above | badness | relax | show
+        )
+        '''
+    }
