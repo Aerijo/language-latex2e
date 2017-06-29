@@ -1,18 +1,12 @@
 {
-  "name": "syntax-experiments",
-  "main": "./lib/syntax-experiments",
-  "version": "0.0.0",
-  "description": "A short description of your package",
-  "keywords": [
-  ],
-  "activationCommands": {
-    "atom-workspace": "syntax-experiments:toggle"
+  "name": "language-latex2e",
+  "version": "0.0.3",
+  "description": "Not yet",
+  "repository": "https://github.com/Aerijo/language-latex2e",
+  "bugs": {
+    "url": "https://github.com/Aerijo/language-latex2e/issues"
   },
-  "repository": "https://github.com/atom/syntax-experiments",
-  "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {
-  }
 }
