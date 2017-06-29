@@ -1,4 +1,4 @@
-# syntax-experiments package
+# language-latex2e package
 
 A LaTeX syntax highlighting package. Works best with a dedicated theme that will find the custom scopes (like the solarized one I modified).
 
