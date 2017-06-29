@@ -1,7 +1,7 @@
-scopeName: 'source.exp'
-name: 'EXP'
+scopeName: 'source.latex'
+name: 'LaTeX2e'
 fileTypes: [
-  'exp'
+  'tex'
 ]
 
 # Rules to be implemented. Please add to repository and link here to include.
@@ -23,7 +23,7 @@ patterns: [
 # List of available rules. Must 'include' a rule to patterns for it to be implemented.
 repository:
     lineComment: {
-        comment: 'Line comment. This will find an available % sign and match it and all that follows as a comment. Be sure to prevent edge cases like \\% or \\\% by implementing in this order: doublebackslash -> escaped % -> %.'
+        comment: 'Line comment. This will find an available % sign and match it and all that follows as a comment. Be sure to prevent edge cases like \\% or \\\% by only ever implementing in this order: doublebackslash -> escaped % -> %.'
         name: 'comment.line.percentage.latex'
         match: '''(?x)      # Allows regex breakdown like this
             %               # Is a percent sign
