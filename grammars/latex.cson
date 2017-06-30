@@ -37,10 +37,10 @@ repository:
         name: 'constant.character.latex'
         match: '\\\\%'
     }
-    escapedCloseCurlyBracket: {
+    escapedCurlyBracket: {
         comment: 'Escaped }.'
         name: 'constant.character.latex'
-        match: '\\\\}'
+        match: '\\\\}|\\\\{'
     }
     usepackage: {
         comment: 'Package finder. Similar to documentclass, but allows custom colours. A macro name is only valid with letters (exceptions apply--eg. makeatletter). This checks to see if the name is purely "usepackage" and the following character is not a legal part of the macro name.'
@@ -63,11 +63,11 @@ repository:
                 include: '#lineComment'
             }
             {
-                comment: 'Will try and find optional arguments first. '
+                comment: 'Will try and find optional arguments first.'
                 include: '#optionalArgumentScope'
             }
             {
-                include: '#nestedCurlyBrackets'
+                include: '#argumentScope'
             }
         ]
     }
@@ -76,6 +76,7 @@ repository:
         name: 'punctuation.break.latex'
     }
     commentMeta: {
+        comment: 'Main purpose is to distinguish escaped % from comments.'
         patterns: [
             {
                 include: '#doubleBackslash'
@@ -148,24 +149,31 @@ repository:
         begin: '\\['
         beginCaptures:
             0:
-                name: 'punctuation.definition.optional.start.latex'
+                name: 'punctuation.definition.optional.begin.latex'
         end: '\\]'
         endCaptures:
             0:
                 name: 'punctuation.definition.optional.end.latex'
         patterns: [
             {
-                include: '#lineComment'
+                comment: 'AFAIK, the optional parameters never have nested brackets. Will come back to this after a while or if I find they do.'
+                include: '#commentMeta'
+            }
+            {
+                include: '#escapedCurlyBracket'
+            }
+            {
+                include: '#nestedCurlyBrackets'
             }
         ]
     }
     argumentScope: {
-        comment: 'Matches arguments brackets'
+        comment: 'Matches arguments brackets (the outmost of nested brackets)'
         contentName: 'variable.parameter.argument.latex'
         begin: '\\{'
         beginCaptures:
             0:
-                name: 'punctuation.definition.argument.start.latex'
+                name: 'punctuation.definition.argument.begin.latex'
         end: '\\}'
         endCaptures:
             0:
@@ -175,7 +183,7 @@ repository:
                 include: '#commentMeta'
             }
             {
-                include: '#escapedCloseCurlyBracket'
+                include: '#escapedCurlyBracket'
             }
             {
                 include: '#nestedCurlyBrackets'
@@ -187,31 +195,54 @@ repository:
         begin: '{'
         beginCaptures:
             0:
-                name: 'punctuation.definition.argument.begin.latex'
+                name: 'punctuation.definition.argument.latex'
         end: '}'
         endCaptures:
             0:
-                name: 'punctuation.definition.argument.end.latex'
+                name: 'punctuation.definition.argument.latex'
         patterns: [
             comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
             {
                 include: '#commentMeta'
             }
             {
-                include: '#escapedCloseCurlyBracket'
+                include: '#escapedCurlyBracket'
             }
             {
                 include: '#nestedCurlyBrackets'
             }
         ]
     }
+    # nestedSquareBrackets: {
+    #     contentName: 'variable.parameter.optional.latex'
+    #     begin: '\\['
+    #     beginCaptures:
+    #         0:
+    #             name: 'punctuation.definition.optional.begin.latex'
+    #     end: '\\]'
+    #     endCaptures:
+    #         0:
+    #             name: 'punctuation.definition.optional.end.latex'
+    #     patterns: [
+    #         comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
+    #         {
+    #             include: '#commentMeta'
+    #         }
+    #         {
+    #             include: '#escapedCloseSquareBracket'
+    #         }
+    #         {
+    #             include: '#nestedSquareBrackets'
+    #         }
+    #     ]
+    # }
     endArgumentsMeta: {
         patterns: [
             {
                 include: '#doubleBackslash'
             }
             {
-                include: '#escapedCloseCurlyBracket'
+                include: '#escapedCurlyBracket'
             }
         ]
     }
