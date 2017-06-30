@@ -17,6 +17,7 @@ patterns: [
         include: '#documentclass'
     }
     {
+        comment: 'A catch all for any uncaught macro commands. Naturally, it needs to be last.'
         include: '#genericMacro'
     }
 ]
@@ -42,29 +43,31 @@ repository:
         match: '\\\\}'
     }
     usepackage: {
-        comment: 'Package finder. Similar to documentclass, but allows custom colours. #correctspelling.'
+        comment: 'Package finder. Similar to documentclass, but allows custom colours. A macro name is only valid with letters (exceptions apply--eg. makeatletter). This checks to see if the name is purely "usepackage" and the following character is not a legal part of the macro name.'
         begin: '(\\\\)usepackage(?=[^a-zA-Z@])'
         beginCaptures:
             0:
                 name: 'keyword.control.preamble.latex'
             1:
                 name: 'punctuation.definition.function.latex'
-        end: '(?<=\\})'
+        end: '(?<=\\})|(^\\s*$)'
         endCaptures:
-            0:
-                name: 'punctuation.definition.argument.end.latex'
+            1:
+                name: 'invalid.illegal.latex'
         patterns:[
             {
                 include: '#awaitingArgumentBrackets'
             }
             {
+                comment: 'Only this one necessary because escaped characters will be picked up by awaitingArgumentBrackets.'
                 include: '#lineComment'
             }
             {
+                comment: 'Will try and find optional arguments first. '
                 include: '#optionalArgumentScope'
             }
             {
-                include: '#nestedBrackets'
+                include: '#nestedCurlyBrackets'
             }
         ]
     }
@@ -115,10 +118,10 @@ repository:
                 name: 'keyword.control.preamble.latex'
             1:
                 name: 'punctuation.definition.function.latex'
-        end: '(?<=\\})'
+        end: '(?<=\\})|(^\\s*$)'
         endCaptures:
-            0:
-                name: 'punctuation.definition.argument.end.latex'
+            1:
+                name: 'invalid.illegal.latex'
         patterns:[
             {
                 include: '#awaitingArgumentBrackets'
@@ -130,7 +133,7 @@ repository:
                 include: '#optionalArgumentScope'
             }
             {
-                include: '#nestedBrackets'
+                include: '#nestedCurlyBrackets'
             }
         ]
     }
@@ -175,11 +178,11 @@ repository:
                 include: '#escapedCloseCurlyBracket'
             }
             {
-                include: '#nestedBrackets'
+                include: '#nestedCurlyBrackets'
             }
         ]
     }
-    nestedBrackets: {
+    nestedCurlyBrackets: {
         contentName: 'variable.parameter.argument.latex'
         begin: '{'
         beginCaptures:
@@ -198,7 +201,7 @@ repository:
                 include: '#escapedCloseCurlyBracket'
             }
             {
-                include: '#nestedBrackets'
+                include: '#nestedCurlyBrackets'
             }
         ]
     }
@@ -213,14 +216,14 @@ repository:
         ]
     }
     texKeywords: {
-        comment: 'Official TeX keywords that can be used in certain situations.'
+        comment: 'Official TeX keywords that can be used in certain situations. Done AFAIK.'
         name: 'support.constant.keyword.latex'
         match: '''(?x)
         at | by | bp | cc | cm | dd | depth | em | ex | fil | fill | filll | height | in | minus | mm | mu | pc | plus | pt | sp | spread | to | true | width
         '''
     }
     texPrimitives: {
-        comment: 'Primitives (no smaller definitions) can be confirmed using \show\<cm>. This list is not finished.'
+        comment: 'Primitives (no smaller definitions) can be confirmed using \show\<cm>. This list is obviously not finished.'
         match: '''(?x)
         (\\\\)(
         above | badness | relax | show
