@@ -1,12 +1,16 @@
 {
   "name": "language-latex2e",
   "version": "0.0.3",
+  "description": "A grammar scoper for LaTeX",
+  "main": "./lib/language-latex2e",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Aerijo/language-latex2e"
+  },
   "description": "Not yet",
   "repository": "https://github.com/Aerijo/language-latex2e",
-  "bugs": {
-    "url": "https://github.com/Aerijo/language-latex2e/issues"
-  },
+  "bugs": "https://github.com/Aerijo/language-latex2e/issues",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
-  },
+  }
 }
