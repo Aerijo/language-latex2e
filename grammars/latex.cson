@@ -17,6 +17,12 @@ patterns: [
         include: '#documentclass'
     }
     {
+        include: '#displayMathMode'
+    }
+    {
+        include: '#inlineMathMode'
+    }
+    {
         comment: 'A catch all for any uncaught macro commands. Naturally, it needs to be last.'
         include: '#genericMacro'
     }
@@ -213,29 +219,29 @@ repository:
             }
         ]
     }
-    # nestedSquareBrackets: {
-    #     contentName: 'variable.parameter.optional.latex'
-    #     begin: '\\['
-    #     beginCaptures:
-    #         0:
-    #             name: 'punctuation.definition.optional.begin.latex'
-    #     end: '\\]'
-    #     endCaptures:
-    #         0:
-    #             name: 'punctuation.definition.optional.end.latex'
-    #     patterns: [
-    #         comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
-    #         {
-    #             include: '#commentMeta'
-    #         }
-    #         {
-    #             include: '#escapedCloseSquareBracket'
-    #         }
-    #         {
-    #             include: '#nestedSquareBrackets'
-    #         }
-    #     ]
-    # }
+    nestedSquareBrackets: {
+        contentName: 'variable.parameter.optional.latex'
+        begin: '\\['
+        beginCaptures:
+            0:
+                name: 'punctuation.definition.optional.begin.latex'
+        end: '\\]'
+        endCaptures:
+            0:
+                name: 'punctuation.definition.optional.end.latex'
+        patterns: [
+            comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
+            {
+                include: '#commentMeta'
+            }
+            {
+                include: '#escapedCloseSquareBracket'
+            }
+            {
+                include: '#nestedSquareBrackets'
+            }
+        ]
+    }
     endArgumentsMeta: {
         patterns: [
             {
@@ -260,4 +266,39 @@ repository:
         above | badness | relax | show
         )
         '''
+    }
+    # Following needs to be improved to recognise escaped $
+    inlineMathMode: {
+        comment: 'This can be triggered using $ or \( \). Both can be used in the same pair.'
+        contentName: 'string.other.math.inline.latex'
+        begin: '(\\$)|(\\\\\\()'
+        beginCaptures:
+            0:
+                name: 'string.other.math.inline.begin.latex'
+        end: '(\\$)|(\\\\\\))'
+        endCaptures:
+            0:
+                name: 'string.other.math.inline.end.latex'
+    }
+    displayMathMode: {
+        comment: 'This can be triggered using $$ or \[ \]. Both can be used in the same pair.'
+        contentName: 'string.other.math.display.latex'
+        begin: '(\\$\\$)|(\\\\\\[)'
+        beginCaptures:
+            0:
+                name: 'string.other.math.display.begin.latex'
+            1:
+                name: 'invalid.deprecated.latex'
+        end: '(\\$\\$)|(\\\\\\])'
+        endCaptures:
+            0:
+                name: 'string.other.math.display.end.latex'
+            1:
+                name: 'invalid.deprecated.latex'
+        patterns: [
+            {
+                name: 'invalid.illegal.latex'
+                match: '(?<=[^\\\\])(\\$)(?=[^\\$])'
+            }
+        ]
     }
