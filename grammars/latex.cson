@@ -23,12 +23,19 @@ patterns: [
         include: '#inlineMathMode'
     }
     {
+        include: '#figureEnvironment'
+    }
+    {
+        include: '#genericEnvironment'
+    }
+    {
         comment: 'A catch all for any uncaught macro commands. Naturally, it needs to be last.'
         include: '#genericMacro'
     }
 ]
 
 # List of available rules. Must 'include' a rule to patterns for it to be implemented.
+# Thinking of moving pure TeX commands to a separate file and linking it in here (like the preexisting package).
 repository:
     lineComment: {
         comment: 'Line comment. This will find an available % sign and match it and all that follows as a comment. Be sure to prevent edge cases like \\% or \\\% by only ever implementing in this order: doublebackslash -> escaped % -> %.'
@@ -297,8 +304,81 @@ repository:
                 name: 'invalid.deprecated.latex'
         patterns: [
             {
+                comment: 'When in display math, the exit can only be $$ or \]'
                 name: 'invalid.illegal.latex'
                 match: '(?<=[^\\\\])(\\$)(?=[^\\$])'
             }
         ]
+    }
+    genericEnvironment: {
+        comment: 'Matches environments not recognised by other rules. Less lenient with random formatting here, it is expected to all be on one line.'
+        contentName: 'support.environment.latex'
+        begin: '(\\\\)(begin)(\\{)(\\w+)(\\})'
+        beginCaptures:
+            1:
+                name: 'punctuation.definition.function.latex'
+            2:
+                name: 'support.function.environment.begin.latex'
+            3:
+                name: 'punctuation.definition.argument.begin.latex'
+            4:
+                name: 'variable.parameter.argument.latex'
+            5:
+                name: 'punctuation.definition.argument.end.latex'
+        end: '(\\\\)(end)(\\{)(\\4)(\\})'
+        endCaptures:
+            1:
+                name: 'punctuation.definition.function.latex'
+            2:
+                name: 'support.function.environment.end.latex'
+            3:
+                name: 'punctuation.definition.argument.begin.latex'
+            4:
+                name: 'variable.parameter.argument.latex'
+            5:
+                name: 'punctuation.definition.argument.end.latex'
+        patterns: [
+            {
+                include: '#figureEnvironment'
+            }
+        ]
+    }
+    figureEnvironment: {
+        comment: 'Matches the common figure environment'
+        contentName: 'support.environment.figure.latex'
+        begin: '(\\\\)(begin)(\\{)(figure)(\\})((\\[)(\\w*)(\\]))?'
+        beginCaptures:
+            1:
+                name: 'punctuation.definition.function.latex'
+            2:
+                name: 'support.function.environment.begin.latex'
+            3:
+                name: 'punctuation.definition.argument.begin.latex'
+            4:
+                name: 'variable.parameter.argument.latex'
+            5:
+                name: 'punctuation.definition.argument.end.latex'
+            7:
+                name: 'punctuation.definition.optional.begin.latex'
+            8:
+                name: 'variable.parameter.optional.latex'
+            9:
+                name: 'punctuation.definition.optional.end.latex'
+        end: '(\\\\)(end)(\\{)(figure)(\\})'
+        endCaptures:
+            1:
+                name: 'punctuation.definition.function.latex'
+            2:
+                name: 'support.function.environment.end.latex'
+            3:
+                name: 'punctuation.definition.argument.begin.latex'
+            4:
+                name: 'variable.parameter.argument.latex'
+            5:
+                name: 'punctuation.definition.argument.end.latex'
+        # patterns: [
+        #     {
+        #         include: '#figureMacros'
+        #     }
+        # ]
     }
