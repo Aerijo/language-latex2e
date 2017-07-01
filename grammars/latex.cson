@@ -29,6 +29,9 @@ patterns: [
         include: '#genericEnvironment'
     }
     {
+        include: '#makeatsomething'
+    }
+    {
         comment: 'A catch all for any uncaught macro commands. Naturally, it needs to be last.'
         include: '#genericMacro'
     }
@@ -381,4 +384,10 @@ repository:
         #         include: '#figureMacros'
         #     }
         # ]
+    }
+    makeatsomething: {
+        comment: 'Matches the makeat(letter|other) commands so that they get custom highlighting (because @ is now a character)'
+        name: 'support.function.makeat.latex'
+        begin: '(\\\\)makeatletter\\b'
+        end: '(\\\\)makeatother\\b'
     }
