@@ -150,7 +150,7 @@ repository:
                 include: '#optionalArgumentScope'
             }
             {
-                include: '#nestedCurlyBrackets'
+                include: '#argumentScope'
             }
         ]
     }
