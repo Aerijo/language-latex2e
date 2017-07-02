@@ -23,6 +23,9 @@ patterns: [
         include: '#inlineMathMode'
     }
     {
+        include: '#documentEnvironment'
+    }
+    {
         include: '#figureEnvironment'
     }
     {
@@ -342,7 +345,39 @@ repository:
                 name: 'punctuation.definition.argument.end.latex'
         patterns: [
             {
-                include: '#figureEnvironment'
+                include: '$base'
+            }
+        ]
+    }
+    documentEnvironment: {
+        comment: 'To stop the entire contents of the document environment being labelled. Its useless anyway, as I split up my work and just include it into the main file.'
+        begin: '(\\\\)(begin)(\\{)(document)(\\})'
+        beginCaptures:
+            1:
+                name: 'punctuation.definition.function.latex'
+            2:
+                name: 'support.function.environment.begin.latex'
+            3:
+                name: 'punctuation.definition.argument.begin.latex'
+            4:
+                name: 'variable.parameter.argument.latex'
+            5:
+                name: 'punctuation.definition.argument.end.latex'
+        end: '(\\\\)(end)(\\{)(document)(\\})'
+        endCaptures:
+            1:
+                name: 'punctuation.definition.function.latex'
+            2:
+                name: 'support.function.environment.end.latex'
+            3:
+                name: 'punctuation.definition.argument.begin.latex'
+            4:
+                name: 'variable.parameter.argument.latex'
+            5:
+                name: 'punctuation.definition.argument.end.latex'
+        patterns: [
+            {
+                include: '$base'
             }
         ]
     }
