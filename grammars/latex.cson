@@ -23,6 +23,9 @@ patterns: [
         include: '#inlineMathMode'
     }
     {
+        include: '#hypersetup'
+    }
+    {
         include: '#documentEnvironment'
     }
     {
@@ -43,6 +46,25 @@ patterns: [
 # List of available rules. Must 'include' a rule to patterns for it to be implemented.
 # Thinking of moving pure TeX commands to a separate file and linking it in here (like the preexisting package).
 repository:
+    hypersetup: {
+        comment: 'Recongnises hypersetup environment. Can be extended to be a general key-option scoper, but this (potentially) allows custom colours for known keys.'
+        begin: '(\\\\)hypersetup(?=[^a-zA-Z@])'
+        beginCaptures:
+            0:
+                name: 'keyword.control.preamble.hypersetup.latex'
+            1:
+                name: 'punctuation.definition.function.latex'
+        end: '(?<=\\})|(^\\s*$)'
+        endCaptures:
+            1:
+                name: 'invalid.illegal.latex'
+        patterns: [
+            {
+                include: '#argumentScope'
+            }
+        ]
+
+    }
     lineComment: {
         comment: 'Line comment. This will find an available % sign and match it and all that follows as a comment. Be sure to prevent edge cases like \\% or \\\% by only ever implementing in this order: doublebackslash -> escaped % -> %.'
         name: 'comment.line.percentage.latex'
@@ -127,7 +149,7 @@ repository:
                 )           # End capture group 2
                 (\\ = \\ )  # Match = with space (required)
             )               # End capture group 1
-            (\\S+)(\\s*)$   # Any non whitespace then only wspace to end
+            .*$               # To end; some options have spaces
         '''
     }
     documentclass: {
