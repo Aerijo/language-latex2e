@@ -3,49 +3,88 @@ name: 'LaTeX2e'
 fileTypes: [
   'tex'
 ]
+foldingStartMarker: '{'
+foldingStopMarker: '}'
 
 # Rules to be implemented. Please add to repository and link here to include.
 patterns: [
     {
-        comment: 'Always look for comments first so no bad matches happen.'
-        include: '#commentMeta'
+        include: '#controlMeta'
     }
     {
-        include: '#usepackage'
+        include: '#percentMeta'
     }
     {
-        include: '#documentclass'
-    }
-    {
-        include: '#displayMathMode'
-    }
-    {
-        include: '#inlineMathMode'
-    }
-    {
-        include: '#hypersetup'
-    }
-    {
-        include: '#documentEnvironment'
-    }
-    {
-        include: '#figureEnvironment'
-    }
-    {
-        include: '#genericEnvironment'
-    }
-    {
-        include: '#makeatsomething'
-    }
-    {
-        comment: 'A catch all for any uncaught macro commands. Naturally, it needs to be last.'
-        include: '#genericMacro'
+        include: '#dollarMeta'
     }
 ]
 
 # List of available rules. Must 'include' a rule to patterns for it to be implemented.
 # Thinking of moving pure TeX commands to a separate file and linking it in here (like the preexisting package).
 repository:
+    controlMeta: {
+        comment: 'This is (ideally) called when a backslash is found.'
+        patterns: [
+            {
+                include: '#doubleBackslash'
+            }
+            {
+                include: '#escapedCharacter'
+            }
+            {
+                include: '#documentclass'
+            }
+            {
+                include: '#usepackage'
+            }
+            {
+                include: '#documentEnvironment'
+            }
+            {
+                include: '#figureEnvironment'
+            }
+            {
+                include: '#genericEnvironment'
+            }
+            {
+                include: '#hypersetup'
+            }
+            {
+                include: '#makeatsomething'
+            }
+            {
+                include: '#genericMacro'
+            }
+        ]
+    }
+    percentMeta: {
+        comment: 'This is called when there is a lone percent sign (escaped covered by controlMeta).'
+        patterns: [
+            {
+                comment: 'Should work so long it is the end of any comment; eg. % other% TEX = ...'
+                include: '#magicComment'
+            }
+            {
+                include: '#lineComment'
+            }
+        ]
+    }
+    dollarMeta: {
+        comment: 'Called when $ sign found'
+        patterns: [
+            {
+                include: '#displayMathMode'
+            }
+            {
+                include: '#inlineMathMode'
+            }
+        ]
+    }
+    escapedCharacter: {
+        comment: 'Finds escaped characters lik \$ and \%. Uses this regex so unique capture groups can be used.'
+        name: 'constant.character.latex'
+        match: '(\\\\)(\\&|\\%|\\$|\\#|\\_|\\{|\\}|(textascii(tilde|circum)|textbackslash)(?=[^a-zA-Z@]))'
+    }
     hypersetup: {
         comment: 'Recongnises hypersetup environment. Can be extended to be a general key-option scoper, but this (potentially) allows custom colours for known keys.'
         begin: '(\\\\)hypersetup(?=[^a-zA-Z@])'
@@ -65,20 +104,18 @@ repository:
         ]
     }
     lineComment: {
-        comment: 'Line comment. This will find an available % sign and match it and all that follows as a comment. Be sure to prevent edge cases like \\% or \\\% by only ever implementing in this order: doublebackslash -> escaped % -> %.'
+        comment: 'Line comment. This will find an available % sign and match it to just before another % (where it looks for a magic comment) or the end.'
         name: 'comment.line.percentage.latex'
-        match: '''(?x)      # Allows regex breakdown like this
-            %               # Is a percent sign
-            .*              # And all that follows
-        '''
+        begin: '%'
+        end: '(?=%)|$'
     }
     escapedPercent: {
-        comment: 'Escaped % sign.'
+        comment: 'Escaped % sign. Possible deprecated by escapedCharacter.'
         name: 'constant.character.latex'
         match: '\\\\%'
     }
     escapedCurlyBracket: {
-        comment: 'Escaped }.'
+        comment: 'Escaped }. Possible deprecated by escapedCharacter.'
         name: 'constant.character.latex'
         match: '\\\\}|\\\\{'
     }
@@ -116,7 +153,7 @@ repository:
         name: 'punctuation.break.latex'
     }
     commentMeta: {
-        comment: 'Main purpose is to distinguish escaped % from comments.'
+        comment: 'Main purpose is to distinguish escaped % from comments. Deprecated.'
         patterns: [
             {
                 include: '#doubleBackslash'
@@ -148,7 +185,7 @@ repository:
                 )           # End capture group 2
                 (\\ = \\ )  # Match = with space (required)
             )               # End capture group 1
-            .*$               # To end; some options have spaces
+            .*$             # To end; some options have spaces
         '''
     }
     documentclass: {
@@ -341,7 +378,7 @@ repository:
             {
                 comment: 'When in display math, the exit can only be $$ or \]'
                 name: 'invalid.illegal.latex'
-                match: '(?<=[^\\\\])(\\$)(?=[^\\$])'
+                match: '(?<=[^\\\\])(\\$)(?=[^\\$])|(\\\\(\\[|\\(|\\)))'
             }
         ]
     }
