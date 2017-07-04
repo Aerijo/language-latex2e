@@ -7,45 +7,74 @@ fileTypes: [
 # Rules to be implemented. Please add to repository and link here to include.
 patterns: [
     {
-        comment: 'Always look for comments first so no bad matches happen.'
-        include: '#commentMeta'
+        include: '#controlMeta'
     }
     {
-        include: '#usepackage'
+        include: '#percentMeta'
     }
-    {
-        include: '#documentclass'
-    }
-    {
-        include: '#displayMathMode'
-    }
-    {
-        include: '#inlineMathMode'
-    }
-    {
-        include: '#hypersetup'
-    }
-    {
-        include: '#documentEnvironment'
-    }
-    {
-        include: '#figureEnvironment'
-    }
-    {
-        include: '#genericEnvironment'
-    }
-    {
-        include: '#makeatsomething'
-    }
-    {
-        comment: 'A catch all for any uncaught macro commands. Naturally, it needs to be last.'
-        include: '#genericMacro'
-    }
+    # {
+    #     include: '#documentclass'
+    # }
+    # {
+    #     include: '#displayMathMode'
+    # }
+    # {
+    #     include: '#inlineMathMode'
+    # }
+    # {
+    #     include: '#hypersetup'
+    # }
+    # {
+    #     include: '#documentEnvironment'
+    # }
+    # {
+    #     include: '#figureEnvironment'
+    # }
+    # {
+    #     include: '#genericEnvironment'
+    # }
+    # {
+    #     include: '#makeatsomething'
+    # }
+    # {
+    #     comment: 'A catch all for any uncaught macro commands. Naturally, it needs to be last.'
+    #     include: '#genericMacro'
+    # }
 ]
 
 # List of available rules. Must 'include' a rule to patterns for it to be implemented.
 # Thinking of moving pure TeX commands to a separate file and linking it in here (like the preexisting package).
 repository:
+    controlMeta: {
+        comment: 'This is (ideally) called when a backslash is found.'
+        patterns: [
+            {
+                include: '#doubleBackslash'
+            }
+            {
+                include: '#escapedCharacter'
+            }
+            {
+                include: '#genericMacro'
+            }
+        ]
+    }
+    percentMeta: {
+        comment: 'This is called when there is a lone percent sign (escaped covered by controlMeta).'
+        patterns: [
+            {
+                include: '#magicComment'
+            }
+            {
+                include: '#lineComment'
+            }
+        ]
+    }
+    escapedCharacter: {
+        comment: 'Finds escaped characters lik \$ and \%.'
+        name: 'constant.character.latex'
+        match: '(\\\\)(\\&|\\%|\\$|\\#|\\_|\\{|\\}|(textascii(tilde|circum)|textbackslash)(?=[^a-zA-Z@]))'
+    }
     hypersetup: {
         comment: 'Recongnises hypersetup environment. Can be extended to be a general key-option scoper, but this (potentially) allows custom colours for known keys.'
         begin: '(\\\\)hypersetup(?=[^a-zA-Z@])'
@@ -73,12 +102,12 @@ repository:
         '''
     }
     escapedPercent: {
-        comment: 'Escaped % sign.'
+        comment: 'Escaped % sign. Possible deprecated by escapedCharacter.'
         name: 'constant.character.latex'
         match: '\\\\%'
     }
     escapedCurlyBracket: {
-        comment: 'Escaped }.'
+        comment: 'Escaped }. Possible deprecated by escapedCharacter.'
         name: 'constant.character.latex'
         match: '\\\\}|\\\\{'
     }
@@ -148,7 +177,7 @@ repository:
                 )           # End capture group 2
                 (\\ = \\ )  # Match = with space (required)
             )               # End capture group 1
-            .*$               # To end; some options have spaces
+            .*$             # To end; some options have spaces
         '''
     }
     documentclass: {
