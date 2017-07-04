@@ -63,7 +63,6 @@ repository:
                 include: '#argumentScope'
             }
         ]
-
     }
     lineComment: {
         comment: 'Line comment. This will find an available % sign and match it and all that follows as a comment. Be sure to prevent edge cases like \\% or \\\% by only ever implementing in this order: doublebackslash -> escaped % -> %.'
@@ -314,6 +313,11 @@ repository:
         endCaptures:
             0:
                 name: 'string.other.math.inline.end.latex'
+        patterns: [
+            {
+                include: '#commentMeta'
+            }
+        ]
     }
     displayMathMode: {
         comment: 'This can be triggered using $$ or \[ \]. Both can be used in the same pair.'
@@ -331,6 +335,9 @@ repository:
             1:
                 name: 'invalid.deprecated.latex'
         patterns: [
+            {
+                include: '#commentMeta'
+            }
             {
                 comment: 'When in display math, the exit can only be $$ or \]'
                 name: 'invalid.illegal.latex'
@@ -447,4 +454,9 @@ repository:
         name: 'support.function.makeat.latex'
         begin: '(\\\\)makeatletter\\b'
         end: '(\\\\)makeatother\\b'
+        patterns: [
+            {
+                include: '#commentMeta'
+            }
+        ]
     }
