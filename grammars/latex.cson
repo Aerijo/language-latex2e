@@ -81,7 +81,7 @@ repository:
         ]
     }
     escapedCharacter: {
-        comment: 'Finds escaped characters lik \$ and \%. Uses this regex so unique capture groups can be used.'
+        comment: 'Finds escaped characters like \$ and \%. Uses this regex so unique capture groups can be used.'
         name: 'constant.character.latex'
         match: '(\\\\)(\\&|\\%|\\$|\\#|\\_|\\{|\\}|(textascii(tilde|circum)|textbackslash)(?=[^a-zA-Z@]))'
     }
