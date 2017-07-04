@@ -17,6 +17,27 @@ patterns: [
     {
         include: '#dollarMeta'
     }
+    {
+        include: '#tildeMeta'
+    }
+    {
+        include: '#ampersandMeta'
+    }
+    {
+        include: '#openCurlyBracketMeta'
+    }
+    {
+        include: '#closeCurlyBracketMeta'
+    }
+    {
+        include: '#underscoreMeta'
+    }
+    {
+        include: '#caretMeta'
+    }
+    {
+        include: '#hashtagMeta'
+    }
 ]
 
 # List of available rules. Must 'include' a rule to patterns for it to be implemented.
@@ -80,6 +101,74 @@ repository:
             }
         ]
     }
+    tildeMeta: {
+        comment: 'This is only an unbreaking space (when alone).'
+        name: 'punctuation.space.latex'
+        match: '~'
+    }
+    ampersandMeta: {
+        comment: 'The ampersand normally represents alignment (catcode 4).'
+        comment: 'Probably not useful (or legal) outside of align or table environment. However, it must be left this way to let users implement custom environments.'
+        name: 'punctuation.alignment.latex'
+        match: '&'
+    }
+    openCurlyBracketMeta: {
+        contentName: 'variable.parameter.argument.latex'
+        begin: '{'
+        beginCaptures:
+            0:
+                name: 'punctuation.definition.argument.latex'
+        end: '}'
+        endCaptures:
+            0:
+                name: 'punctuation.definition.argument.latex'
+        patterns: [
+            comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
+            {
+                include: '#escapedCharacter'
+            }
+            {
+                include: '#lineComment'
+            }
+            {
+                include: '#openCurlyBracketMeta'
+            }
+        ]
+    }
+    closeCurlyBracketMeta: {
+        comment: 'To reach this means unbalanced brackets: THIS IS AN ERROR.'
+        name: 'invalid.illegal.latex'
+        match: '}'
+    }
+    underscoreMeta: {
+        comment: 'Underscore means subscript. It will take an argument in brackets if possible. If not, just the single next character.'
+        comment: 'Only valid when within mathmode. Will address this later.'
+        patterns: [
+            {
+                include: '#underscoreWithArgument'
+            }
+            {
+                include: '#underscoreNoArgument'
+            }
+        ]
+    }
+    underscoreWithArgument: {
+        comment: 'Matches an underscore and between curly brackets'
+        name: 'punctuation.subscript.latex'
+        begin: '_\\s*(?={)'
+        end: '(?<=\\})'
+        patterns: [
+            {
+                include: '#argumentScope'
+            }
+        ]
+    }
+    underscoreNoArgument: {
+        comment: 'Matches an underscore and next character or macro'
+        comment: 'Considering making this give a warning, as brackets is best practice'
+        name: 'punctuation.subscript.latex'
+        match: '_\\s*(\\\\[a-zA-Z]+|.)?'
+    }
     escapedCharacter: {
         comment: 'Finds escaped characters like \$ and \%. Uses this regex so unique capture groups can be used.'
         name: 'constant.character.latex'
@@ -110,7 +199,7 @@ repository:
         end: '(?=%)|$'
     }
     escapedPercent: {
-        comment: 'Escaped % sign. Possible deprecated by escapedCharacter.'
+                comment: 'Escaped % sign. Possible deprecated by escapedCharacter.'
         name: 'constant.character.latex'
         match: '\\\\%'
     }
@@ -240,12 +329,12 @@ repository:
                 include: '#escapedCurlyBracket'
             }
             {
-                include: '#nestedCurlyBrackets'
+                include: '#openCurlyBracketMeta'
             }
         ]
     }
     argumentScope: {
-        comment: 'Matches arguments brackets (the outmost of nested brackets)'
+        comment: 'Matches arguments brackets (the outmost of nested brackets). Specifically for commands like usepackage.'
         contentName: 'variable.parameter.argument.latex'
         begin: '\\{'
         beginCaptures:
@@ -263,30 +352,7 @@ repository:
                 include: '#escapedCurlyBracket'
             }
             {
-                include: '#nestedCurlyBrackets'
-            }
-        ]
-    }
-    nestedCurlyBrackets: {
-        contentName: 'variable.parameter.argument.latex'
-        begin: '{'
-        beginCaptures:
-            0:
-                name: 'punctuation.definition.argument.latex'
-        end: '}'
-        endCaptures:
-            0:
-                name: 'punctuation.definition.argument.latex'
-        patterns: [
-            comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
-            {
-                include: '#commentMeta'
-            }
-            {
-                include: '#escapedCurlyBracket'
-            }
-            {
-                include: '#nestedCurlyBrackets'
+                include: '#openCurlyBracketMeta'
             }
         ]
     }
@@ -354,6 +420,16 @@ repository:
             {
                 include: '#commentMeta'
             }
+            {
+                comment: 'Mathmode special characters are different to text; eg. textbackslash is not allowed'
+                name: 'constant.character.latex'
+                match: '\\\\\\$'
+            }
+            {
+                comment: 'When in inline math, the exit can only be $ or \)'
+                name: 'invalid.illegal.latex'
+                match: '(\\\\(\\[|\\(|\\)))'
+            }
         ]
     }
     displayMathMode: {
@@ -374,6 +450,11 @@ repository:
         patterns: [
             {
                 include: '#commentMeta'
+            }
+            {
+                comment: 'Mathmode special characters are different to text; eg. textbackslash is not allowed'
+                name: 'constant.character.latex'
+                match: '\\\\\\$'
             }
             {
                 comment: 'When in display math, the exit can only be $$ or \]'
