@@ -65,6 +65,9 @@ repository:
                 include: '#figureEnvironment'
             }
             {
+                include: '#mathEnvironmentMeta'
+            }
+            {
                 include: '#genericEnvironment'
             }
             {
@@ -594,7 +597,7 @@ repository:
                 name: 'variable.parameter.optional.latex'
             9:
                 name: 'punctuation.definition.optional.end.latex'
-        end: '(\\\\)(end)(\\{)(figure)(\\})'
+        end: '(\\\\)(end)(\\{)(\\4)(\\})'
         endCaptures:
             1:
                 name: 'punctuation.definition.function.latex'
@@ -611,6 +614,47 @@ repository:
         #         include: '#figureMacros'
         #     }
         # ]
+    }
+    mathEnvironmentMeta: {
+        comment: 'Matches math environments'
+        patterns: [
+            {
+                include: '#alignMathEnvironment'
+            }
+        ]
+    }
+    alignMathEnvironment: {
+        comment: 'Matches align environment'
+        contentName: 'support.environment.math.align.latex'
+        begin: '(\\\\)(begin)(\\{)(align(\\*)?)(\\})'
+        beginCaptures:
+            1:
+                name: 'punctuation.definition.function.latex'
+            2:
+                name: 'support.function.environment.begin.latex'
+            3:
+                name: 'punctuation.definition.argument.begin.latex'
+            4:
+                name: 'variable.parameter.argument.latex'
+            6:
+                name: 'punctuation.definition.argument.end.latex'
+        end: '(\\\\)(end)(\\{)(\\4)(\\})'
+        endCaptures:
+            1:
+                name: 'punctuation.definition.function.latex'
+            2:
+                name: 'support.function.environment.end.latex'
+            3:
+                name: 'punctuation.definition.argument.begin.latex'
+            4:
+                name: 'variable.parameter.argument.latex'
+            5:
+                name: 'punctuation.definition.argument.end.latex'
+        patterns: [
+            {
+                include: '$base'
+            }
+        ]
     }
     makeatsomething: {
         comment: 'Matches the makeat(letter|other) commands so that they get custom highlighting (because @ is now a character)'
