@@ -71,6 +71,9 @@ repository:
                 include: '#genericEnvironment'
             }
             {
+                include: '#sectioning'
+            }
+            {
                 include: '#hypersetup'
             }
             {
@@ -263,6 +266,35 @@ repository:
             1:
                 name: 'invalid.illegal.latex'
         patterns:[
+            {
+                include: '#awaitingArgumentBrackets'
+            }
+            {
+                comment: 'Only this one necessary because escaped characters will be picked up by awaitingArgumentBrackets.'
+                include: '#lineComment'
+            }
+            {
+                comment: 'Will try and find optional arguments first.'
+                include: '#optionalArgumentScope'
+            }
+            {
+                include: '#argumentScope'
+            }
+        ]
+    }
+    sectioning: {
+        comment: 'Covers all sectioning commands such as section, subsection, subparagraph, etc.'
+        begin: '(\\\\)((sub){0,2}section|(sub){0,1}paragraph|part|chapter)(\\*)?(?=[^a-zA-Z@])'
+        beginCaptures:
+            0:
+                name: 'keyword.control.section.latex'
+            1:
+                name: 'punctuation.definition.function.latex'
+        end: '(?<=\\})|(^\\s*$)'
+        endCaptures:
+            1:
+                name: 'invalid.illegal.latex'
+        patterns: [
             {
                 include: '#awaitingArgumentBrackets'
             }
