@@ -55,6 +55,9 @@ repository:
                 include: '#escapedCharacter'
             }
             {
+                include: '#accents'
+            }
+            {
                 include: '#documentclass'
             }
             {
@@ -142,7 +145,7 @@ repository:
                 include: '#lineComment'
             }
             {
-                include: '#openCurlyBracketMeta'
+                include: '$base'
             }
         ]
     }
@@ -224,6 +227,11 @@ repository:
         comment: 'Finds escaped characters like \$ and \%. Uses this regex so unique capture groups can be used.'
         name: 'constant.character.latex'
         match: '(\\\\)(\\&|\\%|\\$|\\#|\\_|\\{|\\}|(textascii(tilde|circum)|textbackslash)(?=[^a-zA-Z@]))'
+    }
+    accents: {
+        comment: 'For standard latex accent macros such as \^ or \`'
+        name: 'constant.character.accent.latex'
+        match: '''(\\\\)([\\`\\'\\^\\"\\~\\=\\.](\\w|\\{\\w?\\})|[Hcklbdruv]\\{\\w?\\})'''
     }
     hypersetup: {
         comment: 'Recongnises hypersetup environment. Can be extended to be a general key-option scoper, but this (potentially) allows custom colours for known keys.'
@@ -762,4 +770,8 @@ repository:
                 match: '[^}]*'
             }
         ]
+    }
+    verbatim: {
+        comment: 'Finds an inline verbatim string of the format \verb+...+'
+        name: 'string.function.verbatim'
     }
