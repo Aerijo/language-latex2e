@@ -6,6 +6,16 @@ filetypes: [
 
 patterns: [
     {
+        include: '#beginTikzPicture'
+    }
+    {
+        include: '#drawCommandMeta'
+    }
+]
+
+
+repository:
+    beginTikzPicture: {
         comment: 'Looks for begin/end tikzpicture. This env should be in the file, even if separate from the main document.'
         begin: '(\\\\)begin\\{tikzpicture\\}'
         beginCaptures:
@@ -21,44 +31,51 @@ patterns: [
             }
         ]
     }
-    {
-        include: '#draw'
-    }
-]
-
-
-repository:
-    draw: {
+    drawCommandMeta: {
         begin: '(\\\\)draw\\b'
+        beginCaptures:
+            0:
+                name: 'support.function.draw.tikz'
         end: '\\;'
-        name: 'support.function.general.tikz'
+        endCaptures:
+            0:
+                name: 'punctuation.definition.lineend.tikz'
         patterns: [
             {
-                include: '#optionalArgumentScope'
+                include: '#squareBrackets'
+            }
+            {
+                include: '#parentheses'
+            }
+            {
+                include: '#pathDescriptor'
             }
         ]
     }
-    optionalArgumentScope: {
-        comment: 'Matches options brackets and everything inside them.'
-        contentName: 'variable.parameter.optional.latex'
+    squareBrackets: {
+        contentName: 'variable.parameter.optional.tikz'
         begin: '\\['
         beginCaptures:
             0:
-                name: 'punctuation.definition.optional.begin.latex'
+                name: 'punctuation.definition.optional.begin.tikz'
         end: '\\]'
         endCaptures:
             0:
-                name: 'punctuation.definition.optional.end.latex'
-        # patterns: [
-        #     {
-        #         comment: 'AFAIK, the optional parameters never have nested brackets. Will come back to this after a while or if I find they do.'
-        #         include: '#commentMeta'
-        #     }
-        #     {
-        #         include: '#escapedCurlyBracket'
-        #     }
-        #     {
-        #         include: '#openCurlyBracketMeta'
-        #     }
-        # ]
+                name: 'punctuation.definition.optional.end.tikz'
+    }
+    parentheses: {
+        contentName: 'variable.parameter.tikz'
+        begin: '\\('
+        beginCaptures:
+            0:
+                name: 'punctuation.definition.begin.tikz'
+        end: '\\)'
+        endCaptures:
+            0:
+                name: 'punctuation.definition.end.tikz'
+    }
+    pathDescriptor: {
+        comment: 'For the constructions like --, -|, |-, etc.'
+        name: 'punctuation.path.tikz'
+        match: '(--|-\\||\\|-)'
     }
