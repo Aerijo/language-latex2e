@@ -1,0 +1,7 @@
+'.source.latex':
+  'editor':
+    'commentStart': '% '
+
+'.source.tikz':
+  'editor':
+    'commentStart': '% '
