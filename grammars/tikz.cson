@@ -1,0 +1,35 @@
+scopeName: 'source.tikz'
+name: 'LaTeX TikZ'
+filetypes: [
+    'tikz'
+]
+
+patterns: [
+    {
+        comment: 'Looks for begin/end tikzpicture. This env should be in the file, even if separate from the main document.'
+        begin: '(\\\\)begin\\{tikzpicture\\}'
+        beginCaptures:
+            0:
+                name: 'keyword.control.environment.tikzpicture.tikz'
+        end: '(\\\\)end\\{tikzpicture\\}'
+        endCaptures:
+            0:
+                name: 'keyword.control.environment.tikzpicture.tikz'
+        patterns: [
+            {
+                include: '$base'
+            }
+        ]
+    }
+    {
+        include: '#draw'
+    }
+]
+
+
+repository:
+    draw: {
+        begin: '(\\\\)draw\\b'
+        end: '\\;'
+        name: 'support.function.general.tikz'
+    }
