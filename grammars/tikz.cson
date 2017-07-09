@@ -32,4 +32,33 @@ repository:
         begin: '(\\\\)draw\\b'
         end: '\\;'
         name: 'support.function.general.tikz'
+        patterns: [
+            {
+                include: '#optionalArgumentScope'
+            }
+        ]
+    }
+    optionalArgumentScope: {
+        comment: 'Matches options brackets and everything inside them.'
+        contentName: 'variable.parameter.optional.latex'
+        begin: '\\['
+        beginCaptures:
+            0:
+                name: 'punctuation.definition.optional.begin.latex'
+        end: '\\]'
+        endCaptures:
+            0:
+                name: 'punctuation.definition.optional.end.latex'
+        # patterns: [
+        #     {
+        #         comment: 'AFAIK, the optional parameters never have nested brackets. Will come back to this after a while or if I find they do.'
+        #         include: '#commentMeta'
+        #     }
+        #     {
+        #         include: '#escapedCurlyBracket'
+        #     }
+        #     {
+        #         include: '#openCurlyBracketMeta'
+        #     }
+        # ]
     }
