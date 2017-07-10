@@ -5,6 +5,7 @@ fileTypes: [
 ]
 foldingStartMarker: '{'
 foldingStopMarker: '}'
+limitLineLength: no
 
 # Rules to be implemented. Please add to repository and link to a 'meta' to include.
 # The following rules correspond to the ten special latex characters
