@@ -3,6 +3,7 @@ name: 'LaTeX TikZ'
 filetypes: [
     'tikz'
 ]
+limitLineLength: no
 
 patterns: [
     {
