@@ -1,6 +1,6 @@
 {
   "name": "language-latex2e",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A smarter grammar scoper for LaTeX",
   "repository": "https://github.com/Aerijo/language-latex2e",
   "bugs": "https://github.com/Aerijo/language-latex2e/issues",
