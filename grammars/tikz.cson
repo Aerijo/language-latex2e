@@ -1,4 +1,4 @@
-scopeName: 'source.tikz'
+scopeName: 'text.tex.latex.tikz'
 name: 'LaTeX TikZ'
 filetypes: [
     'tikz'
