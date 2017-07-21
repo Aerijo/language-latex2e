@@ -3,8 +3,8 @@ name: 'LaTeX2e'
 fileTypes: [
   'tex'
 ]
-foldingStartMarker: '{'
-foldingStopMarker: '}'
+foldingStartMarker: '\\{'
+foldingStopMarker: '\\}'
 limitLineLength: no
 
 # Rules to be implemented. Please add to repository and link to a 'meta' to include.
