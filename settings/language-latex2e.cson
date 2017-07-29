@@ -1,6 +1,9 @@
 '.text.tex.latex':
   'editor':
     'commentStart': '% '
+    'increaseIndentPattern': '^\\s*(\\\\)begin\\{[^(document)]\\w*\\}'
+    'decreaseIndentPattern': '^\\s*(\\\\)end\\{\\w*\\}'
+    'tablength': 2
 
 '.text.tex.latex.tikz':
   'editor':

@@ -1,0 +1,19 @@
+scopeName: 'text.tex.latex.log'
+name: 'LaTeX Log'
+filetypes: [
+    'log'
+]
+firstLineMatch: '^This is (\\w)+, Version .*$'
+limitLineLength: no
+
+patterns: [
+    {
+        comment: 'Bare minimum to make the log file look good. I will look into its syntax some other time.'
+        match: '(\\\\)[\\w|@]*'
+        name: 'support.function.general.latex.log'
+    }
+    {
+        match: 'Undefined control sequence\\.'
+        name: 'invalid.illegal.latex.log'
+    }
+]

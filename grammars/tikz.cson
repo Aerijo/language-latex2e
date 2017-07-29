@@ -3,6 +3,7 @@ name: 'LaTeX TikZ'
 filetypes: [
     'tikz'
 ]
+firstLineMatch: '\\\\begin\\{'
 limitLineLength: no
 
 patterns: [
