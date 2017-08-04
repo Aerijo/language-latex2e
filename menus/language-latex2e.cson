@@ -1,0 +1,7 @@
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Show Cursor Scope'
+      'command': 'editor:log-cursor-scope'
+    }
+  ]
