@@ -563,7 +563,7 @@ repository:
     genericEnvironment: {
         comment: 'Matches environments not recognised by other rules. Less lenient with random formatting here, it is expected to all be on one line.'
         contentName: 'support.environment.latex'
-        begin: '(\\\\)(begin)(\\{)(\\w+)(\\})'
+        begin: '(\\\\)(begin)(\\{)([\\w \\*]*)(\\})'
         beginCaptures:
             1:
                 name: 'punctuation.definition.function.latex'
