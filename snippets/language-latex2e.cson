@@ -15,6 +15,11 @@
         'body': '\\\\documentclass[${2:optional}]{${1:<class>}}\n$0'
         'description': 'Set document class'
         'descriptionMoreURL': 'https://en.wikibooks.org/wiki/LaTeX/Document_Structure#Document_classes'
+    '\\begin{align}':
+        'prefix': '\\align'
+        'body': '\\%\n\\\\begin{align$2}\n\t$1$3\n\\\\end{align$2}'
+        'description': 'Begin amsmath align env`ironment'
+        'descriptionMoreURL': 'https://www.sharelatex.com/learn/Aligning_equations_with_amsmath#!#Aligning_several_equations'
 
 
 '.text.tex.latex .string.other.math.display.latex':
