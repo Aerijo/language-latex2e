@@ -2,6 +2,7 @@
   "name": "language-latex2e",
   "version": "0.4.0",
   "description": "A smarter grammar scoper for LaTeX",
+  "main": "./lib/language-latex2e.js",
   "repository": "https://github.com/Aerijo/language-latex2e",
   "bugs": "https://github.com/Aerijo/language-latex2e/issues",
   "engines": {
