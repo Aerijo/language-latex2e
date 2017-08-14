@@ -4,7 +4,7 @@ filetypes: [
     'log'
 ]
 firstLineMatch: '^This is (\\w)+, Version .*$'
-limitLineLength: no
+limitLineLength: false
 
 patterns: [
     {

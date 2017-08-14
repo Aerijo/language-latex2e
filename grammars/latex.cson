@@ -4,7 +4,7 @@ fileTypes: [
   'tex'
 ]
 
-limitLineLength: no
+limitLineLength: false
 
 # Rules to be implemented. Please add to repository and link to a 'meta' to include.
 # The following rules correspond to the ten special latex characters
