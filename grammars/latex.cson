@@ -121,8 +121,7 @@ repository:
     match: '~'
   }
   ampersandMeta: {
-    comment: 'The ampersand normally represents alignment (catcode 4).'
-    comment: 'Probably not useful (or legal) outside of align or table environment. However, it must be left this way to let users implement custom environments.'
+    comment: 'The ampersand normally represents alignment (catcode 4). Probably not useful (or legal) outside of align or table environment. However, it must be left this way to let users implement custom environments.'
     name: 'punctuation.alignment.latex'
     match: '&'
   }
@@ -155,8 +154,7 @@ repository:
     match: '}'
   }
   underscoreMeta: {
-    comment: 'Underscore means subscript. It will take an argument in brackets if possible. If not, just the single next character.'
-    comment: 'Only valid when within mathmode. Will address this later.'
+    comment: 'Underscore means subscript. It will take an argument in brackets if possible. If not, just the single next character. Only valid when within mathmode. Will address this later.'
     patterns: [
       {
         include: '#underscoreWithArgument'
@@ -178,8 +176,7 @@ repository:
     ]
   }
   underscoreNoArgument: {
-    comment: 'Matches an underscore and next character or macro'
-    comment: 'Considering making this give a warning, as brackets is best practice'
+    comment: 'Matches an underscore and next character or macro. Considering making this give a warning, as brackets is best practice'
     name: 'punctuation.subscript.latex'
     match: '_\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
   }
@@ -206,8 +203,7 @@ repository:
     ]
   }
   caretNoArgument: {
-    comment: 'Matches a caret and next character or macro'
-    comment: 'Considering making this give a warning, as brackets is best practice'
+    comment: 'Matches a caret and next character or macro. Considering making this give a warning, as brackets is best practice'
     name: 'punctuation.superscript.latex'
     match: '\\^\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
   }
