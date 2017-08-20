@@ -9,773 +9,773 @@ limitLineLength: false
 # Rules to be implemented. Please add to repository and link to a 'meta' to include.
 # The following rules correspond to the ten special latex characters
 patterns: [
-    {
-        include: '#controlMeta'
-    }
-    {
-        include: '#percentMeta'
-    }
-    {
-        include: '#dollarMeta'
-    }
-    {
-        include: '#tildeMeta'
-    }
-    {
-        include: '#ampersandMeta'
-    }
-    {
-        include: '#openCurlyBracketMeta'
-    }
-    {
-        include: '#closeCurlyBracketMeta'
-    }
-    {
-        include: '#underscoreMeta'
-    }
-    {
-        include: '#caretMeta'
-    }
-    {
-        include: '#hashtagMeta'
-    }
+  {
+    include: '#controlMeta'
+  }
+  {
+    include: '#percentMeta'
+  }
+  {
+    include: '#dollarMeta'
+  }
+  {
+    include: '#tildeMeta'
+  }
+  {
+    include: '#ampersandMeta'
+  }
+  {
+    include: '#openCurlyBracketMeta'
+  }
+  {
+    include: '#closeCurlyBracketMeta'
+  }
+  {
+    include: '#underscoreMeta'
+  }
+  {
+    include: '#caretMeta'
+  }
+  {
+    include: '#hashtagMeta'
+  }
 ]
 
 # List of available rules. Must 'include' a rule to patterns for it to be implemented.
 # Thinking of moving pure TeX commands to a separate file and linking it in here (like the preexisting package).
 repository:
 # Meta Commands
-    controlMeta: {
-        comment: 'This is (ideally) called when a backslash is found.'
-        patterns: [
-            {
-                include: '#doubleBackslash'
-            }
-            {
-                include: '#escapedCharacter'
-            }
-            {
-                include: '#accents'
-            }
-            {
-                include: '#documentclass'
-            }
-            {
-                include: '#usepackage'
-            }
-            {
-                include: '#inputFile'
-            }
-            {
-                include: '#documentEnvironment'
-            }
-            {
-                include: '#figureEnvironment'
-            }
-            {
-                include: '#mathEnvironmentMeta'
-            }
-            {
-                include: '#genericEnvironment'
-            }
-            {
-                include: '#sectioning'
-            }
-            {
-                include: '#hypersetup'
-            }
-            {
-                include: '#makeatsomething'
-            }
-            {
-                include: '#genericMacro'
-            }
-        ]
-    }
-    percentMeta: {
-        comment: 'This is called when there is a lone percent sign (escaped covered by controlMeta).'
-        patterns: [
-            {
-                comment: 'Should work so long it is the end of any comment; eg. % other% TEX = ...'
-                include: '#magicComment'
-            }
-            {
-                include: '#lineComment'
-            }
-        ]
-    }
-    dollarMeta: {
-        comment: 'Called when $ sign found'
-        patterns: [
-            {
-                include: '#displayMathMode'
-            }
-            {
-                include: '#inlineMathMode'
-            }
-        ]
-    }
-    tildeMeta: {
-        comment: 'This is only an unbreaking space (when alone).'
-        name: 'punctuation.space.latex'
-        match: '~'
-    }
-    ampersandMeta: {
-        comment: 'The ampersand normally represents alignment (catcode 4).'
-        comment: 'Probably not useful (or legal) outside of align or table environment. However, it must be left this way to let users implement custom environments.'
-        name: 'punctuation.alignment.latex'
-        match: '&'
-    }
-    openCurlyBracketMeta: {
-        contentName: 'variable.parameter.argument.latex'
-        begin: '{'
-        beginCaptures:
-            0:
-                name: 'punctuation.definition.argument.latex'
-        end: '}'
-        endCaptures:
-            0:
-                name: 'punctuation.definition.argument.latex'
-        patterns: [
-            comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
-            {
-                include: '#escapedCharacter'
-            }
-            {
-                include: '#lineComment'
-            }
-            {
-                include: '$base'
-            }
-        ]
-    }
-    closeCurlyBracketMeta: {
-        comment: 'To reach this means unbalanced brackets: THIS IS AN ERROR.'
-        name: 'invalid.illegal.latex'
-        match: '}'
-    }
-    underscoreMeta: {
-        comment: 'Underscore means subscript. It will take an argument in brackets if possible. If not, just the single next character.'
-        comment: 'Only valid when within mathmode. Will address this later.'
-        patterns: [
-            {
-                include: '#underscoreWithArgument'
-            }
-            {
-                include: '#underscoreNoArgument'
-            }
-        ]
-    }
-    underscoreWithArgument: {
-        comment: 'Matches an underscore and between curly brackets'
-        name: 'punctuation.subscript.latex'
-        begin: '_\\s*(?={)'
-        end: '(?<=\\})'
-        patterns: [
-            {
-                include: '#argumentScope'
-            }
-        ]
-    }
-    underscoreNoArgument: {
-        comment: 'Matches an underscore and next character or macro'
-        comment: 'Considering making this give a warning, as brackets is best practice'
-        name: 'punctuation.subscript.latex'
-        match: '_\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
-    }
-    caretMeta: {
-        comment: 'Like underscore, but superscript'
-        patterns: [
-            {
-                include: '#caretWithArgument'
-            }
-            {
-                include: '#caretNoArgument'
-            }
-        ]
-    }
-    caretWithArgument: {
-        comment: 'Matches a caret and between curly brackets'
-        name: 'punctuation.superscript.latex'
-        begin: '\\^\\s*(?={)'
-        end: '(?<=\\})'
-        patterns: [
-            {
-                include: '#argumentScope'
-            }
-        ]
-    }
-    caretNoArgument: {
-        comment: 'Matches a caret and next character or macro'
-        comment: 'Considering making this give a warning, as brackets is best practice'
-        name: 'punctuation.superscript.latex'
-        match: '\\^\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
-    }
-    hashtagMeta: {
-        comment: 'I dont like calling this the pound symbol. Catcode says it is a parameter identifier.'
-        match: '(\\#{3,}[0-9]+)|(\\#{2}[0-9]+)|(\\#[0-9]+)'
-        captures:
-            1:
-                name: 'variable.parameter.hashtag.3.latex'
-            2:
-                name: 'variable.parameter.hashtag.2.latex'
-            3:
-                name: 'variable.parameter.hashtag.1.latex'
-    }
+  controlMeta: {
+    comment: 'This is (ideally) called when a backslash is found.'
+    patterns: [
+      {
+        include: '#doubleBackslash'
+      }
+      {
+        include: '#escapedCharacter'
+      }
+      {
+        include: '#accents'
+      }
+      {
+        include: '#documentclass'
+      }
+      {
+        include: '#usepackage'
+      }
+      {
+        include: '#inputFile'
+      }
+      {
+        include: '#documentEnvironment'
+      }
+      {
+        include: '#figureEnvironment'
+      }
+      {
+        include: '#mathEnvironmentMeta'
+      }
+      {
+        include: '#genericEnvironment'
+      }
+      {
+        include: '#sectioning'
+      }
+      {
+        include: '#hypersetup'
+      }
+      {
+        include: '#makeatsomething'
+      }
+      {
+        include: '#genericMacro'
+      }
+    ]
+  }
+  percentMeta: {
+    comment: 'This is called when there is a lone percent sign (escaped covered by controlMeta).'
+    patterns: [
+      {
+        comment: 'Should work so long it is the end of any comment; eg. % other% TEX = ...'
+        include: '#magicComment'
+      }
+      {
+        include: '#lineComment'
+      }
+    ]
+  }
+  dollarMeta: {
+    comment: 'Called when $ sign found'
+    patterns: [
+      {
+        include: '#displayMathMode'
+      }
+      {
+        include: '#inlineMathMode'
+      }
+    ]
+  }
+  tildeMeta: {
+    comment: 'This is only an unbreaking space (when alone).'
+    name: 'punctuation.space.latex'
+    match: '~'
+  }
+  ampersandMeta: {
+    comment: 'The ampersand normally represents alignment (catcode 4).'
+    comment: 'Probably not useful (or legal) outside of align or table environment. However, it must be left this way to let users implement custom environments.'
+    name: 'punctuation.alignment.latex'
+    match: '&'
+  }
+  openCurlyBracketMeta: {
+    contentName: 'variable.parameter.argument.latex'
+    begin: '{'
+    beginCaptures:
+      0:
+        name: 'punctuation.definition.argument.latex'
+    end: '}'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.argument.latex'
+    patterns: [
+      comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
+      {
+        include: '#escapedCharacter'
+      }
+      {
+        include: '#lineComment'
+      }
+      {
+        include: '$base'
+      }
+    ]
+  }
+  closeCurlyBracketMeta: {
+    comment: 'To reach this means unbalanced brackets: THIS IS AN ERROR.'
+    name: 'invalid.illegal.latex'
+    match: '}'
+  }
+  underscoreMeta: {
+    comment: 'Underscore means subscript. It will take an argument in brackets if possible. If not, just the single next character.'
+    comment: 'Only valid when within mathmode. Will address this later.'
+    patterns: [
+      {
+        include: '#underscoreWithArgument'
+      }
+      {
+        include: '#underscoreNoArgument'
+      }
+    ]
+  }
+  underscoreWithArgument: {
+    comment: 'Matches an underscore and between curly brackets'
+    name: 'punctuation.subscript.latex'
+    begin: '_\\s*(?={)'
+    end: '(?<=\\})'
+    patterns: [
+      {
+        include: '#argumentScope'
+      }
+    ]
+  }
+  underscoreNoArgument: {
+    comment: 'Matches an underscore and next character or macro'
+    comment: 'Considering making this give a warning, as brackets is best practice'
+    name: 'punctuation.subscript.latex'
+    match: '_\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
+  }
+  caretMeta: {
+    comment: 'Like underscore, but superscript'
+    patterns: [
+      {
+        include: '#caretWithArgument'
+      }
+      {
+        include: '#caretNoArgument'
+      }
+    ]
+  }
+  caretWithArgument: {
+    comment: 'Matches a caret and between curly brackets'
+    name: 'punctuation.superscript.latex'
+    begin: '\\^\\s*(?={)'
+    end: '(?<=\\})'
+    patterns: [
+      {
+        include: '#argumentScope'
+      }
+    ]
+  }
+  caretNoArgument: {
+    comment: 'Matches a caret and next character or macro'
+    comment: 'Considering making this give a warning, as brackets is best practice'
+    name: 'punctuation.superscript.latex'
+    match: '\\^\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
+  }
+  hashtagMeta: {
+    comment: 'I dont like calling this the pound symbol. Catcode says it is a parameter identifier.'
+    match: '(\\#{3,}[0-9]+)|(\\#{2}[0-9]+)|(\\#[0-9]+)'
+    captures:
+      1:
+        name: 'variable.parameter.hashtag.3.latex'
+      2:
+        name: 'variable.parameter.hashtag.2.latex'
+      3:
+        name: 'variable.parameter.hashtag.1.latex'
+  }
 # Other
-    escapedCharacter: {
-        comment: 'Finds escaped characters like \$ and \%. Uses this regex so unique capture groups can be used.'
-        name: 'constant.character.latex'
-        match: '(\\\\)(\\&|\\%|\\$|\\#|\\_|\\{|\\}|(textascii(tilde|circum)|textbackslash)(?=[^a-zA-Z@]))'
-    }
-    accents: {
-        comment: 'For standard latex accent macros such as \^ or \`'
-        name: 'constant.character.accent.latex'
-        match: '''(\\\\)([\\`\\'\\^\\"\\~\\=\\.](\\w|\\{\\w?\\})|[Hcklbdruv]\\{\\w?\\})'''
-    }
-    hypersetup: {
-        comment: 'Recongnises hypersetup environment. Can be extended to be a general key-option scoper, but this (potentially) allows custom colours for known keys.'
-        name: 'meta.preamble.latex'
-        begin: '(\\\\)hypersetup(?=[^a-zA-Z@])'
-        beginCaptures:
-            0:
-                name: 'keyword.control.preamble.hypersetup.latex'
-            1:
-                name: 'punctuation.definition.function.latex'
-        end: '(?<=\\})|(^\\s*$)'
-        endCaptures:
-            1:
-                name: 'invalid.illegal.latex'
-        patterns: [
-            {
-                include: '#argumentScope'
-            }
-        ]
-    }
-    lineComment: {
-        comment: 'Line comment. This will find an available % sign and match it to just before another % (where it looks for a magic comment) or the end.'
-        name: 'comment.line.percentage.latex'
-        begin: '%'
-        end: '(?=%)|$'
-    }
-    escapedPercent: {
-                comment: 'Escaped % sign. Possible deprecated by escapedCharacter.'
-        name: 'constant.character.latex'
-        match: '\\\\%'
-    }
-    escapedCurlyBracket: {
-        comment: 'Escaped }. Possible deprecated by escapedCharacter.'
-        name: 'constant.character.latex'
-        match: '\\\\}|\\\\{'
-    }
-    usepackage: {
-        comment: 'Package finder. Similar to documentclass, but allows custom colours. A macro name is only valid with letters (exceptions apply--eg. makeatletter). This checks to see if the name is purely "usepackage" and the following character is not a legal part of the macro name.'
-        name: 'meta.preamble.latex'
-        begin: '(\\\\)usepackage(?=[^a-zA-Z@])'
-        beginCaptures:
-            0:
-                name: 'keyword.control.preamble.latex'
-            1:
-                name: 'punctuation.definition.function.latex'
-        end: '(?<=\\})|(^\\s*$)'
-        endCaptures:
-            1:
-                name: 'invalid.illegal.latex'
-        patterns:[
-            {
-                include: '#awaitingArgumentBrackets'
-            }
-            {
-                comment: 'Only this one necessary because escaped characters will be picked up by awaitingArgumentBrackets.'
-                include: '#lineComment'
-            }
-            {
-                comment: 'Will try and find optional arguments first.'
-                include: '#optionalArgumentScope'
-            }
-            {
-                include: '#argumentScope'
-            }
-        ]
-    }
-    sectioning: {
-        comment: 'Covers all sectioning commands such as section, subsection, subparagraph, etc.'
-        name: 'support.function.section.latex'
-        begin: '(\\\\)((sub){0,2}section|(sub){0,1}paragraph|part|chapter)(\\*)?(?=[^a-zA-Z@])'
-        beginCaptures:
-            0:
-                name: 'keyword.control.section.latex'
-            1:
-                name: 'punctuation.definition.function.latex'
-        end: '(?<=\\})|(^\\s*$)'
-        endCaptures:
-            1:
-                name: 'invalid.illegal.latex'
-        patterns: [
-            {
-                include: '#awaitingArgumentBrackets'
-            }
-            {
-                comment: 'Only this one necessary because escaped characters will be picked up by awaitingArgumentBrackets.'
-                include: '#lineComment'
-            }
-            {
-                comment: 'Will try and find optional arguments first.'
-                include: '#optionalArgumentScope'
-            }
-            {
-                include: '#argumentScope'
-            }
-        ]
-    }
-    doubleBackslash: {
-        match: '\\\\\\\\'
-        name: 'punctuation.break.latex'
-    }
-    commentMeta: {
-        comment: 'Main purpose is to distinguish escaped % from comments. Deprecated.'
-        patterns: [
-            {
-                include: '#doubleBackslash'
-            }
-            {
-                include: '#escapedPercent'
-            }
-            {
-                include: '#magicComment'
-            }
-            {
-                include: '#lineComment'
-            }
-        ]
-    }
-    genericMacro: {
-        comment: 'A catch all for latex macros that have not already been identified.'
-        name: 'support.function.general.latex'
-        match: '\\\\[a-zA-Z]+'
-    }
-    magicComment: {
-        comment: 'Magic commands work in first 20 lines. Can be improved to change color depending if the command matches a known string'
-        name: 'keyword.control.magic.latex'
-        match: '''(?x)    # Allow comments like this
-            ((              # Capture groups 1 & 2
-                (%)         # Capture percent sign
-                (\\ !(?>TEX|BIB)\\ )    # Exact match required
-                (\\S+)      # A word (this is required as far as I know)
-                )           # End capture group 2
-                (\\ = \\ )  # Match = with space (required)
-            )               # End capture group 1
-            .*$             # To end; some options have spaces
-        '''
-    }
-    documentclass: {
-        comment: 'Documentclass finder.'
-        name: 'meta.preamble.latex'
-        begin: '(\\\\)documentclass(?=[^a-zA-Z@])'
-        beginCaptures:
-            0:
-                name: 'keyword.control.preamble.latex'
-            1:
-                name: 'punctuation.definition.function.latex'
-        end: '(?<=\\})|(^\\s*$)'
-        endCaptures:
-            1:
-                name: 'invalid.illegal.latex'
-        patterns:[
-            {
-                include: '#awaitingArgumentBrackets'
-            }
-            {
-                include: '#lineComment'
-            }
-            {
-                include: '#optionalArgumentScope'
-            }
-            {
-                include: '#argumentScope'
-            }
-        ]
-    }
-    awaitingArgumentBrackets: {
-        comment: 'Anything not whitespace, opening bracket or comment will be flagged as invalid.illegal. Should take priority over other matches (even comments, as comments have the escaped % exception).'
-        match: '[^{\\[\\s%]+'
+  escapedCharacter: {
+    comment: 'Finds escaped characters like \$ and \%. Uses this regex so unique capture groups can be used.'
+    name: 'constant.character.latex'
+    match: '(\\\\)(\\&|\\%|\\$|\\#|\\_|\\{|\\}|(textascii(tilde|circum)|textbackslash)(?=[^a-zA-Z@]))'
+  }
+  accents: {
+    comment: 'For standard latex accent macros such as \^ or \`'
+    name: 'constant.character.accent.latex'
+    match: '''(\\\\)([\\`\\'\\^\\"\\~\\=\\.](\\w|\\{\\w?\\})|[Hcklbdruv]\\{\\w?\\})'''
+  }
+  hypersetup: {
+    comment: 'Recongnises hypersetup environment. Can be extended to be a general key-option scoper, but this (potentially) allows custom colours for known keys.'
+    name: 'meta.preamble.latex'
+    begin: '(\\\\)hypersetup(?=[^a-zA-Z@])'
+    beginCaptures:
+      0:
+        name: 'keyword.control.preamble.hypersetup.latex'
+      1:
+        name: 'punctuation.definition.function.latex'
+    end: '(?<=\\})|(^\\s*$)'
+    endCaptures:
+      1:
         name: 'invalid.illegal.latex'
-    }
-    optionalArgumentScope: {
-        comment: 'Matches options brackets and everything inside them.'
-        contentName: 'variable.parameter.optional.latex'
-        begin: '\\['
-        beginCaptures:
-            0:
-                name: 'punctuation.definition.optional.begin.latex'
-        end: '\\]'
-        endCaptures:
-            0:
-                name: 'punctuation.definition.optional.end.latex'
-        patterns: [
-            {
-                comment: 'AFAIK, the optional parameters never have nested brackets. Will come back to this after a while or if I find they do.'
-                include: '#commentMeta'
-            }
-            {
-                include: '#escapedCurlyBracket'
-            }
-            {
-                include: '#openCurlyBracketMeta'
-            }
-        ]
-    }
-    argumentScope: {
-        comment: 'Matches arguments brackets (the outmost of nested brackets). Specifically for commands like usepackage.'
-        contentName: 'variable.parameter.argument.latex'
-        begin: '\\{'
-        beginCaptures:
-            0:
-                name: 'punctuation.definition.argument.begin.latex'
-        end: '\\}'
-        endCaptures:
-            0:
-                name: 'punctuation.definition.argument.end.latex'
-        patterns: [
-            {
-                include: '#commentMeta'
-            }
-            {
-                include: '#escapedCurlyBracket'
-            }
-            {
-                include: '#openCurlyBracketMeta'
-            }
-        ]
-    }
-    nestedSquareBrackets: {
-        contentName: 'variable.parameter.optional.latex'
-        begin: '\\['
-        beginCaptures:
-            0:
-                name: 'punctuation.definition.optional.begin.latex'
-        end: '\\]'
-        endCaptures:
-            0:
-                name: 'punctuation.definition.optional.end.latex'
-        patterns: [
-            comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
-            {
-                include: '#commentMeta'
-            }
-            {
-                include: '#escapedCloseSquareBracket'
-            }
-            {
-                include: '#nestedSquareBrackets'
-            }
-        ]
-    }
-    endArgumentsMeta: {
-        patterns: [
-            {
-                include: '#doubleBackslash'
-            }
-            {
-                include: '#escapedCurlyBracket'
-            }
-        ]
-    }
-    texKeywords: {
-        comment: 'Official TeX keywords that can be used in certain situations. Done AFAIK.'
-        name: 'support.constant.keyword.latex'
-        match: '''(?x)
-        at | by | bp | cc | cm | dd | depth | em | ex | fil | fill | filll | height | in | minus | mm | mu | pc | plus | pt | sp | spread | to | true | width
-        '''
-    }
-    texPrimitives: {
-        comment: 'Primitives (no smaller definitions) can be confirmed using \show\<cm>. This list is obviously not finished.'
-        match: '''(?x)
-        (\\\\)(
-        above | badness | relax | show
-        )
-        '''
-    }
-    inlineMathMode: {
-        comment: 'This can be triggered using $ or \( \). Both can be used in the same pair.'
-        contentName: 'string.other.math.inline.latex'
-        begin: '(\\$)|(\\\\\\()'
-        beginCaptures:
-            0:
-                name: 'string.other.math.inline.begin.latex'
-        end: '(\\$)|(\\\\\\))'
-        endCaptures:
-            0:
-                name: 'string.other.math.inline.end.latex'
-        patterns: [
-            {
-                include: '#commentMeta'
-            }
-            {
-                comment: 'Mathmode special characters are different to text; eg. textbackslash is not allowed'
-                name: 'constant.character.latex'
-                match: '\\\\\\$'
-            }
-            {
-                comment: 'When in inline math, the exit can only be $ or \)'
-                name: 'invalid.illegal.latex'
-                match: '(\\\\(\\[|\\(|\\)))'
-            }
-            {
-                include: '$base'
-            }
-        ]
-    }
-    displayMathMode: {
-        comment: 'This can be triggered using $$ or \[ \]. Both can be used in the same pair.'
-        contentName: 'string.other.math.display.latex'
-        begin: '(\\$\\$)|(\\\\\\[)'
-        beginCaptures:
-            0:
-                name: 'string.other.math.display.begin.latex'
-            1:
-                name: 'invalid.deprecated.latex'
-        end: '(\\$\\$)|(\\\\\\])'
-        endCaptures:
-            0:
-                name: 'string.other.math.display.end.latex'
-            1:
-                name: 'invalid.deprecated.latex'
-        patterns: [
-            {
-                include: '#commentMeta'
-            }
-            {
-                comment: 'Mathmode special characters are different to text; eg. textbackslash is not allowed'
-                name: 'constant.character.latex'
-                match: '\\\\\\$'
-            }
-            {
-                comment: 'When in display math, the exit can only be $$ or \]'
-                name: 'invalid.illegal.latex'
-                match: '(?<=[^\\\\])(\\$)(?=[^\\$])|(\\\\(\\[|\\(|\\)))'
-            }
-            {
-                include: '$base'
-            }
-        ]
-    }
-    genericEnvironment: {
-        comment: 'Matches environments not recognised by other rules. Less lenient with random formatting here, it is expected to all be on one line.'
-        contentName: 'support.environment.latex'
-        begin: '(\\\\)(begin)(\\{)([\\w \\*]*)(\\})'
-        beginCaptures:
-            1:
-                name: 'punctuation.definition.function.latex'
-            2:
-                name: 'support.function.environment.begin.latex'
-            3:
-                name: 'punctuation.definition.argument.begin.latex'
-            4:
-                name: 'variable.parameter.argument.latex'
-            5:
-                name: 'punctuation.definition.argument.end.latex'
-        end: '(\\\\)(end)(\\{)(\\4)(\\})'
-        endCaptures:
-            1:
-                name: 'punctuation.definition.function.latex'
-            2:
-                name: 'support.function.environment.end.latex'
-            3:
-                name: 'punctuation.definition.argument.begin.latex'
-            4:
-                name: 'variable.parameter.argument.latex'
-            5:
-                name: 'punctuation.definition.argument.end.latex'
-        patterns: [
-            {
-                include: '$base'
-            }
-        ]
-    }
-    documentEnvironment: {
-        comment: 'To stop the entire contents of the document environment being labelled. Its useless anyway, as I split up my work and just include it into the main file.'
-        begin: '(\\\\)(begin)(\\{)(document)(\\})'
-        beginCaptures:
-            1:
-                name: 'punctuation.definition.function.latex'
-            2:
-                name: 'support.function.environment.begin.latex'
-            3:
-                name: 'punctuation.definition.argument.begin.latex'
-            4:
-                name: 'variable.parameter.argument.latex'
-            5:
-                name: 'punctuation.definition.argument.end.latex'
-        end: '(\\\\)(end)(\\{)(document)(\\})'
-        endCaptures:
-            1:
-                name: 'punctuation.definition.function.latex'
-            2:
-                name: 'support.function.environment.end.latex'
-            3:
-                name: 'punctuation.definition.argument.begin.latex'
-            4:
-                name: 'variable.parameter.argument.latex'
-            5:
-                name: 'punctuation.definition.argument.end.latex'
-        patterns: [
-            {
-                include: '$base'
-            }
-        ]
-    }
-    figureEnvironment: {
-        comment: 'Matches the common figure environment'
-        contentName: 'support.environment.figure.latex'
-        begin: '(\\\\)(begin)(\\{)(figure)(\\})((\\[)(\\w*)(\\]))?'
-        beginCaptures:
-            1:
-                name: 'punctuation.definition.function.latex'
-            2:
-                name: 'support.function.environment.begin.latex'
-            3:
-                name: 'punctuation.definition.argument.begin.latex'
-            4:
-                name: 'variable.parameter.argument.latex'
-            5:
-                name: 'punctuation.definition.argument.end.latex'
-            7:
-                name: 'punctuation.definition.optional.begin.latex'
-            8:
-                name: 'variable.parameter.optional.latex'
-            9:
-                name: 'punctuation.definition.optional.end.latex'
-        end: '(\\\\)(end)(\\{)(\\4)(\\})'
-        endCaptures:
-            1:
-                name: 'punctuation.definition.function.latex'
-            2:
-                name: 'support.function.environment.end.latex'
-            3:
-                name: 'punctuation.definition.argument.begin.latex'
-            4:
-                name: 'variable.parameter.argument.latex'
-            5:
-                name: 'punctuation.definition.argument.end.latex'
-        patterns: [
-            {
-                include: '$base'
-            }
-        ]
-    }
-    mathEnvironmentMeta: {
-        comment: 'Matches math environments'
-        patterns: [
-            {
-                include: '#alignMathEnvironment'
-            }
-        ]
-    }
-    alignMathEnvironment: {
-        comment: 'Matches align environment'
-        contentName: 'support.environment.math.align.latex'
-        begin: '(\\\\)(begin)(\\{)(align(\\*)?)(\\})'
-        beginCaptures:
-            1:
-                name: 'punctuation.definition.function.latex'
-            2:
-                name: 'support.function.environment.begin.latex'
-            3:
-                name: 'punctuation.definition.argument.begin.latex'
-            4:
-                name: 'variable.parameter.argument.latex'
-            6:
-                name: 'punctuation.definition.argument.end.latex'
-        end: '(\\\\)(end)(\\{)(\\4)(\\})'
-        endCaptures:
-            1:
-                name: 'punctuation.definition.function.latex'
-            2:
-                name: 'support.function.environment.end.latex'
-            3:
-                name: 'punctuation.definition.argument.begin.latex'
-            4:
-                name: 'variable.parameter.argument.latex'
-            5:
-                name: 'punctuation.definition.argument.end.latex'
-        patterns: [
-            {
-                include: '$base'
-            }
-        ]
-    }
-    makeatsomething: {
-        comment: 'Matches the makeat(letter|other) commands so that they get custom highlighting (because @ is now a character)'
-        name: 'support.function.makeat.latex'
-        begin: '(\\\\)makeatletter\\b'
-        end: '(\\\\)makeatother\\b'
-        patterns: [
-            {
-                include: '#commentMeta'
-            }
-        ]
-    }
-    inputFile: {
-        comment: 'Matches the input/include command and allows custom path colours.'
-        begin: '(\\\\)input(?=[^a-zA-Z@])'
-        beginCaptures:
-            0:
-                name: 'keyword.control.input.latex'
-            1:
-                name: 'punctuation.definition.function.latex'
-        end: '(?<=\\})|(^\\s*$)'
-        endCaptures:
-            1:
-                name: 'invalid.illegal.latex'
-        patterns:[
-            {
-                include: '#awaitingArgumentBrackets'
-            }
-            {
-                comment: 'Only this one necessary because escaped characters will be picked up by awaitingArgumentBrackets.'
-                include: '#lineComment'
-            }
-            {
-                include: '#filePathScope'
-            }
-        ]
-    }
-    filePathScope: {
-        comment: 'Matches a file path (UNIX only, add Windows yourself reader).'
-        contentName: 'variable.parameter.argument.latex'
-        begin: '\\{'
-        beginCaptures:
-            0:
-                name: 'punctuation.definition.argument.begin.latex'
-        end: '\\}'
-        endCaptures:
-            0:
-                name: 'punctuation.definition.argument.end.latex'
-        patterns: [
-            {
-                name: 'support.filepath.back.latex'
-                match: '\\.{2}\\/'
-            }
-            {
-                name: 'support.filepath.home.latex'
-                match: '\\.\\/'
-            }
-            {
-                name: 'support.filepath.root.latex'
-                match: '(?<=\\{)\\/'
-            }
-            {
-                name: 'support.filepath.directory.latex'
-                match: '[^(\\.{1,2}\\/)].*?\\/'
-            }
-            {
-                name: 'support.filepath.file.latex'
-                match: '[^}]*'
-            }
-        ]
-    }
-    verbatim: {
-        comment: 'Finds an inline verbatim string of the format \verb+...+'
-        name: 'string.function.verbatim'
-    }
+    patterns: [
+      {
+        include: '#argumentScope'
+      }
+    ]
+  }
+  lineComment: {
+    comment: 'Line comment. This will find an available % sign and match it to just before another % (where it looks for a magic comment) or the end.'
+    name: 'comment.line.percentage.latex'
+    begin: '%'
+    end: '(?=%)|$'
+  }
+  escapedPercent: {
+    comment: 'Escaped % sign. Possible deprecated by escapedCharacter.'
+    name: 'constant.character.latex'
+    match: '\\\\%'
+  }
+  escapedCurlyBracket: {
+    comment: 'Escaped }. Possible deprecated by escapedCharacter.'
+    name: 'constant.character.latex'
+    match: '\\\\}|\\\\{'
+  }
+  usepackage: {
+    comment: 'Package finder. Similar to documentclass, but allows custom colours. A macro name is only valid with letters (exceptions apply--eg. makeatletter). This checks to see if the name is purely "usepackage" and the following character is not a legal part of the macro name.'
+    name: 'meta.preamble.latex'
+    begin: '(\\\\)usepackage(?=[^a-zA-Z@])'
+    beginCaptures:
+      0:
+        name: 'keyword.control.preamble.latex'
+      1:
+        name: 'punctuation.definition.function.latex'
+    end: '(?<=\\})|(^\\s*$)'
+    endCaptures:
+      1:
+        name: 'invalid.illegal.latex'
+    patterns:[
+      {
+        include: '#awaitingArgumentBrackets'
+      }
+      {
+        comment: 'Only this one necessary because escaped characters will be picked up by awaitingArgumentBrackets.'
+        include: '#lineComment'
+      }
+      {
+        comment: 'Will try and find optional arguments first.'
+        include: '#optionalArgumentScope'
+      }
+      {
+        include: '#argumentScope'
+      }
+    ]
+  }
+  sectioning: {
+    comment: 'Covers all sectioning commands such as section, subsection, subparagraph, etc.'
+    name: 'support.function.section.latex'
+    begin: '(\\\\)((sub){0,2}section|(sub){0,1}paragraph|part|chapter)(\\*)?(?=[^a-zA-Z@])'
+    beginCaptures:
+      0:
+        name: 'keyword.control.section.latex'
+      1:
+        name: 'punctuation.definition.function.latex'
+    end: '(?<=\\})|(^\\s*$)'
+    endCaptures:
+      1:
+        name: 'invalid.illegal.latex'
+    patterns: [
+      {
+        include: '#awaitingArgumentBrackets'
+      }
+      {
+        comment: 'Only this one necessary because escaped characters will be picked up by awaitingArgumentBrackets.'
+        include: '#lineComment'
+      }
+      {
+        comment: 'Will try and find optional arguments first.'
+        include: '#optionalArgumentScope'
+      }
+      {
+        include: '#argumentScope'
+      }
+    ]
+  }
+  doubleBackslash: {
+    match: '\\\\\\\\'
+    name: 'punctuation.break.latex'
+  }
+  commentMeta: {
+    comment: 'Main purpose is to distinguish escaped % from comments. Deprecated.'
+    patterns: [
+      {
+        include: '#doubleBackslash'
+      }
+      {
+        include: '#escapedPercent'
+      }
+      {
+        include: '#magicComment'
+      }
+      {
+        include: '#lineComment'
+      }
+    ]
+  }
+  genericMacro: {
+    comment: 'A catch all for latex macros that have not already been identified.'
+    name: 'support.function.general.latex'
+    match: '\\\\[a-zA-Z]+'
+  }
+  magicComment: {
+    comment: 'Magic commands work in first 20 lines. Can be improved to change color depending if the command matches a known string'
+    name: 'keyword.control.magic.latex'
+    match: '''(?x)  # Allow comments like this
+           ((        # Capture groups 1 & 2
+             (%)     # Capture percent sign
+             (\\ !(?>TEX|BIB)\\ )  # Exact match required
+             (\\S+)    # A word (this is required as far as I know)
+             )       # End capture group 2
+             (\\ = \\ )  # Match = with space (required)
+           )         # End capture group 1
+           .*$       # To end; some options have spaces
+         '''
+  }
+  documentclass: {
+    comment: 'Documentclass finder.'
+    name: 'meta.preamble.latex'
+    begin: '(\\\\)documentclass(?=[^a-zA-Z@])'
+    beginCaptures:
+      0:
+        name: 'keyword.control.preamble.latex'
+      1:
+        name: 'punctuation.definition.function.latex'
+    end: '(?<=\\})|(^\\s*$)'
+    endCaptures:
+      1:
+        name: 'invalid.illegal.latex'
+    patterns:[
+      {
+        include: '#awaitingArgumentBrackets'
+      }
+      {
+        include: '#lineComment'
+      }
+      {
+        include: '#optionalArgumentScope'
+      }
+      {
+        include: '#argumentScope'
+      }
+    ]
+  }
+  awaitingArgumentBrackets: {
+    comment: 'Anything not whitespace, opening bracket or comment will be flagged as invalid.illegal. Should take priority over other matches (even comments, as comments have the escaped % exception).'
+    match: '[^{\\[\\s%]+'
+    name: 'invalid.illegal.latex'
+  }
+  optionalArgumentScope: {
+    comment: 'Matches options brackets and everything inside them.'
+    contentName: 'variable.parameter.optional.latex'
+    begin: '\\['
+    beginCaptures:
+      0:
+        name: 'punctuation.definition.optional.begin.latex'
+    end: '\\]'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.optional.end.latex'
+    patterns: [
+      {
+        comment: 'AFAIK, the optional parameters never have nested brackets. Will come back to this after a while or if I find they do.'
+        include: '#commentMeta'
+      }
+      {
+        include: '#escapedCurlyBracket'
+      }
+      {
+        include: '#openCurlyBracketMeta'
+      }
+    ]
+  }
+  argumentScope: {
+    comment: 'Matches arguments brackets (the outmost of nested brackets). Specifically for commands like usepackage.'
+    contentName: 'variable.parameter.argument.latex'
+    begin: '\\{'
+    beginCaptures:
+      0:
+        name: 'punctuation.definition.argument.begin.latex'
+    end: '\\}'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.argument.end.latex'
+    patterns: [
+      {
+        include: '#commentMeta'
+      }
+      {
+        include: '#escapedCurlyBracket'
+      }
+      {
+        include: '#openCurlyBracketMeta'
+      }
+    ]
+  }
+  nestedSquareBrackets: {
+    contentName: 'variable.parameter.optional.latex'
+    begin: '\\['
+    beginCaptures:
+      0:
+        name: 'punctuation.definition.optional.begin.latex'
+    end: '\\]'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.optional.end.latex'
+    patterns: [
+      comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
+      {
+        include: '#commentMeta'
+      }
+      {
+        include: '#escapedCloseSquareBracket'
+      }
+      {
+        include: '#nestedSquareBrackets'
+      }
+    ]
+  }
+  endArgumentsMeta: {
+    patterns: [
+      {
+        include: '#doubleBackslash'
+      }
+      {
+        include: '#escapedCurlyBracket'
+      }
+    ]
+  }
+  texKeywords: {
+    comment: 'Official TeX keywords that can be used in certain situations. Done AFAIK.'
+    name: 'support.constant.keyword.latex'
+    match: '''(?x)
+         at | by | bp | cc | cm | dd | depth | em | ex | fil | fill | filll | height | in | minus | mm | mu | pc | plus | pt | sp | spread | to | true | width
+         '''
+  }
+  texPrimitives: {
+    comment: 'Primitives (no smaller definitions) can be confirmed using \show\<cm>. This list is obviously not finished.'
+    match: '''(?x)
+         (\\\\)(
+         above | badness | relax | show
+         )
+         '''
+  }
+  inlineMathMode: {
+    comment: 'This can be triggered using $ or \( \). Both can be used in the same pair.'
+    contentName: 'string.other.math.inline.latex'
+    begin: '(\\$)|(\\\\\\()'
+    beginCaptures:
+      0:
+        name: 'string.other.math.inline.begin.latex'
+    end: '(\\$)|(\\\\\\))'
+    endCaptures:
+      0:
+        name: 'string.other.math.inline.end.latex'
+    patterns: [
+      {
+        include: '#commentMeta'
+      }
+      {
+        comment: 'Mathmode special characters are different to text; eg. textbackslash is not allowed'
+        name: 'constant.character.latex'
+        match: '\\\\\\$'
+      }
+      {
+        comment: 'When in inline math, the exit can only be $ or \)'
+        name: 'invalid.illegal.latex'
+        match: '(\\\\(\\[|\\(|\\)))'
+      }
+      {
+        include: '$base'
+      }
+    ]
+  }
+  displayMathMode: {
+    comment: 'This can be triggered using $$ or \[ \]. Both can be used in the same pair.'
+    contentName: 'string.other.math.display.latex'
+    begin: '(\\$\\$)|(\\\\\\[)'
+    beginCaptures:
+      0:
+        name: 'string.other.math.display.begin.latex'
+      1:
+        name: 'invalid.deprecated.latex'
+    end: '(\\$\\$)|(\\\\\\])'
+    endCaptures:
+      0:
+        name: 'string.other.math.display.end.latex'
+      1:
+        name: 'invalid.deprecated.latex'
+    patterns: [
+      {
+        include: '#commentMeta'
+      }
+      {
+        comment: 'Mathmode special characters are different to text; eg. textbackslash is not allowed'
+        name: 'constant.character.latex'
+        match: '\\\\\\$'
+      }
+      {
+        comment: 'When in display math, the exit can only be $$ or \]'
+        name: 'invalid.illegal.latex'
+        match: '(?<=[^\\\\])(\\$)(?=[^\\$])|(\\\\(\\[|\\(|\\)))'
+      }
+      {
+        include: '$base'
+      }
+    ]
+  }
+  genericEnvironment: {
+    comment: 'Matches environments not recognised by other rules. Less lenient with random formatting here, it is expected to all be on one line.'
+    contentName: 'support.environment.latex'
+    begin: '(\\\\)(begin)(\\{)([\\w \\*]*)(\\})'
+    beginCaptures:
+      1:
+        name: 'punctuation.definition.function.latex'
+      2:
+        name: 'support.function.environment.begin.latex'
+      3:
+        name: 'punctuation.definition.argument.begin.latex'
+      4:
+        name: 'variable.parameter.argument.latex'
+      5:
+        name: 'punctuation.definition.argument.end.latex'
+    end: '(\\\\)(end)(\\{)(\\4)(\\})'
+    endCaptures:
+      1:
+        name: 'punctuation.definition.function.latex'
+      2:
+        name: 'support.function.environment.end.latex'
+      3:
+        name: 'punctuation.definition.argument.begin.latex'
+      4:
+        name: 'variable.parameter.argument.latex'
+      5:
+        name: 'punctuation.definition.argument.end.latex'
+    patterns: [
+      {
+        include: '$base'
+      }
+    ]
+  }
+  documentEnvironment: {
+    comment: 'To stop the entire contents of the document environment being labelled. Its useless anyway, as I split up my work and just include it into the main file.'
+    begin: '(\\\\)(begin)(\\{)(document)(\\})'
+    beginCaptures:
+      1:
+        name: 'punctuation.definition.function.latex'
+      2:
+        name: 'support.function.environment.begin.latex'
+      3:
+        name: 'punctuation.definition.argument.begin.latex'
+      4:
+        name: 'variable.parameter.argument.latex'
+      5:
+        name: 'punctuation.definition.argument.end.latex'
+    end: '(\\\\)(end)(\\{)(document)(\\})'
+    endCaptures:
+      1:
+        name: 'punctuation.definition.function.latex'
+      2:
+        name: 'support.function.environment.end.latex'
+      3:
+        name: 'punctuation.definition.argument.begin.latex'
+      4:
+        name: 'variable.parameter.argument.latex'
+      5:
+        name: 'punctuation.definition.argument.end.latex'
+    patterns: [
+      {
+        include: '$base'
+      }
+    ]
+  }
+  figureEnvironment: {
+    comment: 'Matches the common figure environment'
+    contentName: 'support.environment.figure.latex'
+    begin: '(\\\\)(begin)(\\{)(figure)(\\})((\\[)(\\w*)(\\]))?'
+    beginCaptures:
+      1:
+        name: 'punctuation.definition.function.latex'
+      2:
+        name: 'support.function.environment.begin.latex'
+      3:
+        name: 'punctuation.definition.argument.begin.latex'
+      4:
+        name: 'variable.parameter.argument.latex'
+      5:
+        name: 'punctuation.definition.argument.end.latex'
+      7:
+        name: 'punctuation.definition.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.latex'
+      9:
+        name: 'punctuation.definition.optional.end.latex'
+    end: '(\\\\)(end)(\\{)(\\4)(\\})'
+    endCaptures:
+      1:
+        name: 'punctuation.definition.function.latex'
+      2:
+        name: 'support.function.environment.end.latex'
+      3:
+        name: 'punctuation.definition.argument.begin.latex'
+      4:
+        name: 'variable.parameter.argument.latex'
+      5:
+        name: 'punctuation.definition.argument.end.latex'
+    patterns: [
+      {
+        include: '$base'
+      }
+    ]
+  }
+  mathEnvironmentMeta: {
+    comment: 'Matches math environments'
+    patterns: [
+      {
+        include: '#alignMathEnvironment'
+      }
+    ]
+  }
+  alignMathEnvironment: {
+    comment: 'Matches align environment'
+    contentName: 'support.environment.math.align.latex'
+    begin: '(\\\\)(begin)(\\{)(align(\\*)?)(\\})'
+    beginCaptures:
+      1:
+        name: 'punctuation.definition.function.latex'
+      2:
+        name: 'support.function.environment.begin.latex'
+      3:
+        name: 'punctuation.definition.argument.begin.latex'
+      4:
+        name: 'variable.parameter.argument.latex'
+      6:
+        name: 'punctuation.definition.argument.end.latex'
+    end: '(\\\\)(end)(\\{)(\\4)(\\})'
+    endCaptures:
+      1:
+        name: 'punctuation.definition.function.latex'
+      2:
+        name: 'support.function.environment.end.latex'
+      3:
+        name: 'punctuation.definition.argument.begin.latex'
+      4:
+        name: 'variable.parameter.argument.latex'
+      5:
+        name: 'punctuation.definition.argument.end.latex'
+    patterns: [
+      {
+        include: '$base'
+      }
+    ]
+  }
+  makeatsomething: {
+    comment: 'Matches the makeat(letter|other) commands so that they get custom highlighting (because @ is now a character)'
+    name: 'support.function.makeat.latex'
+    begin: '(\\\\)makeatletter\\b'
+    end: '(\\\\)makeatother\\b'
+    patterns: [
+      {
+        include: '#commentMeta'
+      }
+    ]
+  }
+  inputFile: {
+    comment: 'Matches the input/include command and allows custom path colours.'
+    begin: '(\\\\)input(?=[^a-zA-Z@])'
+    beginCaptures:
+      0:
+        name: 'keyword.control.input.latex'
+      1:
+        name: 'punctuation.definition.function.latex'
+    end: '(?<=\\})|(^\\s*$)'
+    endCaptures:
+      1:
+        name: 'invalid.illegal.latex'
+    patterns:[
+      {
+        include: '#awaitingArgumentBrackets'
+      }
+      {
+        comment: 'Only this one necessary because escaped characters will be picked up by awaitingArgumentBrackets.'
+        include: '#lineComment'
+      }
+      {
+        include: '#filePathScope'
+      }
+    ]
+  }
+  filePathScope: {
+    comment: 'Matches a file path (UNIX only, add Windows yourself reader).'
+    contentName: 'variable.parameter.argument.latex'
+    begin: '\\{'
+    beginCaptures:
+      0:
+        name: 'punctuation.definition.argument.begin.latex'
+    end: '\\}'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.argument.end.latex'
+    patterns: [
+      {
+        name: 'support.filepath.back.latex'
+        match: '\\.{2}\\/'
+      }
+      {
+        name: 'support.filepath.home.latex'
+        match: '\\.\\/'
+      }
+      {
+        name: 'support.filepath.root.latex'
+        match: '(?<=\\{)\\/'
+      }
+      {
+        name: 'support.filepath.directory.latex'
+        match: '[^(\\.{1,2}\\/)].*?\\/'
+      }
+      {
+        name: 'support.filepath.file.latex'
+        match: '[^}]*'
+      }
+    ]
+  }
+  verbatim: {
+    comment: 'Finds an inline verbatim string of the format \verb+...+'
+    name: 'string.function.verbatim'
+  }
