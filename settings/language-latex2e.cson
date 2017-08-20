@@ -3,7 +3,10 @@
     'commentStart': '% '
     'increaseIndentPattern': '^\\s*(\\\\)begin\\{[^(document)]\\w*\\}'
     'decreaseIndentPattern': '^\\s*(\\\\)end\\{\\w*\\}'
-    'tablength': 2
+    'tabLength': 4
+    'softWrap': true
+    'preferredLineLength': 90
+    'scrollPastEnd': true
 
 '.text.tex.latex.tikz':
   'editor':
