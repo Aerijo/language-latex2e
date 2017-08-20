@@ -5,8 +5,6 @@
     'decreaseIndentPattern': '^\\s*(\\\\)end\\{\\w*\\}'
     'tabLength': 4
     'softWrap': true
-    'preferredLineLength': 90
-    'scrollPastEnd': true
 
 '.text.tex.latex.tikz':
   'editor':
