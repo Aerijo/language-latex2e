@@ -21,9 +21,8 @@
     'description': 'Begin amsmath align env`ironment'
     'descriptionMoreURL': 'https://www.sharelatex.com/learn/Aligning_equations_with_amsmath#!#Aligning_several_equations'
 
-
+# These snippets are available in mathmode
 '.text.tex.latex .string.other.math':
-  # These snippets are available in mathmode
   'fraction':
     'prefix': '\\frac'
     'body': '\\\\frac{$1}{$2}$0'
