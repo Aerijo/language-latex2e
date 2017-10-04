@@ -38,6 +38,15 @@
   '!TEX cleanPatterns':
     'prefix': '!TEX cleanPatterns'
     'body': '% !TEX cleanPatterns = $1'
+  '\\section{}':
+      'prefix': '\\section'
+      'body': '\\\\section\\{$1\\}$0'
+  '\\subsection{}':
+      'prefix': '\\subsection'
+      'body': '\\\\subsection\\{$1\\}$0'
+  '\\subsubsection{}':
+      'prefix': '\\subsubsection'
+      'body': '\\\\subsubsection\\{$1\\}$0'
 
 # These snippets are available in mathmode
 '.text.tex.latex .string.other.math':
