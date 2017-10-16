@@ -88,6 +88,9 @@ repository:
         include: '#makeatsomething'
       }
       {
+        include: '#verbatim'
+      }
+      {
         include: '#genericMacro'
       }
     ]
@@ -222,22 +225,20 @@ repository:
   escapedCharacter: {
     comment: 'Finds escaped characters like \$ and \%. Uses this regex so unique capture groups can be used.'
     name: 'constant.character.latex'
-    match: '(\\\\)(\\&|\\%|\\$|\\#|\\_|\\{|\\}|(textascii(tilde|circum)|textbackslash)(?=[^a-zA-Z@]))'
+    match: '\\\\(\\&|\\%|\\$|\\#|\\_|\\{|\\}|(textascii(tilde|circum)|textbackslash)(?=[^a-zA-Z@]))'
   }
   accents: {
     comment: 'For standard latex accent macros such as \^ or \`'
     name: 'constant.character.accent.latex'
-    match: '''(\\\\)([\\`\\'\\^\\"\\~\\=\\.](\\w|\\{\\w?\\})|[Hcklbdruv]\\{\\w?\\})'''
+    match: '''\\\\([\\`\\'\\^\\"\\~\\=\\.](\\w|\\{\\w?\\})|[Hcklbdruv]\\{\\w?\\})'''
   }
   hypersetup: {
     comment: 'Recongnises hypersetup environment. Can be extended to be a general key-option scoper, but this (potentially) allows custom colours for known keys.'
     name: 'meta.preamble.latex'
-    begin: '(\\\\)hypersetup(?=[^a-zA-Z@])'
+    begin: '\\\\hypersetup(?=[^a-zA-Z@])'
     beginCaptures:
       0:
         name: 'keyword.control.preamble.hypersetup.latex'
-      1:
-        name: 'punctuation.definition.function.latex'
     end: '(?<=\\})|(^\\s*$)'
     endCaptures:
       1:
@@ -267,12 +268,10 @@ repository:
   usepackage: {
     comment: 'Package finder. Similar to documentclass, but allows custom colours. A macro name is only valid with letters (exceptions apply--eg. makeatletter). This checks to see if the name is purely "usepackage" and the following character is not a legal part of the macro name.'
     name: 'meta.preamble.latex'
-    begin: '(\\\\)usepackage(?=[^a-zA-Z@])'
+    begin: '\\\\usepackage(?=[^a-zA-Z@])'
     beginCaptures:
       0:
         name: 'keyword.control.preamble.latex'
-      1:
-        name: 'punctuation.definition.function.latex'
     end: '(?<=\\})|(^\\s*$)'
     endCaptures:
       1:
@@ -297,12 +296,10 @@ repository:
   sectioning: {
     comment: 'Covers all sectioning commands such as section, subsection, subparagraph, etc.'
     name: 'support.function.section.latex'
-    begin: '(\\\\)((sub){0,2}section|(sub){0,1}paragraph|part|chapter)(\\*)?(?=[^a-zA-Z@])'
+    begin: '\\\\((sub){0,2}section|(sub){0,1}paragraph|part|chapter)(\\*)?(?=[^a-zA-Z@])'
     beginCaptures:
       0:
         name: 'keyword.control.section.latex'
-      1:
-        name: 'punctuation.definition.function.latex'
     end: '(?<=\\})|(^\\s*$)'
     endCaptures:
       1:
@@ -351,28 +348,26 @@ repository:
     match: '\\\\[a-zA-Z]+'
   }
   magicComment: {
-    comment: 'Magic commands work in first 20 lines. Can be improved to change color depending if the command matches a known string'
+    comment: 'Can be improved to change color depending if the command matches a known string'
     name: 'keyword.control.magic.latex'
-    match: '''(?x)  # Allow comments like this
-           ((        # Capture groups 1 & 2
-             (%)     # Capture percent sign
-             (\\ !(?>TEX|BIB)\\ )  # Exact match required
-             (\\S+)    # A word (this is required as far as I know)
-             )       # End capture group 2
-             (\\ = \\ )  # Match = with space (required)
-           )         # End capture group 1
-           .*$       # To end; some options have spaces
-         '''
+    match: '''(?x)   # Allow comments like this
+     ((        # Capture groups 1 & 2
+       (%)     # Capture percent sign
+       (\\ !(?>TEX|BIB)\\ )  # Exact match required
+       (\\S+)    # A word (this is required as far as I know)
+       )       # End capture group 2
+       (\\ = \\ )  # Match = with space (required)
+     )         # End capture group 1
+     .*$       # To end; some options have spaces
+   '''
   }
   documentclass: {
     comment: 'Documentclass finder.'
     name: 'meta.preamble.latex'
-    begin: '(\\\\)documentclass(?=[^a-zA-Z@])'
+    begin: '\\\\documentclass(?=[^a-zA-Z@])'
     beginCaptures:
       0:
         name: 'keyword.control.preamble.latex'
-      1:
-        name: 'punctuation.definition.function.latex'
     end: '(?<=\\})|(^\\s*$)'
     endCaptures:
       1:
@@ -558,30 +553,26 @@ repository:
   }
   genericEnvironment: {
     comment: 'Matches environments not recognised by other rules. Less lenient with random formatting here, it is expected to all be on one line.'
-    contentName: 'support.environment.latex'
-    begin: '(\\\\)(begin)(\\{)([\\w \\*]*)(\\})'
+    contentName: 'meta.environment.latex'
+    begin: '\\\\begin(\\{)([\\w \\*]*)(\\})'
     beginCaptures:
-      1:
-        name: 'punctuation.definition.function.latex'
-      2:
+      0:
         name: 'support.function.environment.begin.latex'
-      3:
-        name: 'punctuation.definition.argument.begin.latex'
-      4:
-        name: 'variable.parameter.argument.latex'
-      5:
-        name: 'punctuation.definition.argument.end.latex'
-    end: '(\\\\)(end)(\\{)(\\4)(\\})'
-    endCaptures:
       1:
-        name: 'punctuation.definition.function.latex'
-      2:
-        name: 'support.function.environment.end.latex'
-      3:
         name: 'punctuation.definition.argument.begin.latex'
-      4:
+      2:
         name: 'variable.parameter.argument.latex'
-      5:
+      3:
+        name: 'punctuation.definition.argument.end.latex'
+    end: '\\\\end(\\{)(\\2)(\\})'
+    endCaptures:
+      0:
+        name: 'support.function.environment.end.latex'
+      1:
+        name: 'punctuation.definition.argument.begin.latex'
+      2:
+        name: 'variable.parameter.argument.latex'
+      3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
       {
@@ -591,29 +582,25 @@ repository:
   }
   documentEnvironment: {
     comment: 'To stop the entire contents of the document environment being labelled. Its useless anyway, as I split up my work and just include it into the main file.'
-    begin: '(\\\\)(begin)(\\{)(document)(\\})'
+    begin: '\\\\begin(\\{)(document)(\\})'
     beginCaptures:
-      1:
-        name: 'punctuation.definition.function.latex'
-      2:
+      0:
         name: 'support.function.environment.begin.latex'
-      3:
-        name: 'punctuation.definition.argument.begin.latex'
-      4:
-        name: 'variable.parameter.argument.latex'
-      5:
-        name: 'punctuation.definition.argument.end.latex'
-    end: '(\\\\)(end)(\\{)(document)(\\})'
-    endCaptures:
       1:
-        name: 'punctuation.definition.function.latex'
-      2:
-        name: 'support.function.environment.end.latex'
-      3:
         name: 'punctuation.definition.argument.begin.latex'
-      4:
+      2:
         name: 'variable.parameter.argument.latex'
-      5:
+      3:
+        name: 'punctuation.definition.argument.end.latex'
+    end: '\\\\end(\\{)(document)(\\})'
+    endCaptures:
+      0:
+        name: 'support.function.environment.end.latex'
+      1:
+        name: 'punctuation.definition.argument.begin.latex'
+      2:
+        name: 'variable.parameter.argument.latex'
+      3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
       {
@@ -623,36 +610,32 @@ repository:
   }
   figureEnvironment: {
     comment: 'Matches the common figure environment'
-    contentName: 'support.environment.figure.latex'
-    begin: '(\\\\)(begin)(\\{)(figure)(\\})((\\[)(\\w*)(\\]))?'
+    contentName: 'meta.environment.figure.latex'
+    begin: '\\\\begin(\\{)(figure)(\\})((\\[)(\\w*)(\\]))?'
     beginCaptures:
-      1:
-        name: 'punctuation.definition.function.latex'
-      2:
+      0:
         name: 'support.function.environment.begin.latex'
-      3:
-        name: 'punctuation.definition.argument.begin.latex'
-      4:
-        name: 'variable.parameter.argument.latex'
-      5:
-        name: 'punctuation.definition.argument.end.latex'
-      7:
-        name: 'punctuation.definition.optional.begin.latex'
-      8:
-        name: 'variable.parameter.optional.latex'
-      9:
-        name: 'punctuation.definition.optional.end.latex'
-    end: '(\\\\)(end)(\\{)(\\4)(\\})'
-    endCaptures:
       1:
-        name: 'punctuation.definition.function.latex'
-      2:
-        name: 'support.function.environment.end.latex'
-      3:
         name: 'punctuation.definition.argument.begin.latex'
-      4:
+      2:
         name: 'variable.parameter.argument.latex'
+      3:
+        name: 'punctuation.definition.argument.end.latex'
       5:
+        name: 'punctuation.definition.optional.begin.latex'
+      6:
+        name: 'variable.parameter.optional.latex'
+      7:
+        name: 'punctuation.definition.optional.end.latex'
+    end: '\\\\end(\\{)(\\2)(\\})'
+    endCaptures:
+      0:
+        name: 'support.function.environment.end.latex'
+      1:
+        name: 'punctuation.definition.argument.begin.latex'
+      2:
+        name: 'variable.parameter.argument.latex'
+      3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
       {
@@ -670,30 +653,26 @@ repository:
   }
   alignMathEnvironment: {
     comment: 'Matches align environment'
-    contentName: 'support.environment.math.align.latex'
-    begin: '(\\\\)(begin)(\\{)(align(\\*)?)(\\})'
+    contentName: 'meta.environment.math.align.latex'
+    begin: '\\\\begin(\\{)(align(\\*)?)(\\})'
     beginCaptures:
-      1:
-        name: 'punctuation.definition.function.latex'
-      2:
+      0:
         name: 'support.function.environment.begin.latex'
-      3:
-        name: 'punctuation.definition.argument.begin.latex'
-      4:
-        name: 'variable.parameter.argument.latex'
-      6:
-        name: 'punctuation.definition.argument.end.latex'
-    end: '(\\\\)(end)(\\{)(\\4)(\\})'
-    endCaptures:
       1:
-        name: 'punctuation.definition.function.latex'
-      2:
-        name: 'support.function.environment.end.latex'
-      3:
         name: 'punctuation.definition.argument.begin.latex'
-      4:
+      2:
         name: 'variable.parameter.argument.latex'
-      5:
+      4:
+        name: 'punctuation.definition.argument.end.latex'
+    end: '\\\\end(\\{)(\\2)(\\})'
+    endCaptures:
+      0:
+        name: 'support.function.environment.end.latex'
+      1:
+        name: 'punctuation.definition.argument.begin.latex'
+      2:
+        name: 'variable.parameter.argument.latex'
+      3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
       {
@@ -714,12 +693,10 @@ repository:
   }
   inputFile: {
     comment: 'Matches the input/include command and allows custom path colours.'
-    begin: '(\\\\)input(?=[^a-zA-Z@])'
+    begin: '\\\\input(?=[^a-zA-Z@])'
     beginCaptures:
       0:
         name: 'keyword.control.input.latex'
-      1:
-        name: 'punctuation.definition.function.latex'
     end: '(?<=\\})|(^\\s*$)'
     endCaptures:
       1:
@@ -774,4 +751,14 @@ repository:
   verbatim: {
     comment: 'Finds an inline verbatim string of the format \verb+...+'
     name: 'string.function.verbatim'
+    match: '\\\\verb([^a-zA-Z])(.*?)(\\1)'
+    captures:
+      0:
+        name: 'support.function.vebatim.latex'
+      1:
+        name: 'punctuation.latex'
+      2:
+        name: 'markup.raw.verbatim.latex'
+      3:
+        name: 'punctuation.latex'
   }
