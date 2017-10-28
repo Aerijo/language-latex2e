@@ -39,14 +39,28 @@
     'prefix': '!TEX cleanPatterns'
     'body': '% !TEX cleanPatterns = $1'
   '\\section{}':
-      'prefix': '\\section'
-      'body': '\\\\section\\{$1\\}$0'
+    'prefix': '\\section'
+    'body': '\\\\section\\{$1\\}$0'
   '\\subsection{}':
-      'prefix': '\\subsection'
-      'body': '\\\\subsection\\{$1\\}$0'
+    'prefix': '\\subsection'
+    'body': '\\\\subsection\\{$1\\}$0'
   '\\subsubsection{}':
-      'prefix': '\\subsubsection'
-      'body': '\\\\subsubsection\\{$1\\}$0'
+    'prefix': '\\subsubsection'
+    'body': '\\\\subsubsection\\{$1\\}$0'
+  '\\begin{figure}':
+    'prefix': '\\figure'
+    'body': '''
+    \\\\begin{figure}[$1]
+    \t\\\\centering
+    \t\\\\includegraphics{$2}
+    \t\\\\caption{$3}
+    \t\\\\label{$4}
+    \\\\end{figure}
+    $5
+    '''
+  '\\autocite{}':
+    'prefix': '\\autocite'
+    'body': '\\\\autocite{$1}$0'
 
 # These snippets are available in mathmode
 '.text.tex.latex .string.other.math':
