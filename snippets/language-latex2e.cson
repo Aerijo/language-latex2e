@@ -61,6 +61,15 @@
   '\\autocite{}':
     'prefix': '\\autocite'
     'body': '\\\\autocite{$1}$0'
+  '\\footenote{}':
+    'prefix': '\\footnote'
+    'body': '\\\\footnote{$1}$0'
+  '\\footnotemark':
+    'prefix': '\\footnotemark'
+    'body': '\\\\footnotemark'
+  '\\footnotetext{}':
+    'prefix': '\\footnotetext'
+    'body': '\\\\footnotemtext{$1}$0'
 
 # These snippets are available in mathmode
 '.text.tex.latex .string.other.math':
