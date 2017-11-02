@@ -70,6 +70,9 @@
   '\\footnotetext{}':
     'prefix': '\\footnotetext'
     'body': '\\\\footnotemtext{$1}$0'
+  '\\mintinline{}':
+    'prefix': '\\mintinline'
+    'body': '\\\\mintinline{$1}$0'
 
 # These snippets are available in mathmode
 '.text.tex.latex .string.other.math':
