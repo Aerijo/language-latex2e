@@ -69,7 +69,7 @@
     'body': '\\\\footnotemark'
   '\\footnotetext{}':
     'prefix': '\\footnotetext'
-    'body': '\\\\footnotemtext{$1}$0'
+    'body': '\\\\footnotetext{$1}$0'
   '\\mintinline{}':
     'prefix': '\\mintinline'
     'body': '\\\\mintinline{$1}$0'
