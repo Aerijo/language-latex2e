@@ -73,6 +73,12 @@
   '\\mintinline{}':
     'prefix': '\\mintinline'
     'body': '\\\\mintinline{$1}$0'
+  '\\clearpage':
+    'prefix': '\\clearpage'
+    'body': '\\\\clearpage'
+  '\\newpage':
+    'prefix': '\\newpage'
+    'body': '\\\\newpage'
 
 # These snippets are available in mathmode
 '.text.tex.latex .string.other.math':
