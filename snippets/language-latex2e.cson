@@ -1,3 +1,5 @@
+# These will be removed soon/eventually, as completions are moving to my new autocomplete-latex package
+
 '.text.tex.latex':
   # These snippets are available everywhere
   '\\begin{}...\\end{}':
@@ -18,7 +20,7 @@
   '\\begin{align}':
     'prefix': '\\align'
     'body': '\\%\n\\\\begin{align$2}\n\t$1$3\n\\\\end{align$2}'
-    'description': 'Begin amsmath align env`ironment'
+    'description': 'Begin amsmath align environment'
     'descriptionMoreURL': 'https://www.sharelatex.com/learn/Aligning_equations_with_amsmath#!#Aligning_several_equations'
   '!TEX root':
     'prefix': '!TEX root'
