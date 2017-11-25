@@ -24,6 +24,8 @@ There should be no errors if also using the [`grammar-token-limit`](https://atom
 
 ### Snippets
 
+**NOTE: Snippets will be removed eventually. They will be replaced by `autocomplete-latex`, which will be released when working at a satisfactory level.**
+
 This package comes with snippets for common LaTeX commands. Typing the prefix and pressing tab will expand them properly (eg. `\frac` expands to `\frac{}{}` when `tab` is pressed). Some are limited to a specific scope (`\frac` only works in mathmode).
 
 However, you will find that the autocomplete menu does not appear or contain these snippets.
