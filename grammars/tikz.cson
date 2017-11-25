@@ -1,83 +1,83 @@
 scopeName: 'text.tex.latex.tikz'
 name: 'LaTeX TikZ'
 filetypes: [
-    'tikz'
+  'tikz'
 ]
 firstLineMatch: '\\\\begin\\{'
 limitLineLength: false
 
 patterns: [
-    {
-        include: '#beginTikzPicture'
-    }
-    {
-        include: '#drawCommandMeta'
-    }
+  {
+    include: '#beginTikzPicture'
+  }
+  {
+    include: '#drawCommandMeta'
+  }
 ]
 
 
 repository:
-    beginTikzPicture: {
-        comment: 'Looks for begin/end tikzpicture. This env should be in the file, even if separate from the main document.'
-        begin: '(\\\\)begin\\{tikzpicture\\}'
-        beginCaptures:
-            0:
-                name: 'keyword.control.environment.tikzpicture.tikz'
-        end: '(\\\\)end\\{tikzpicture\\}'
-        endCaptures:
-            0:
-                name: 'keyword.control.environment.tikzpicture.tikz'
-        patterns: [
-            {
-                include: '$base'
-            }
-        ]
-    }
-    drawCommandMeta: {
-        begin: '(\\\\)draw\\b'
-        beginCaptures:
-            0:
-                name: 'support.function.draw.tikz'
-        end: '\\;'
-        endCaptures:
-            0:
-                name: 'punctuation.definition.lineend.tikz'
-        patterns: [
-            {
-                include: '#squareBrackets'
-            }
-            {
-                include: '#parentheses'
-            }
-            {
-                include: '#pathDescriptor'
-            }
-        ]
-    }
-    squareBrackets: {
-        contentName: 'variable.parameter.optional.tikz'
-        begin: '\\['
-        beginCaptures:
-            0:
-                name: 'punctuation.definition.optional.begin.tikz'
-        end: '\\]'
-        endCaptures:
-            0:
-                name: 'punctuation.definition.optional.end.tikz'
-    }
-    parentheses: {
-        contentName: 'variable.parameter.tikz'
-        begin: '\\('
-        beginCaptures:
-            0:
-                name: 'punctuation.definition.begin.tikz'
-        end: '\\)'
-        endCaptures:
-            0:
-                name: 'punctuation.definition.end.tikz'
-    }
-    pathDescriptor: {
-        comment: 'For the constructions like --, -|, |-, etc.'
-        name: 'punctuation.path.tikz'
-        match: '(--|-\\||\\|-)'
-    }
+  beginTikzPicture: {
+    comment: 'Looks for begin/end tikzpicture. This env should be in the file, even if separate from the main document.'
+    begin: '(\\\\)begin\\{tikzpicture\\}'
+    beginCaptures:
+      0:
+        name: 'keyword.control.environment.tikzpicture.tikz'
+    end: '(\\\\)end\\{tikzpicture\\}'
+    endCaptures:
+      0:
+        name: 'keyword.control.environment.tikzpicture.tikz'
+    patterns: [
+      {
+        include: '$base'
+      }
+    ]
+  }
+  drawCommandMeta: {
+    begin: '(\\\\)draw\\b'
+    beginCaptures:
+      0:
+        name: 'support.function.draw.tikz'
+    end: '\\;'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.lineend.tikz'
+    patterns: [
+      {
+        include: '#squareBrackets'
+      }
+      {
+        include: '#parentheses'
+      }
+      {
+        include: '#pathDescriptor'
+      }
+    ]
+  }
+  squareBrackets: {
+    contentName: 'variable.parameter.optional.tikz'
+    begin: '\\['
+    beginCaptures:
+      0:
+        name: 'punctuation.definition.optional.begin.tikz'
+    end: '\\]'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.optional.end.tikz'
+  }
+  parentheses: {
+    contentName: 'variable.parameter.tikz'
+    begin: '\\('
+    beginCaptures:
+      0:
+        name: 'punctuation.definition.begin.tikz'
+    end: '\\)'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.end.tikz'
+  }
+  pathDescriptor: {
+    comment: 'For the constructions like --, -|, |-, etc.'
+    name: 'punctuation.path.tikz'
+    match: '(--|-\\||\\|-)'
+  }

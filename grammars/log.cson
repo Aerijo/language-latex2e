@@ -1,29 +1,29 @@
 scopeName: 'text.tex.latex.log'
 name: 'LaTeX Log'
 filetypes: [
-    'log'
+  'log'
 ]
 firstLineMatch: '^This is (\\w)+, Version .*$'
 limitLineLength: false
 
 patterns: [
-    {
-        comment: 'Bare minimum to make the log file look good. I will look into its syntax some other time.'
-        match: '(\\\\)[\\w@]*'
-        name: 'support.function.general.latex.log'
-    }
-    {
-        match: '\\!.*$' # Doesn't work
-        name: 'invalid.illegal.latex.log'
-    }
-    {
-        include: '#filePath'
-    }
+  {
+    comment: 'Bare minimum to make the log file look good. I will look into its syntax some other time.'
+    match: '(\\\\)[\\w@]*'
+    name: 'support.function.general.latex.log'
+  }
+  {
+    match: '\\!.*$' # Doesn't work
+    name: 'invalid.illegal.latex.log'
+  }
+  {
+    include: '#filePath'
+  }
 ]
 
 repository:
-  filePath: {
-    comment: 'Finds a file path in the log file. Assumes paths start with a space/bracket followed by `/` (date conflict otherwise)'
-    name: 'support.filepath.latex'
-    match: '(?<=[\\s\\(\\{\\[\\<]|^)(\\/|\\~\\/|\\.\\/)([^\\s\\(\\)\\[\\]\\{\\}\\:]+\\/)*?([^\\s\\(\\)\\[\\]\\{\\}\\:])+'
-  }
+ filePath: {
+  comment: 'Finds a file path in the log file. Assumes paths start with a space/bracket followed by `/` (date conflict otherwise)'
+  name: 'support.filepath.latex'
+  match: '(?<=[\\s\\(\\{\\[\\<]|^)(\\/|\\~\\/|\\.\\/)([^\\s\\(\\)\\[\\]\\{\\}\\:]+\\/)*?([^\\s\\(\\)\\[\\]\\{\\}\\:])+'
+ }
