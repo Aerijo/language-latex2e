@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+- Removed snippets
+- Added `.jshintrc`
+- Refactored `lib/language-latex2e.js`
+
 ## 0.5.0
 #### Added
 - CHANGELOG.md
