@@ -55,7 +55,10 @@ repository:
         include: '#escapedCharacter'
       }
       {
-        include: '#accents'
+        include: '#displayMathMode'
+      }
+      {
+        include: '#controlSymbol'
       }
       {
         include: '#documentclass'
@@ -82,16 +85,16 @@ repository:
         include: '#sectioning'
       }
       {
-        include: '#hypersetup'
-      }
-      {
         include: '#makeatsomething'
       }
       {
         include: '#verbatim'
       }
       {
-        include: '#genericMacro'
+        include: '#item'
+      }
+      {
+        include: '#controlWord'
       }
     ]
   }
@@ -99,7 +102,7 @@ repository:
     comment: 'This is called when there is a lone percent sign (escaped covered by controlMeta).'
     patterns: [
       {
-        comment: 'Should work so long it is the end of any comment; eg. % other% TEX = ...'
+        comment: 'Should work so long it is the end of any comment; eg. % other% !TEX = ...'
         include: '#magicComment'
       }
       {
@@ -141,7 +144,7 @@ repository:
     patterns: [
       comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
       {
-        include: '#escapedCharacter'
+        include: '#escapedCharacter' # for an escaped %
       }
       {
         include: '#lineComment'
@@ -227,10 +230,20 @@ repository:
     name: 'constant.character.latex'
     match: '\\\\(\\&|\\%|\\$|\\#|\\_|\\{|\\}|(textascii(tilde|circum)|textbackslash)(?=[^a-zA-Z@]))'
   }
+  controlSymbol: {
+    comment: 'Mostly covered by escapedCharacter, but this is a catch all for any contol symbols'
+    name: 'keyword.control.symbol.latex'
+    match: '\\\\[^a-zA-Z]'
+  }
+  controlWord: {
+    comment: 'A catch all for latex control words that have not already been identified.'
+    name: 'support.function.general.latex'
+    match: '\\\\[a-zA-Z]+'
+  }
   accents: {
-    comment: 'For standard latex accent macros such as \^ or \`'
+    comment: 'For standard latex accent macros such as \^ or \`. Not used for now, at least until better rules are developed.'
     name: 'constant.character.accent.latex'
-    match: '''\\\\([\\`\\'\\^\\"\\~\\=\\.](\\w|\\{\\w?\\})|[Hcklbdruv]\\{\\w?\\})'''
+    match: '''\\\\([\\`\\'\\^\\"\\~\\=\\.]\\s*(\\w|\\{\\w?\\})|[Hcklbdruv]\\{\\w?\\})'''
   }
   hypersetup: {
     comment: 'Recongnises hypersetup environment. Can be extended to be a general key-option scoper, but this (potentially) allows custom colours for known keys.'
@@ -254,11 +267,6 @@ repository:
     name: 'comment.line.percentage.latex'
     begin: '%'
     end: '(?=%)|$'
-  }
-  escapedPercent: {
-    comment: 'Escaped % sign. Possible deprecated by escapedCharacter.'
-    name: 'constant.character.latex'
-    match: '\\\\%'
   }
   escapedCurlyBracket: {
     comment: 'Escaped }. Possible deprecated by escapedCharacter.'
@@ -299,7 +307,7 @@ repository:
     begin: '\\\\((sub){0,2}section|(sub){0,1}paragraph|part|chapter)(\\*)?(?=[^a-zA-Z@])'
     beginCaptures:
       0:
-        name: 'keyword.control.section.latex'
+        name: 'entity.name.section.tex'
     end: '(?<=\\})|(^\\s*$)'
     endCaptures:
       1:
@@ -332,7 +340,7 @@ repository:
         include: '#doubleBackslash'
       }
       {
-        include: '#escapedPercent'
+        include: '#escapedCharacter'
       }
       {
         include: '#magicComment'
@@ -341,11 +349,6 @@ repository:
         include: '#lineComment'
       }
     ]
-  }
-  genericMacro: {
-    comment: 'A catch all for latex macros that have not already been identified.'
-    name: 'support.function.general.latex'
-    match: '\\\\[a-zA-Z]+'
   }
   magicComment: {
     comment: 'Can be improved to change color depending if the command matches a known string'
@@ -680,11 +683,46 @@ repository:
       }
     ]
   }
+  listEnvironment: {
+    comment: 'Matches itemize/enumerate/description environment'
+    contentName: 'meta.environment.list.latex'
+    begin: '\\\\begin(\\{)((itemize|enumerate|description)(\\*)?)(\\})'
+    beginCaptures:
+      0:
+        name: 'support.function.environment.begin.latex'
+      1:
+        name: 'punctuation.definition.argument.begin.latex'
+      2:
+        name: 'variable.parameter.argument.latex'
+      5:
+        name: 'punctuation.definition.argument.end.latex'
+    end: '\\\\end(\\{)(\\2)(\\})'
+    endCaptures:
+      0:
+        name: 'support.function.environment.end.latex'
+      1:
+        name: 'punctuation.definition.argument.begin.latex'
+      2:
+        name: 'variable.parameter.argument.latex'
+      3:
+        name: 'punctuation.definition.argument.end.latex'
+    patterns: [
+      {
+        include: '$base'
+      }
+    ]
+  }
   makeatsomething: {
     comment: 'Matches the makeat(letter|other) commands so that they get custom highlighting (because @ is now a character)'
-    name: 'support.function.makeat.latex'
+    contentName: 'markup.raw.verbatim.latex'
     begin: '(\\\\)makeatletter\\b'
+    beginCaptures:
+      0:
+        name: 'support.function.makeat.latex'
     end: '(\\\\)makeatother\\b'
+    endCaptures:
+      0:
+        name: 'support.function.makeat.latex'
     patterns: [
       {
         include: '#commentMeta'
@@ -761,4 +799,29 @@ repository:
         name: 'markup.raw.verbatim.latex'
       3:
         name: 'punctuation.latex'
+  }
+  item: {
+    comment: 'This command is still defined everywhere'
+    name: 'keyword.control.latex'
+    match: '\\\\item'
+  }
+
+  # Unused
+  unitMeasure: {
+    comment: 'This will likely be merged into a different rule. Currently doesnt work.'
+    name: 'constant.numeric.latex'
+    match: '\\b((\\+|\\-)\\s*)?((\\d+(\\.|\\,)?)|(\\d*((\\.|\\,)\\d*)))\\s*(true\\s*)?(pt|pc|in|bp|cm|mm|dd|cc|sp|em|ex)\\b'
+  }
+
+  keywords: {
+    comment: '''Taken from the TeXBook. Not sorted.
+      at, bp, by, cc, cm, dd, depth, em, ex, fil, height, in, l, minus, mm, mu, pc, plus, pt, scaled, sp, spread, to, true, width
+    '''
+  }
+
+  # Removed
+  escapedPercent: {
+    comment: 'Escaped % sign. Possible deprecated by escapedCharacter.'
+    name: 'constant.character.latex'
+    match: '\\\\%'
   }
