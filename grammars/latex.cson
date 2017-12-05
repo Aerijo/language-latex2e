@@ -58,9 +58,6 @@ repository:
         include: '#displayMathMode'
       }
       {
-        include: '#controlSymbol'
-      }
-      {
         include: '#documentclass'
       }
       {
@@ -95,6 +92,9 @@ repository:
       }
       {
         include: '#texPrimitives'
+      }
+      {
+        include: '#controlSymbol'
       }
       {
         include: '#controlWord'
