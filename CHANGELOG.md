@@ -1,9 +1,16 @@
 # Changelog
 
-## Unreleased
-- Removed snippets
-- Added `.jshintrc`
+## 0.6.0
+#### Added
+- `.jshintrc`
+- Primitive highlighting (the control sequence)
+- Tools to generate regex for word list
+
+#### Changed
 - Refactored `lib/language-latex2e.js`
+
+#### Removed
+- Snippets (use [autocomplete-latex](https://github.com/Aerijo/autocomplete-latex) instead)
 
 ## 0.5.0
 #### Added
