@@ -13,11 +13,15 @@ patterns: [
     name: 'support.function.general.latex.log'
   }
   {
-    match: '\\!.+$' # Doesn't work
+    match: '\\![a-zA-Z]+.*$' # Doesn't work
     name: 'invalid.illegal.latex.log'
   }
   {
     include: '#filePath'
+  }
+  {
+    match: '\\#\\d+'
+    name: 'constant.character.latex'
   }
 ]
 
@@ -25,5 +29,5 @@ repository:
  filePath: {
   comment: 'Finds a file path in the log file. Assumes paths start with a space/bracket followed by `/` (date conflict otherwise)'
   name: 'markup.underline.filepath'
-  match: '(?<=[\\s\\(\\{\\[\\<]|^)(\\/|\\~\\/|\\.\\/)([^\\s\\(\\)\\[\\]\\{\\}\\:]+\\/)*?([^\\s\\(\\)\\[\\]\\{\\}\\:])+'
+  match: '(?<=[\\s\\(\\{\\[\\<]|^)(\\/|\\~\\/|\\.\\/)([^\\s\\(\\)\\[\\]\\{\\}\\:\\>\\<\\\\]+\\/)*?([^\\s\\(\\)\\[\\]\\{\\}\\:\\>\\<\\\\])+'
  }
