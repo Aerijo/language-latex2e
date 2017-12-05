@@ -1,0 +1,20 @@
+constructing initial tree (moves items in groups):
+1   If uncategorisedChildren (UC) has an empty string: remove it and set current node to leaf
+2   If UC is empty:
+  2.1   If node has children: apply function to all children (it's a fully alocated branch)
+  2.2   Else: set leaf to true and return
+3   If UC has one element: remove it and make a new node with that as the value, repeat step 1
+4   Use the first letter of the first element in UC as a prefix
+  4.1   If it's a `\`, take the next slash as well
+  4.2   If it's empty, throw error (should be removed by 2)
+5   Sort into those that match the prefix and those that dont:
+  5.1   For those that match:
+    5.1.1   extract the greatest common prefix (not just first letter)
+    5.1.2   make a new node in children with GCP as node value
+    5.1.3   make the node children the same array but stripped of the prefix
+  5.2   For those that don't:
+    5.2.0  set UC to this
+    5.2.1  repeat step 1
+
+adding new elements (individually) to tree:
+1 To be added.
