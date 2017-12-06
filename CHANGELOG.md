@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+#### Changed
+- Reformatted grammar file to condense single value objects
+
 ## 0.6.0
 #### Added
 - `.jshintrc`
