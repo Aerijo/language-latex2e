@@ -11,3 +11,6 @@ The actual entries in `patterns` are the special characters that trigger somethi
 
 ### usepackage
 This was the cause of a great many frustrations. The problem was getting nested brackets to play well, without an inner `}` being taken as the end for an outer pair. Eventually I settled on the regex seen in the file, but I couldn't tell you exactly how it works, just that it does.
+
+## TODO
+- Just noticed I broke `\(` and `\)` with the new control symbol regex; I need to write specs.
