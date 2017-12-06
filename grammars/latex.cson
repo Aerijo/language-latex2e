@@ -6,6 +6,8 @@ fileTypes: [
 
 limitLineLength: false
 
+# Atom uses the following regex engine -> https://github.com/kkos/oniguruma/blob/master/doc/RE
+
 # Rules to be implemented. Please add to repository and link to a 'meta' to include.
 # The following rules correspond to the ten special latex characters
 patterns: [
