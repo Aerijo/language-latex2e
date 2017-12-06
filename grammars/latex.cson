@@ -44,6 +44,8 @@ repository:
       { include: '#makeatsomething' }
       { include: '#verbatim' }
       { include: '#item' }
+      { include: '#displayMathMode'}
+      { include: '#inlineMathMode' }
       { include: '#texPrimitives' }
       { include: '#controlSymbol' }
       { include: '#controlWord' }
@@ -74,15 +76,15 @@ repository:
     match: '&'
   }
   openCurlyBracketMeta: {
-    contentName: 'variable.parameter.argument.latex'
+    contentName: 'meta.group.braces.latex'
     begin: '{'
     beginCaptures:
       0:
-        name: 'punctuation.definition.argument.latex'
+        name: 'punctuation.definition.group.latex'
     end: '}'
     endCaptures:
       0:
-        name: 'punctuation.definition.argument.latex'
+        name: 'punctuation.definition.group.latex'
     patterns: [
       comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
       {
@@ -363,7 +365,7 @@ repository:
     beginCaptures:
       0:
         name: 'string.other.math.inline.begin.latex'
-    end: '(\\$)|(\\\\\\))'
+    end: '(\\$)|(\\\\\\))|(?=\\})'
     endCaptures:
       0:
         name: 'string.other.math.inline.end.latex'
@@ -391,7 +393,7 @@ repository:
         name: 'string.other.math.display.begin.latex'
       1:
         name: 'invalid.deprecated.latex'
-    end: '(\\$\\$)|(\\\\\\])'
+    end: '(\\$\\$)|(\\\\\\])|(?=\\})'
     endCaptures:
       0:
         name: 'string.other.math.display.end.latex'
