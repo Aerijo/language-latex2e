@@ -4,13 +4,16 @@
 
 ## 0.9.0
 #### Added
-- `pdfteX` primitives
+- `pdfTeX` primitives
+- Default setting to prevent automatic whitespace removal in log file
+- Support for `^^` syntax
 
 #### Changed
 - Version number jumped; wasn't synced properly with actual version
 - Reformatted grammar file to condense single value objects
 - Rescoped `{}` groups to meta; this prevents it from overriding syntax highlighting (eg. within maths)
 - Mathmode now ended by `}` as well; prevents breaking in things like `\begin{tabular}{>{$}c<{$}}`
+- Scopename of `\\` to match `language-latex`
 
 ## 0.6.0
 #### Added
