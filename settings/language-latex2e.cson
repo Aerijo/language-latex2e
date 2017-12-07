@@ -9,3 +9,8 @@
 '.text.tex.latex.tikz':
   'editor':
     'commentStart': '% '
+
+'.text.tex.latex.log':
+  'whitespace':
+    'ensureSingleTrailingNewline': false
+    'removeTrailingWhitespace': false
