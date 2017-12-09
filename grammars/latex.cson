@@ -48,6 +48,7 @@ repository:
       { include: '#inlineMathMode' }
       { include: '#texPrimitives' }
       { include: '#pdfTexPrimitives'}
+      { include: '#unsortedPrimitives'}
       { include: '#controlSymbol' }
       { include: '#controlWord' }
     ]
@@ -670,6 +671,11 @@ repository:
     comment: 'These dont apply on all engines, but I feel the names are specific enough and pdfLaTeX is used enough to justify it.'
     name: 'entity.name.function.primitive.pdftex.latex'
     match: '(\\\\)(pdf(o(ut(put|line)|bj(compresslevel)?)|m(inorversion|a(p(file|line)|tch)|ovechars|dfivesum)|c(o(mpresslevel|pyfont|lorstack(init)?)|atalog|reationdate)|d(e(cimaldigits|st(margin)?)|raftmode)|horigin|vorigin|p(age(width|height|sattr|attr|re(sources|f)|box)|k(resolution|mode)|r(otrudechars|ependkern|imitive)|xdimen)|i(n(fo(omitdate)?|clu(dechars|sion(errorlevel|copyfonts))|terwordspaceo(n|ff)|sertht)|gnoreddimen|mage(resolution|hicolor|applygamma|gamma))|s(uppress(ptexinfo|warning(dup(map|dest)|pagegroup))|t(artlink|rcmp)|et(randomseed|matrix)|ave(pos)?|hellescape)|n(ames|o(ligatures|builtintounicode|rmaldeviate))|t(ra(iler(id)?|cingfonts)|hread(margin)?|startthread|ex(banner|revision|version))|f(o(nt(expand|attr|name|objnum|size)|rcepagebox)|akespace|i(rstlineheight|le(moddate|size|dump)))|a(djust(spacing|interwordglue)|ppendkern|nnot)|un(i(queresname|formdeviate)|escapehex)|g(entounicode|lyphtounicode|amma)|l(ast(lin(edepth|k)|obj|x(form|image(colordepth|pages)?|pos)|annot|match|ypos)|i(nkmargin|teral))|e(achline(height|depth)|nd(link|thread)|scape(string|name|hex)|lapsedtime)|r(e(f(obj|x(form|image))|s(ettimer|tore)|tval)|andomseed)|x(form(name)?|image(bbox)?))|efcode|r(pcode|ightmarginkern)|l(pcode|e(ftmarginkern|tterspacefont))|tagcode|kn(b(scode|ccode)|accode)|s(tbscode|hbscode)|if(pdf(abs(num|dim)|primitive)|incsname)|quitvmode|vadjust)(?=[^a-zA-Z])'
+  }
+  unsortedPrimitives: {
+    comment: 'Im not sure which engine first defined these, but they are all primitives in LaTeX'
+    name: 'entity.name.function.primitive.latex'
+    match: '(\\\\)(un(less|expanded)|botmarks|c(urrent(if(type|branch|level)|group(level|type))|lubpenalties)|p(a(gediscards|rshape(dimen|indent|length))|r(otected|edisplaydirection))|m(u(toglue|expr)|arks|iddle)|d(i(splaywidowpenalties|mexpr)|etokenize)|f(ontchar(ic|dp|ht|wd)|irstmarks)|widowpenalties|t(racing(ifs|assigns|scantokens|nesting|groups)|opmarks)|i(f(fontchar|defined|csname)|nter(linepenalties|actionmode))|s(how(groups|tokens|ifs)|plit(firstmarks|botmarks|discards)|aving(vdiscards|hyphcodes)|cantokens)|glue(expr|tomu|s(hrink(order)?|tretch(order)?))|e(veryeof|TeX(version|revision))|readline|last(nodetype|linefit)|numexpr)(?=[^a-zA-Z])'
   }
   doubleCaret: {
     comment: 'Im not sure what these are called, but they seem to work (eg. ^^M is a linebreak)'
