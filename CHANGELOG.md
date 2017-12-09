@@ -1,6 +1,14 @@
 # Changelog
 
 <!-- ## Unreleased -->
+#### Added
+- More primitives (unknown origin)
+
+#### Changed
+- Renamed `./lib/resources/primitives.txt` to `texPrimitives.txt` (and corresponding regex file)
+
+#### Fixed
+- Primitive highlighting for `\ `, `\-`, and `\/`
 
 ## 0.9.0
 #### Added
