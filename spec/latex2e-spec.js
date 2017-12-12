@@ -69,4 +69,45 @@ describe("LaTeX grammar", function() {
     expect(tokens[3]).toEqual({value: "\\]", scopes: [root, "string.other.math.display.end.latex"]});
     expect(tokens[4]).toEqual({value: "text", scopes: [root]});
   });
+
+  it("tokenizes generic environment", () => {
+    let tokenLines = grammar.tokenizeLines("\\begin{environment}\ntext\n\\end{environment}");
+    expect(tokenLines[0][0]).toEqual({value: "\\begin", scopes: [root, "support.function.environment.begin.latex"]});
+    expect(tokenLines[0][1]).toEqual({value: "{", scopes: [root, "support.function.environment.begin.latex", "punctuation.definition.argument.begin.latex"]});
+    expect(tokenLines[0][2]).toEqual({value: "environment", scopes: [root, "support.function.environment.begin.latex", "variable.parameter.argument.latex"]});
+    expect(tokenLines[0][3]).toEqual({value: "}", scopes: [root, "support.function.environment.begin.latex", "punctuation.definition.argument.end.latex"]});
+
+    expect(tokenLines[1][0]).toEqual({value: "text", scopes: [root, "meta.environment.latex"]});
+
+    expect(tokenLines[2][0]).toEqual({value: "\\end", scopes: [root, "support.function.environment.end.latex"]});
+    expect(tokenLines[2][1]).toEqual({value: "{", scopes: [root, "support.function.environment.end.latex", "punctuation.definition.argument.begin.latex"]});
+    expect(tokenLines[2][2]).toEqual({value: "environment", scopes: [root, "support.function.environment.end.latex", "variable.parameter.argument.latex"]});
+    expect(tokenLines[2][3]).toEqual({value: "}", scopes: [root, "support.function.environment.end.latex", "punctuation.definition.argument.end.latex"]});
+  });
+
+  it("tokenizes generic command words", () => {
+    let tokens = grammar.tokenizeLines("\\generic\n\\generic@text\n\\generic1text\n\\generic text");
+    expect(tokens[0][0]).toEqual({value: "\\generic", scopes: [root, "support.function.general.latex"]});
+
+    expect(tokens[1][0]).toEqual({value: "\\generic", scopes: [root, "support.function.general.latex"]});
+    expect(tokens[1][1]).toEqual({value: "@text", scopes: [root]});
+
+    expect(tokens[2][0]).toEqual({value: "\\generic", scopes: [root, "support.function.general.latex"]});
+    expect(tokens[2][1]).toEqual({value: "1text", scopes: [root]});
+
+    expect(tokens[3][0]).toEqual({value: "\\generic", scopes: [root, "support.function.general.latex"]});
+    expect(tokens[3][1]).toEqual({value: " text", scopes: [root]});
+  });
+
+  it("tokenizes generic command symbols", () => {
+    let tokens = grammar.tokenizeLines("\\8\n\\89\n\\8text");
+    expect(tokens[0][0]).toEqual({value: "\\8", scopes: [root,"keyword.control.symbol.latex"]});
+
+    expect(tokens[1][0]).toEqual({value: "\\8", scopes: [root,"keyword.control.symbol.latex"]});
+    expect(tokens[1][1]).toEqual({value: "9", scopes: [root]});
+    
+    expect(tokens[2][0]).toEqual({value: "\\8", scopes: [root,"keyword.control.symbol.latex"]});
+    expect(tokens[2][1]).toEqual({value: "text", scopes: [root]});
+  });
+
 });
