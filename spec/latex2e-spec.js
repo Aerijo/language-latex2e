@@ -1,9 +1,9 @@
 describe("LaTeX grammar", function() {
   var grammar = null;
-  var rootScope = "text.tex.latex"
+  var root = "text.tex.latex"
 
   beforeEach(() => {
-    waitsForPromise(function() {
+    waitsForPromise(() => {
       return atom.packages.activatePackage("language-latex2e");
     });
 
@@ -14,7 +14,7 @@ describe("LaTeX grammar", function() {
 
   it("parses the grammar", () => {
     expect(grammar).toBeDefined();
-    expect(grammar.scopeName).toBe(rootScope);
+    expect(grammar.scopeName).toBe(root);
   });
 
   it("is configured correctly", () => {
@@ -24,33 +24,42 @@ describe("LaTeX grammar", function() {
 
   it("tokenizes spaces", () => {
     let tokens = grammar.tokenizeLine(" ").tokens;
-    expect(tokens[0]).toEqual({value: " ", scopes:[rootScope]});
+    expect(tokens[0]).toEqual({value: " ", scopes:[root]});
   });
 
   it("tokenizes simple comments", () => {
     let tokens = grammar.tokenizeLine("%comment").tokens;
-    expect(tokens[0]).toEqual({value: "%", scopes: [rootScope, "comment.line.percentage.latex"]});
-    expect(tokens[1]).toEqual({value: "comment", scopes: [rootScope, "comment.line.percentage.latex"]});
+    expect(tokens[0]).toEqual({value: "%", scopes: [root, "comment.line.percentage.latex"]});
+    expect(tokens[1]).toEqual({value: "comment", scopes: [root, "comment.line.percentage.latex"]});
   });
 
   it("tokenizes magic comments", () => {
     let tokens = grammar.tokenizeLine("% !TEX root = main.tex").tokens;
-    expect(tokens[0]).toEqual({value: "% !TEX root = main.tex", scopes: [rootScope, "keyword.control.magic.latex"]});
+    expect(tokens[0]).toEqual({value: "% !TEX root = main.tex", scopes: [root, "keyword.control.magic.latex"]});
   });
 
   it("tokenizes simple inline math", () => {
     let tokens = grammar.tokenizeLine("text$math$text").tokens;
-    expect(tokens[0]).toEqual({value: "text", scopes: [rootScope]});
-    expect(tokens[1]).toEqual({value: "$", scopes: [rootScope, "string.other.math.inline.begin.latex"]});
-    expect(tokens[2]).toEqual({value: "math", scopes: [rootScope, "string.other.math.inline.latex"]});
-    expect(tokens[3]).toEqual({value: "$", scopes: [rootScope, "string.other.math.inline.end.latex"]});
-    expect(tokens[4]).toEqual({value: "text", scopes: [rootScope]});
+    expect(tokens[0]).toEqual({value: "text", scopes: [root]});
+    expect(tokens[1]).toEqual({value: "$", scopes: [root, "string.other.math.inline.begin.latex"]});
+    expect(tokens[2]).toEqual({value: "math", scopes: [root, "string.other.math.inline.latex"]});
+    expect(tokens[3]).toEqual({value: "$", scopes: [root, "string.other.math.inline.end.latex"]});
+    expect(tokens[4]).toEqual({value: "text", scopes: [root]});
 
     tokens = grammar.tokenizeLine("text\\(math\\)text").tokens;
-    expect(tokens[0]).toEqual({value: "text", scopes: [rootScope]});
-    expect(tokens[1]).toEqual({value: "\\(", scopes: [rootScope, "string.other.math.inline.begin.latex"]});
-    expect(tokens[2]).toEqual({value: "math", scopes: [rootScope, "string.other.math.inline.latex"]});
-    expect(tokens[3]).toEqual({value: "\\)", scopes: [rootScope, "string.other.math.inline.end.latex"]});
-    expect(tokens[4]).toEqual({value: "text", scopes: [rootScope]});
+    expect(tokens[0]).toEqual({value: "text", scopes: [root]});
+    expect(tokens[1]).toEqual({value: "\\(", scopes: [root, "string.other.math.inline.begin.latex"]});
+    expect(tokens[2]).toEqual({value: "math", scopes: [root, "string.other.math.inline.latex"]});
+    expect(tokens[3]).toEqual({value: "\\)", scopes: [root, "string.other.math.inline.end.latex"]});
+    expect(tokens[4]).toEqual({value: "text", scopes: [root]});
+  });
+
+  it("tokenizes simple display math", () => {
+    let tokens = grammar.tokenizeLine("text\\[math\\]text").tokens;
+    expect(tokens[0]).toEqual({value: "text", scopes: [root]});
+    expect(tokens[1]).toEqual({value: "\\[", scopes: [root, "string.other.math.display.begin.latex"]});
+    expect(tokens[2]).toEqual({value: "math", scopes: [root, "string.other.math.display.latex"]});
+    expect(tokens[3]).toEqual({value: "\\]", scopes: [root, "string.other.math.display.end.latex"]});
+    expect(tokens[4]).toEqual({value: "text", scopes: [root]});
   });
 });
