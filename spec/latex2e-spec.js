@@ -55,7 +55,14 @@ describe("LaTeX grammar", function() {
   });
 
   it("tokenizes simple display math", () => {
-    let tokens = grammar.tokenizeLine("text\\[math\\]text").tokens;
+    let tokens = grammar.tokenizeLine("text$$math$$text").tokens;
+    expect(tokens[0]).toEqual({value: "text", scopes: [root]});
+    expect(tokens[1]).toEqual({value: "$$", scopes: [root, "string.other.math.display.begin.latex", "invalid.deprecated.latex"]});
+    expect(tokens[2]).toEqual({value: "math", scopes: [root, "string.other.math.display.latex"]});
+    expect(tokens[3]).toEqual({value: "$$", scopes: [root, "string.other.math.display.end.latex", "invalid.deprecated.latex"]});
+    expect(tokens[4]).toEqual({value: "text", scopes: [root]});
+
+    tokens = grammar.tokenizeLine("text\\[math\\]text").tokens;
     expect(tokens[0]).toEqual({value: "text", scopes: [root]});
     expect(tokens[1]).toEqual({value: "\\[", scopes: [root, "string.other.math.display.begin.latex"]});
     expect(tokens[2]).toEqual({value: "math", scopes: [root, "string.other.math.display.latex"]});
