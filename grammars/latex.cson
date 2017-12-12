@@ -9,7 +9,7 @@ limitLineLength: false
 # Atom uses the following regex engine -> https://github.com/kkos/oniguruma/blob/master/doc/RE
 
 # Rules to be implemented. Please add to repository and link to a 'meta' to include.
-# The following rules correspond to the ten special latex characters
+# The following rules correspond to the ten special latex characters. They are applied at the outmost level, but can be called inside patterns by using `$base`
 patterns: [
   { include: '#controlMeta' }
   { include: '#percentMeta' }
@@ -46,9 +46,7 @@ repository:
       { include: '#item' }
       { include: '#displayMathMode'}
       { include: '#inlineMathMode' }
-      { include: '#texPrimitives' }
-      { include: '#pdfTexPrimitives'}
-      { include: '#unsortedPrimitives'}
+      { include: '#primtivesMeta'}
       { include: '#controlSymbol' }
       { include: '#controlWord' }
     ]
@@ -154,6 +152,14 @@ repository:
         name: 'variable.parameter.hashtag.2.latex'
       3:
         name: 'variable.parameter.hashtag.1.latex'
+  }
+  primtivesMeta: {
+    comment: 'Allows organisation of various primitive sources'
+    patterns: [
+      { include: '#texPrimitives' }
+      { include: '#pdfTexPrimitives' }
+      { include: '#unsortedPrimitives' }
+    ]
   }
 # Other
   escapedCharacter: {
