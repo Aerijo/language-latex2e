@@ -11,23 +11,23 @@ limitLineLength: false
 # Rules to be implemented. Please add to repository and link to a 'meta' to include.
 # The following rules correspond to the ten special latex characters. They are applied at the outmost level, but can be called inside patterns by using `$base`
 patterns: [
-  { include: '#controlMeta' }
-  { include: '#percentMeta' }
-  { include: '#dollarMeta' }
-  { include: '#tildeMeta' }
-  { include: '#ampersandMeta' }
-  { include: '#openCurlyBracketMeta' }
-  { include: '#closeCurlyBracketMeta' }
-  { include: '#underscoreMeta' }
-  { include: '#caretMeta' }
-  { include: '#hashtagMeta' }
+  { include: '#metaControl' }
+  { include: '#metaPercent' }
+  { include: '#metaDollar' }
+  { include: '#metaTilde' }
+  { include: '#metaAmpersand' }
+  { include: '#metaOpenBrace' }
+  { include: '#metaCloseBrace' }
+  { include: '#metaUnderscore' }
+  { include: '#metaCaret' }
+  { include: '#metaHashtag' }
 ]
 
 # List of available rules. Must 'include' a rule to patterns for it to be implemented.
 # Thinking of moving pure TeX commands to a separate file and linking it in here (like the preexisting package).
 repository:
 # Meta Commands
-  controlMeta: {
+  metaControl: {
     comment: 'All these commands begin with a backslash.'
     patterns: [
       { include: '#doubleBackslash' }
@@ -46,36 +46,36 @@ repository:
       { include: '#item' }
       { include: '#displayMathMode'}
       { include: '#inlineMathMode' }
-      { include: '#primtivesMeta'}
+      { include: '#metaPrimitives'}
       { include: '#controlSymbol' }
       { include: '#controlWord' }
     ]
   }
-  percentMeta: {
-    comment: 'This is called when there is a lone percent sign (escaped covered by controlMeta).'
+  metaPercent: {
+    comment: 'This is called when there is a lone percent sign (escaped covered by metaControl).'
     patterns: [
       { include: '#magicComment' }
       { include: '#lineComment' }
     ]
   }
-  dollarMeta: {
+  metaDollar: {
     comment: 'Called when $ sign found'
     patterns: [
       { include: '#displayMathMode' }
       { include: '#inlineMathMode' }
     ]
   }
-  tildeMeta: {
+  metaTilde: {
     comment: 'This is only an unbreaking space (when alone).'
     name: 'punctuation.space.latex'
     match: '~'
   }
-  ampersandMeta: {
+  metaAmpersand: {
     comment: 'The ampersand normally represents alignment (catcode 4). Probably not useful (or legal) outside of align or table environment. However, it must be left this way to let users implement custom environments.'
     name: 'punctuation.alignment.latex'
     match: '&'
   }
-  openCurlyBracketMeta: {
+  metaOpenBrace: {
     contentName: 'meta.group.braces.latex'
     begin: '{'
     beginCaptures:
@@ -94,12 +94,12 @@ repository:
       { include: '$base' }
     ]
   }
-  closeCurlyBracketMeta: {
+  metaCloseBrace: {
     comment: 'To reach this means unbalanced brackets: THIS IS AN ERROR.'
     name: 'invalid.illegal.latex'
     match: '}'
   }
-  underscoreMeta: {
+  metaUnderscore: {
     comment: 'Underscore means subscript. It will take an argument in brackets if possible. If not, just the single next character. Only valid when within mathmode. Will address this later.'
     patterns: [
       { include: '#underscoreWithArgument' }
@@ -120,7 +120,7 @@ repository:
     name: 'punctuation.subscript.latex'
     match: '_\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
   }
-  caretMeta: {
+  metaCaret: {
     comment: 'Like underscore, but superscript'
     patterns: [
       { include: '#doubleCaret' }
@@ -142,7 +142,7 @@ repository:
     name: 'punctuation.superscript.latex'
     match: '\\^\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
   }
-  hashtagMeta: {
+  metaHashtag: {
     comment: 'I dont like calling this the pound symbol. Catcode says it is a parameter identifier.'
     match: '(\\#{3,}[0-9]+)|(\\#{2}[0-9]+)|(\\#[0-9]+)'
     captures:
@@ -153,7 +153,7 @@ repository:
       3:
         name: 'variable.parameter.hashtag.1.latex'
   }
-  primtivesMeta: {
+  metaPrimitives: {
     comment: 'Allows organisation of various primitive sources'
     patterns: [
       { include: '#texPrimitives' }
@@ -323,7 +323,7 @@ repository:
         include: '#commentMeta'
       }
       { include: '#escapedCurlyBracket' }
-      { include: '#openCurlyBracketMeta' }
+      { include: '#metaOpenBrace' }
     ]
   }
   argumentScope: {
@@ -340,7 +340,7 @@ repository:
     patterns: [
       { include: '#commentMeta' }
       { include: '#escapedCurlyBracket' }
-      { include: '#openCurlyBracketMeta' }
+      { include: '#metaOpenBrace' }
     ]
   }
   nestedSquareBrackets: {
