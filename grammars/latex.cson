@@ -27,33 +27,32 @@ repository:
   metaControl: {
     comment: 'All these commands begin with a backslash.'
     patterns: [
-      { include: '#doubleBackslash' } # appears first to prevent the second slash being used
-      { include: '#escapedCharacter' }
-      { include: '#displayMathMode'}
-      { include: '#inlineMathMode' }
-      { include: '#documentclass' }
-      { include: '#usepackage' }
-      { include: '#inputFile' }
-      { include: '#documentEnvironment' }
-      { include: '#figureEnvironment' }
-      { include: '#mathEnvironmentMeta' }
-      { include: '#genericEnvironment' }
-      { include: '#sectioning' }
-      { include: '#makeatsomething' }
-      { include: '#verbatim' }
-      { include: '#item' }
-      { include: '#metaPrimitives' }
-      { include: '#controlSymbol' }
-      { include: '#controlWord' }
-
-
-      # { include: '#metaDollar' } # Because of \( and \[. Must appear below escaped characters, to prevent
-      # { include: '#metaEnvironments' }
-      # { include: '#metaCommonControlSequences' }
-      # # The following rules are "catch alls" for any control sequences not explicitly addressed above.
+      # { include: '#doubleBackslash' } # appears first to prevent the second slash being used
+      # { include: '#escapedCharacter' }
+      # { include: '#displayMathMode'}
+      # { include: '#inlineMathMode' }
+      # { include: '#documentclass' }
+      # { include: '#usepackage' }
+      # { include: '#inputFile' }
+      # { include: '#documentEnvironment' }
+      # { include: '#figureEnvironment' }
+      # { include: '#mathEnvironmentMeta' }
+      # { include: '#genericEnvironment' }
+      # { include: '#sectioning' }
+      # { include: '#makeatsomething' }
+      # { include: '#verbatim' }
+      # { include: '#item' }
       # { include: '#metaPrimitives' }
       # { include: '#controlSymbol' }
       # { include: '#controlWord' }
+
+      { include: '#metaCommonControlSequences' }
+      { include: '#metaDollar' } # Because of \( and \[. Must appear below escaped characters, to prevent \$ from being a false positive.
+      { include: '#metaEnvironments' }
+      # The following rules are "catch alls" for any control sequences not explicitly addressed above.
+      { include: '#metaPrimitives' }
+      { include: '#controlSymbol' }
+      { include: '#controlWord' }
     ]
   }
   metaPercent: {
@@ -111,20 +110,6 @@ repository:
       { include: '#underscoreNoArgument' }
     ]
   }
-  underscoreWithArgument: {
-    comment: 'Matches an underscore and between curly brackets'
-    name: 'punctuation.subscript.latex'
-    begin: '_\\s*(?={)'
-    end: '(?<=\\})'
-    patterns: [
-      { include: '#argumentScope' }
-    ]
-  }
-  underscoreNoArgument: {
-    comment: 'Matches an underscore and next character or macro. Considering making this give a warning, as brackets is best practice'
-    name: 'punctuation.subscript.latex'
-    match: '_\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
-  }
   metaCaret: {
     comment: 'Like underscore, but superscript'
     patterns: [
@@ -132,20 +117,6 @@ repository:
       { include: '#caretWithArgument' }
       { include: '#caretNoArgument' }
     ]
-  }
-  caretWithArgument: {
-    comment: 'Matches a caret and between curly brackets'
-    name: 'punctuation.superscript.latex'
-    begin: '\\^\\s*(?={)'
-    end: '(?<=\\})'
-    patterns: [
-      { include: '#argumentScope' }
-    ]
-  }
-  caretNoArgument: {
-    comment: 'Matches a caret and next character or macro. Considering making this give a warning, as brackets is best practice'
-    name: 'punctuation.superscript.latex'
-    match: '\\^\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
   }
   metaHashtag: {
     comment: 'I dont like calling this the pound symbol. Catcode says it is a parameter identifier.'
@@ -659,6 +630,34 @@ repository:
     comment: 'This command is still defined everywhere'
     name: 'keyword.control.latex'
     match: '\\\\item'
+  }
+  underscoreWithArgument: {
+    comment: 'Matches an underscore and between curly brackets'
+    name: 'punctuation.subscript.latex'
+    begin: '_\\s*(?={)'
+    end: '(?<=\\})'
+    patterns: [
+      { include: '#argumentScope' }
+    ]
+  }
+  underscoreNoArgument: {
+    comment: 'Matches an underscore and next character or macro. Considering making this give a warning, as brackets is best practice'
+    name: 'punctuation.subscript.latex'
+    match: '_\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
+  }
+  caretWithArgument: {
+    comment: 'Matches a caret and between curly brackets'
+    name: 'punctuation.superscript.latex'
+    begin: '\\^\\s*(?={)'
+    end: '(?<=\\})'
+    patterns: [
+      { include: '#argumentScope' }
+    ]
+  }
+  caretNoArgument: {
+    comment: 'Matches a caret and next character or macro. Considering making this give a warning, as brackets is best practice'
+    name: 'punctuation.superscript.latex'
+    match: '\\^\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
   }
 
   # Experimental
