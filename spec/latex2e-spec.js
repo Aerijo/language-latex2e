@@ -86,28 +86,33 @@ describe("LaTeX grammar", function() {
   });
 
   it("tokenizes generic command words", () => {
-    let tokens = grammar.tokenizeLines("\\generic\n\\generic@text\n\\generic1text\n\\generic text");
-    expect(tokens[0][0]).toEqual({value: "\\generic", scopes: [root, "support.function.general.latex"]});
+    let tokens = grammar.tokenizeLine("\\generic").tokens;
+    expect(tokens[0]).toEqual({value: "\\generic", scopes: [root, "support.function.general.latex"]});
 
-    expect(tokens[1][0]).toEqual({value: "\\generic", scopes: [root, "support.function.general.latex"]});
-    expect(tokens[1][1]).toEqual({value: "@text", scopes: [root]});
+    tokens = grammar.tokenizeLine("\\generic@text").tokens;
+    expect(tokens[0]).toEqual({value: "\\generic", scopes: [root, "support.function.general.latex"]});
+    expect(tokens[1]).toEqual({value: "@text", scopes: [root]});
 
-    expect(tokens[2][0]).toEqual({value: "\\generic", scopes: [root, "support.function.general.latex"]});
-    expect(tokens[2][1]).toEqual({value: "1text", scopes: [root]});
+    tokens = grammar.tokenizeLine("\\generic1text").tokens;
+    expect(tokens[0]).toEqual({value: "\\generic", scopes: [root, "support.function.general.latex"]});
+    expect(tokens[1]).toEqual({value: "1text", scopes: [root]});
 
-    expect(tokens[3][0]).toEqual({value: "\\generic", scopes: [root, "support.function.general.latex"]});
-    expect(tokens[3][1]).toEqual({value: " text", scopes: [root]});
+    tokens = grammar.tokenizeLine("\\generic text").tokens;
+    expect(tokens[0]).toEqual({value: "\\generic", scopes: [root, "support.function.general.latex"]});
+    expect(tokens[1]).toEqual({value: " text", scopes: [root]});
   });
 
   it("tokenizes generic command symbols", () => {
-    let tokens = grammar.tokenizeLines("\\8\n\\89\n\\8text");
-    expect(tokens[0][0]).toEqual({value: "\\8", scopes: [root,"keyword.control.symbol.latex"]});
+    let tokens = grammar.tokenizeLine("\\8").tokens;
+    expect(tokens[0]).toEqual({value: "\\8", scopes: [root,"keyword.control.symbol.latex"]});
 
-    expect(tokens[1][0]).toEqual({value: "\\8", scopes: [root,"keyword.control.symbol.latex"]});
-    expect(tokens[1][1]).toEqual({value: "9", scopes: [root]});
-    
-    expect(tokens[2][0]).toEqual({value: "\\8", scopes: [root,"keyword.control.symbol.latex"]});
-    expect(tokens[2][1]).toEqual({value: "text", scopes: [root]});
+    tokens = grammar.tokenizeLine("\\89").tokens;
+    expect(tokens[0]).toEqual({value: "\\8", scopes: [root,"keyword.control.symbol.latex"]});
+    expect(tokens[1]).toEqual({value: "9", scopes: [root]});
+
+    tokens = grammar.tokenizeLine("\\8text").tokens;
+    expect(tokens[0]).toEqual({value: "\\8", scopes: [root,"keyword.control.symbol.latex"]});
+    expect(tokens[1]).toEqual({value: "text", scopes: [root]});
   });
 
 });
