@@ -27,9 +27,10 @@ repository:
   metaControl: {
     comment: 'All these commands begin with a backslash.'
     patterns: [
-      { include: '#doubleBackslash' }
+      { include: '#doubleBackslash' } # appears first to prevent the second slash being used
       { include: '#escapedCharacter' }
-      { include: '#displayMathMode' }
+      { include: '#displayMathMode'}
+      { include: '#inlineMathMode' }
       { include: '#documentclass' }
       { include: '#usepackage' }
       { include: '#inputFile' }
@@ -41,11 +42,18 @@ repository:
       { include: '#makeatsomething' }
       { include: '#verbatim' }
       { include: '#item' }
-      { include: '#displayMathMode'}
-      { include: '#inlineMathMode' }
-      { include: '#metaPrimitives'}
+      { include: '#metaPrimitives' }
       { include: '#controlSymbol' }
       { include: '#controlWord' }
+
+
+      # { include: '#metaDollar' } # Because of \( and \[. Must appear below escaped characters, to prevent
+      # { include: '#metaEnvironments' }
+      # { include: '#metaCommonControlSequences' }
+      # # The following rules are "catch alls" for any control sequences not explicitly addressed above.
+      # { include: '#metaPrimitives' }
+      # { include: '#controlSymbol' }
+      # { include: '#controlWord' }
     ]
   }
   metaPercent: {
@@ -165,7 +173,7 @@ repository:
     match: '\\\\(\\&|\\%|\\$|\\#|\\_|\\{|\\}|(textascii(tilde|circum)|textbackslash)(?=[^a-zA-Z@]))'
   }
   controlSymbol: {
-    comment: 'Mostly covered by escapedCharacter, but this is a catch all for any contol symbols'
+    comment: 'Mostly covered by escapedCharacter, but this is a catch all for any control symbols'
     name: 'keyword.control.symbol.latex'
     match: '\\\\[^a-zA-Z]'
   }
