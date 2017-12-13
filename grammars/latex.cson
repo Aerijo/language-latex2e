@@ -27,32 +27,37 @@ repository:
   metaControl: {
     comment: 'All these commands begin with a backslash.'
     patterns: [
-      # { include: '#doubleBackslash' } # appears first to prevent the second slash being used
-      # { include: '#escapedCharacter' }
-      # { include: '#displayMathMode'}
-      # { include: '#inlineMathMode' }
-      # { include: '#documentclass' }
-      # { include: '#usepackage' }
-      # { include: '#inputFile' }
-      # { include: '#documentEnvironment' }
-      # { include: '#figureEnvironment' }
-      # { include: '#mathEnvironmentMeta' }
-      # { include: '#genericEnvironment' }
-      # { include: '#sectioning' }
-      # { include: '#makeatsomething' }
-      # { include: '#verbatim' }
-      # { include: '#item' }
-      # { include: '#metaPrimitives' }
-      # { include: '#controlSymbol' }
-      # { include: '#controlWord' }
-
       { include: '#metaCommonControlSequences' }
-      { include: '#metaDollar' } # Because of \( and \[. Must appear below escaped characters, to prevent \$ from being a false positive.
       { include: '#metaEnvironments' }
+      { include: '#metaDollar' } # Because of \( and \[. Must appear below escaped characters, to prevent \$ from being a false positive.
+
       # The following rules are "catch alls" for any control sequences not explicitly addressed above.
       { include: '#metaPrimitives' }
       { include: '#controlSymbol' }
       { include: '#controlWord' }
+    ]
+  }
+  metaCommonControlSequences: {
+    comment: 'This is a collection of control sequences that are given specific rules. The ones here should be common to all users.'
+    patterns: [
+      { include: '#doubleBackslash' }
+      { include: '#escapedCharacter' }
+      { include: '#documentclass' }
+      { include: '#usepackage' }
+      { include: '#inputFile' }
+      { include: '#sectioning' }
+      { include: '#makeAtSomething' }
+      { include: '#verbatim' }
+      { include: '#item' }
+    ]
+  }
+  metaEnvironments: {
+    comment: 'This collection can be used to give properties to specific environments.'
+    patterns: [
+      { include: '#documentEnvironment' }
+      { include: '#figureEnvironment' }
+      { include: '#mathEnvironmentMeta' }
+      { include: '#genericEnvironment' }
     ]
   }
   metaPercent: {
@@ -544,7 +549,7 @@ repository:
       { include: '$base' }
     ]
   }
-  makeatsomething: {
+  makeAtSomething: {
     comment: 'Matches the makeat(letter|other) commands so that they get custom highlighting (because @ is now a character)'
     contentName: 'markup.raw.verbatim.latex'
     begin: '(\\\\)makeatletter\\b'
@@ -578,7 +583,7 @@ repository:
       { include: '#filePathScope' }
     ]
   }
-  filePathScope: {
+  filePathScope: { #TODO: Fix this (especially the back pattern, to allow arbitrary ..)
     comment: 'Matches a file path (UNIX only, add Windows yourself reader).'
     contentName: 'variable.parameter.argument.latex'
     begin: '\\{'
@@ -691,18 +696,4 @@ repository:
     comment: 'Im not sure what these are called, but they seem to work (eg. ^^M is a linebreak)'
     name: 'constant.character.latex'
     match: '\\^\\^(\\d+|.|$)'
-  }
-
-  # Removed
-  escapedPercent: {
-    comment: 'Escaped % sign. Possible deprecated by escapedCharacter.'
-    name: 'constant.character.latex'
-    match: '\\\\%'
-  }
-  texKeywords: {
-    comment: 'Official TeX keywords that can be used in certain situations. Done AFAIK.'
-    name: 'support.constant.keyword.latex'
-    match: '''(?x)
-         at | by | bp | cc | cm | dd | depth | em | ex | fil | fill | filll | height | in | minus | mm | mu | pc | plus | pt | sp | spread | to | true | width
-         '''
   }
