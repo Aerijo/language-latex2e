@@ -28,7 +28,7 @@ repository:
     comment: 'All these commands begin with a backslash.'
     patterns: [
       { include: '#metaCommonControlSequences' }
-      { include: '#metaEnvironments' }
+      { include: '#metaEnvironment' }
       { include: '#metaDollar' } # Because of \( and \[. Must appear below escaped characters, to prevent \$ from being a false positive.
 
       # The following rules are "catch alls" for any control sequences not explicitly addressed above.
@@ -51,13 +51,13 @@ repository:
       { include: '#item' }
     ]
   }
-  metaEnvironments: {
+  metaEnvironment: {
     comment: 'This collection can be used to give properties to specific environments.'
     patterns: [
-      { include: '#documentEnvironment' }
-      { include: '#figureEnvironment' }
-      { include: '#mathEnvironmentMeta' }
-      { include: '#genericEnvironment' }
+      { include: '#envDocument' }
+      { include: '#envFigure' }
+      { include: '#metaEnvMath' }
+      { include: '#envGeneric' }
     ]
   }
   metaPercent: {
@@ -95,7 +95,7 @@ repository:
       0:
         name: 'punctuation.definition.group.latex'
     patterns: [
-      comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
+      comment: 'Optimisation good to implement here. Rework metaComment to be a more general check for escaped characters and comments'
       {
         include: '#escapedCharacter' # for an escaped %. Possible deprecated by $base match
       }
@@ -104,7 +104,7 @@ repository:
     ]
   }
   metaCloseBrace: {
-    comment: 'To reach this means unbalanced brackets: THIS IS AN ERROR.'
+    comment: 'To reach this means unbalanced brackets: THIS IS AN ERROR. I dont care if youre doing fancy file mish-mashing; DONT DO IT.'
     name: 'invalid.illegal.latex'
     match: '}'
   }
@@ -403,7 +403,7 @@ repository:
       { include: '$base' }
     ]
   }
-  genericEnvironment: {
+  envGeneric: {
     comment: 'Matches environments not recognised by other rules. Less lenient with random formatting here, it is expected to all be on one line.'
     contentName: 'meta.environment.latex'
     begin: '\\\\begin(\\{)([\\w \\*]*)(\\})'
@@ -430,7 +430,7 @@ repository:
       { include: '$base' }
     ]
   }
-  documentEnvironment: {
+  envDocument: {
     comment: 'To stop the entire contents of the document environment being labelled. Its useless anyway, as I split up my work and just include it into the main file.'
     begin: '\\\\begin(\\{)(document)(\\})'
     beginCaptures:
@@ -456,7 +456,7 @@ repository:
       { include: '$base' }
     ]
   }
-  figureEnvironment: {
+  envFigure: {
     comment: 'Matches the common figure environment'
     contentName: 'meta.environment.figure.latex'
     begin: '\\\\begin(\\{)(figure)(\\})((\\[)(\\w*)(\\]))?'
@@ -489,7 +489,7 @@ repository:
       { include: '$base' }
     ]
   }
-  mathEnvironmentMeta: {
+  metaEnvMath: {
     comment: 'Matches math environments'
     patterns: [
       { include: '#alignMathEnvironment' }
