@@ -1,9 +1,6 @@
 scopeName: 'text.tex.latex'
 name: 'LaTeX2e'
-fileTypes: [
-  'tex'
-]
-
+fileTypes: [ 'tex' ]
 limitLineLength: false
 
 # Atom uses the following regex engine -> https://github.com/kkos/oniguruma/blob/master/doc/RE
@@ -59,7 +56,7 @@ repository:
     ]
   }
   metaDollar: {
-    comment: 'Called when $ sign found'
+    comment: 'Called when $ sign found. Posiibly deprecated by \( and \) (which is called in metaControl), but here for completeness. The previous statement did not make its meaning very clear.'
     patterns: [
       { include: '#displayMathMode' }
       { include: '#inlineMathMode' }
