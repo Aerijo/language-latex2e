@@ -1,6 +1,6 @@
 describe("LaTeX grammar", function() {
   var grammar = null;
-  var root = "text.tex.latex"
+  var root = "text.tex.latex" // defined here to allow painless changes (and reduce typing)
 
   beforeEach(() => {
     waitsForPromise(() => {
@@ -8,7 +8,7 @@ describe("LaTeX grammar", function() {
     });
 
     runs(() => {
-      grammar = atom.grammars.grammarForScopeName("text.tex.latex");
+      grammar = atom.grammars.grammarForScopeName(root);
     });
   });
 
