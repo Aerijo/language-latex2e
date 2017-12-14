@@ -6,9 +6,9 @@ limitLineLength: false
 # Atom uses the following regex engine -> https://github.com/kkos/oniguruma/blob/master/doc/RE
 
 # Rules to be implemented. Please add to repository and link to a 'meta' to include.
-# The following rules correspond to the ten special latex characters. They are applied at the outmost level, but can be called inside patterns by using `$base`
+# The following rules correspond to the ten special latex characters. They are applied at the outmost level, but can be called inside patterns by using `$self`
 patterns: [
-  { include: '#metaControl' }
+  { include: '#metaControl' } # must go first to catch escaped sequences
   { include: '#metaPercent' }
   { include: '#metaDollar' }
   { include: '#metaTilde' }
@@ -20,30 +20,17 @@ patterns: [
   { include: '#metaHashtag' }
 ]
 
-# List of available rules. Must 'include' a rule to patterns for it to be implemented.
-# Thinking of moving pure TeX commands to a separate file and linking it in here (like the preexisting package).
 repository:
-# Meta Commands
+# Main meta groups; directly referenced in `patterns`
   metaControl: {
     comment: 'All these commands begin with a backslash.'
     patterns: [
-      { include: '#doubleBackslash' }
-      { include: '#escapedCharacter' }
-      { include: '#displayMathMode' }
-      { include: '#documentclass' }
-      { include: '#usepackage' }
-      { include: '#inputFile' }
-      { include: '#documentEnvironment' }
-      { include: '#figureEnvironment' }
-      { include: '#mathEnvironmentMeta' }
-      { include: '#genericEnvironment' }
-      { include: '#sectioning' }
-      { include: '#makeatsomething' }
-      { include: '#verbatim' }
-      { include: '#item' }
-      { include: '#displayMathMode'}
-      { include: '#inlineMathMode' }
-      { include: '#metaPrimitives'}
+      { include: '#metaCommonControlSequences' }
+      { include: '#metaEnvironment' }
+      { include: '#metaDollar' } # Because of \( and \[. Must appear below escaped characters, to prevent \$ from being a false positive.
+
+      # The following rules are "catch alls" for any control sequences not explicitly addressed above.
+      { include: '#metaPrimitives' }
       { include: '#controlSymbol' }
       { include: '#controlWord' }
     ]
@@ -83,16 +70,16 @@ repository:
       0:
         name: 'punctuation.definition.group.latex'
     patterns: [
-      comment: 'Optimisation good to implement here. Rework commentMeta to be a more general check for escaped characters and comments'
+      comment: 'Optimisation good to implement here. Rework metaComment to be a more general check for escaped characters and comments'
       {
-        include: '#escapedCharacter' # for an escaped %. Possible deprecated by $base match
+        include: '#escapedCharacter' # for an escaped %. Possible deprecated by $self match
       }
       { include: '#lineComment' }
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
   metaCloseBrace: {
-    comment: 'To reach this means unbalanced brackets: THIS IS AN ERROR.'
+    comment: 'To reach this means unbalanced brackets: THIS IS AN ERROR. I dont care if youre doing fancy file mish-mashing; DONT DO IT.'
     name: 'invalid.illegal.latex'
     match: '}'
   }
@@ -103,20 +90,6 @@ repository:
       { include: '#underscoreNoArgument' }
     ]
   }
-  underscoreWithArgument: {
-    comment: 'Matches an underscore and between curly brackets'
-    name: 'punctuation.subscript.latex'
-    begin: '_\\s*(?={)'
-    end: '(?<=\\})'
-    patterns: [
-      { include: '#argumentScope' }
-    ]
-  }
-  underscoreNoArgument: {
-    comment: 'Matches an underscore and next character or macro. Considering making this give a warning, as brackets is best practice'
-    name: 'punctuation.subscript.latex'
-    match: '_\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
-  }
   metaCaret: {
     comment: 'Like underscore, but superscript'
     patterns: [
@@ -124,20 +97,6 @@ repository:
       { include: '#caretWithArgument' }
       { include: '#caretNoArgument' }
     ]
-  }
-  caretWithArgument: {
-    comment: 'Matches a caret and between curly brackets'
-    name: 'punctuation.superscript.latex'
-    begin: '\\^\\s*(?={)'
-    end: '(?<=\\})'
-    patterns: [
-      { include: '#argumentScope' }
-    ]
-  }
-  caretNoArgument: {
-    comment: 'Matches a caret and next character or macro. Considering making this give a warning, as brackets is best practice'
-    name: 'punctuation.superscript.latex'
-    match: '\\^\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
   }
   metaHashtag: {
     comment: 'I dont like calling this the pound symbol. Catcode says it is a parameter identifier.'
@@ -149,6 +108,31 @@ repository:
         name: 'variable.parameter.hashtag.2.latex'
       3:
         name: 'variable.parameter.hashtag.1.latex'
+  }
+
+# Other meta groups
+  metaCommonControlSequences: {
+    comment: 'This is a collection of control sequences that are given specific rules. The ones here should be common to all users.'
+    patterns: [
+      { include: '#doubleBackslash' }
+      { include: '#escapedCharacter' }
+      { include: '#documentclass' }
+      { include: '#usepackage' }
+      { include: '#inputFile' }
+      { include: '#sectioning' }
+      { include: '#makeAtSomething' }
+      { include: '#verbatim' }
+      { include: '#item' }
+    ]
+  }
+  metaEnvironment: {
+    comment: 'This collection can be used to give properties to specific environments.'
+    patterns: [
+      { include: '#envDocument' }
+      { include: '#envFigure' }
+      { include: '#metaEnvMath' }
+      { include: '#envGeneric' }
+    ]
   }
   metaPrimitives: {
     comment: 'Allows organisation of various primitive sources'
@@ -165,7 +149,7 @@ repository:
     match: '\\\\(\\&|\\%|\\$|\\#|\\_|\\{|\\}|(textascii(tilde|circum)|textbackslash)(?=[^a-zA-Z@]))'
   }
   controlSymbol: {
-    comment: 'Mostly covered by escapedCharacter, but this is a catch all for any contol symbols'
+    comment: 'Mostly covered by escapedCharacter, but this is a catch all for any control symbols'
     name: 'keyword.control.symbol.latex'
     match: '\\\\[^a-zA-Z]'
   }
@@ -174,31 +158,23 @@ repository:
     name: 'support.function.general.latex'
     match: '\\\\[a-zA-Z]+'
   }
+  controlWordWithAt: {
+    comment: 'To be used when @ is a letter'
+    name: 'support.function.general.latex'
+    match: '\\\\[a-zA-Z@]+'
+  }
   accents: {
     comment: 'For standard latex accent macros such as \^ or \`. Not used for now, at least until better rules are developed.'
     name: 'constant.character.accent.latex'
     match: '''\\\\([\\`\\'\\^\\"\\~\\=\\.]\\s*(\\w|\\{\\w?\\})|[Hcklbdruv]\\{\\w?\\})'''
   }
-  hypersetup: {
-    comment: 'Recongnises hypersetup environment. Can be extended to be a general key-option scoper, but this (potentially) allows custom colours for known keys.'
-    name: 'meta.preamble.latex'
-    begin: '\\\\hypersetup(?=[^a-zA-Z@])'
-    beginCaptures:
-      0:
-        name: 'keyword.control.preamble.hypersetup.latex'
-    end: '(?<=\\})|(^\\s*$)'
-    endCaptures:
-      1:
-        name: 'invalid.illegal.latex'
-    patterns: [
-      { include: '#argumentScope' }
-    ]
-  }
   lineComment: {
-    comment: 'Line comment. This will find an available % sign and match it to just before another % (where it looks for a magic comment) or the end.'
     name: 'comment.line.percentage.latex'
     begin: '%'
-    end: '(?=%)|$'
+    end: '$'
+    patterns: [
+      { include: '#magicComment' }
+    ]
   }
   escapedCurlyBracket: {
     comment: 'Escaped }. Possible deprecated by escapedCharacter.'
@@ -386,7 +362,7 @@ repository:
         name: 'invalid.illegal.latex'
         match: '(\\\\(\\[|\\(|\\)))'
       }
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
   displayMathMode: {
@@ -416,10 +392,10 @@ repository:
         name: 'invalid.illegal.latex'
         match: '(?<=[^\\\\])(\\$)(?=[^\\$])|(\\\\(\\[|\\(|\\)))'
       }
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
-  genericEnvironment: {
+  envGeneric: {
     comment: 'Matches environments not recognised by other rules. Less lenient with random formatting here, it is expected to all be on one line.'
     contentName: 'meta.environment.latex'
     begin: '\\\\begin(\\{)([\\w \\*]*)(\\})'
@@ -443,10 +419,10 @@ repository:
       3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
-  documentEnvironment: {
+  envDocument: {
     comment: 'To stop the entire contents of the document environment being labelled. Its useless anyway, as I split up my work and just include it into the main file.'
     begin: '\\\\begin(\\{)(document)(\\})'
     beginCaptures:
@@ -469,10 +445,10 @@ repository:
       3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
-  figureEnvironment: {
+  envFigure: {
     comment: 'Matches the common figure environment'
     contentName: 'meta.environment.figure.latex'
     begin: '\\\\begin(\\{)(figure)(\\})((\\[)(\\w*)(\\]))?'
@@ -502,10 +478,10 @@ repository:
       3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
-  mathEnvironmentMeta: {
+  metaEnvMath: {
     comment: 'Matches math environments'
     patterns: [
       { include: '#alignMathEnvironment' }
@@ -535,7 +511,7 @@ repository:
       3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
   listEnvironment: {
@@ -562,12 +538,12 @@ repository:
       3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
-  makeatsomething: {
+  makeAtSomething: {
     comment: 'Matches the makeat(letter|other) commands so that they get custom highlighting (because @ is now a character)'
-    contentName: 'markup.raw.verbatim.latex'
+    contentName: 'markup.raw.verbatim.latex' # To make user aware of its effect
     begin: '(\\\\)makeatletter\\b'
     beginCaptures:
       0:
@@ -577,7 +553,8 @@ repository:
       0:
         name: 'support.function.makeat.latex'
     patterns: [
-      { include: '#commentMeta' }
+      { include: '#controlWordWithAt' }
+      { include: '$self'}
     ]
   }
   inputFile: {
@@ -599,7 +576,7 @@ repository:
       { include: '#filePathScope' }
     ]
   }
-  filePathScope: {
+  filePathScope: { #TODO: Fix this (especially the back pattern, to allow arbitrary ..)
     comment: 'Matches a file path (UNIX only, add Windows yourself reader).'
     contentName: 'variable.parameter.argument.latex'
     begin: '\\{'
@@ -652,6 +629,34 @@ repository:
     name: 'keyword.control.latex'
     match: '\\\\item'
   }
+  underscoreWithArgument: {
+    comment: 'Matches an underscore and between curly brackets'
+    name: 'punctuation.subscript.latex'
+    begin: '_\\s*(?={)'
+    end: '(?<=\\})'
+    patterns: [
+      { include: '#argumentScope' }
+    ]
+  }
+  underscoreNoArgument: {
+    comment: 'Matches an underscore and next character or macro. Considering making this give a warning, as brackets is best practice'
+    name: 'punctuation.subscript.latex'
+    match: '_\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
+  }
+  caretWithArgument: {
+    comment: 'Matches a caret and between curly brackets'
+    name: 'punctuation.superscript.latex'
+    begin: '\\^\\s*(?={)'
+    end: '(?<=\\})'
+    patterns: [
+      { include: '#argumentScope' }
+    ]
+  }
+  caretNoArgument: {
+    comment: 'Matches a caret and next character or macro. Considering making this give a warning, as brackets is best practice'
+    name: 'punctuation.superscript.latex'
+    match: '\\^\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
+  }
 
   # Experimental
   unitMeasure: {
@@ -659,7 +664,6 @@ repository:
     name: 'constant.numeric.latex'
     match: '\\b((\\+|\\-)\\s*)?((\\d+(\\.|\\,)?)|(\\d*((\\.|\\,)\\d*)))\\s*(true\\s*)?(pt|pc|in|bp|cm|mm|dd|cc|sp|em|ex)\\b'
   }
-
   keywords: {
     comment: '''Taken from the TeXBook. Not sorted.
       at, bp, by, cc, cm, dd, depth, em, ex, fil, height, in, l, minus, mm, mu, pc, plus, pt, scaled, sp, spread, to, true, width
@@ -686,16 +690,4 @@ repository:
     match: '\\^\\^(\\d+|.|$)'
   }
 
-  # Removed
-  escapedPercent: {
-    comment: 'Escaped % sign. Possible deprecated by escapedCharacter.'
-    name: 'constant.character.latex'
-    match: '\\\\%'
-  }
-  texKeywords: {
-    comment: 'Official TeX keywords that can be used in certain situations. Done AFAIK.'
-    name: 'support.constant.keyword.latex'
-    match: '''(?x)
-         at | by | bp | cc | cm | dd | depth | em | ex | fil | fill | filll | height | in | minus | mm | mu | pc | plus | pt | sp | spread | to | true | width
-         '''
-  }
+# Unfortunate necessity (mainly making a unique grammar for each coding language)
