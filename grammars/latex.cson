@@ -202,7 +202,7 @@ repository:
         comment: 'Will try and find optional arguments first.'
         include: '#optionalArgumentScope'
       }
-      { include: '#argumentScope' }
+      { include: '#altArgumentScope' }
     ]
   }
   sectioning: {
@@ -211,7 +211,7 @@ repository:
     begin: '\\\\((sub){0,2}section|(sub){0,1}paragraph|part|chapter)(\\*)?(?=[^a-zA-Z@])'
     beginCaptures:
       0:
-        name: 'entity.name.section.tex'
+        name: 'entity.name.section.latex'
     end: '(?<=\\})|(^\\s*$)'
     endCaptures:
       1:
@@ -271,7 +271,7 @@ repository:
       { include: '#awaitingArgumentBrackets' }
       { include: '#lineComment' }
       { include: '#optionalArgumentScope' }
-      { include: '#argumentScope' }
+      { include: '#altArgumentScope' }
     ]
   }
   awaitingArgumentBrackets: {
@@ -300,7 +300,7 @@ repository:
     ]
   }
   argumentScope: {
-    comment: 'Matches arguments brackets (the outmost of nested brackets). Specifically for commands like usepackage.'
+    comment: 'Matches arguments brackets (the outmost of nested brackets). Is a general rule to use anywhere.'
     contentName: 'variable.parameter.argument.latex'
     begin: '\\{'
     beginCaptures:
@@ -311,9 +311,22 @@ repository:
       0:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
-      { include: '#commentMeta' }
-      { include: '#escapedCurlyBracket' }
-      { include: '#metaOpenBrace' }
+      { include: '$self' }
+    ]
+  }
+  altArgumentScope: {
+    comment: 'Matches arguments brackets (the outmost of nested brackets). Specifically for commands like usepackage.'
+    contentName: 'support.class.latex'
+    begin: '\\{'
+    beginCaptures:
+      0:
+        name: 'punctuation.definition.argument.begin.latex'
+    end: '\\}'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.argument.end.latex'
+    patterns: [
+      { include: '$self' }
     ]
   }
   nestedSquareBrackets: {
