@@ -123,6 +123,16 @@ repository:
       { include: '#makeAtSomething' }
       { include: '#verbatim' }
       { include: '#item' }
+      # { include: '#url' }
+      # { include: '#text' } # To break out of mathmode; need to investigate how to enforce plain styling
+      # { include: '#commandDefinitions' }
+      # { include: '#styling' } # eg. \bf \it (deprecated)
+      # { include: '#latexStyling' } # eg. \emph
+      # { include: '#marginpar' }
+      # { include: '#footnote' }
+      # { include: '#metaReferences' } # maybe include \ref \label as well?
+      # { include: '#verbScantokens' } # not sure what this is for
+      # { include: '#constants' } # words that represent constants
     ]
   }
   metaEnvironment: {
@@ -131,6 +141,14 @@ repository:
       { include: '#envDocument' }
       { include: '#envFigure' }
       { include: '#metaEnvMath' }
+      # { include: '#metaEnvTable' }
+      # { include: '#metaEnvList' }
+      # { include: '#envGnuplot' }
+      # { include: '#metaEnvMinted' }
+      # { include: '#metaEnvListing' }
+      # { include: '#envLuaCode' }
+      # { include: '#envVerbatim' }
+      # { include: '#tikzPicture' }
       { include: '#envGeneric' }
     ]
   }
@@ -206,12 +224,12 @@ repository:
     ]
   }
   sectioning: {
-    comment: 'Covers all sectioning commands such as section, subsection, subparagraph, etc.'
+    comment: 'Covers all sectioning commands such as section, subsection, subparagraph, etc. The last four are KOMAscript specific.'
     name: 'support.function.section.latex'
-    begin: '\\\\((sub){0,2}section|(sub){0,1}paragraph|part|chapter)(\\*)?(?=[^a-zA-Z@])'
+    begin: '\\\\((sub){0,2}section|(sub){0,1}paragraph|part|chapter|addpart|addchap|addsec|minisec)(\\*)?(?=[^a-zA-Z@])'
     beginCaptures:
       0:
-        name: 'entity.name.section.latex'
+        name: 'entity.name.section.$1.latex'
     end: '(?<=\\})|(^\\s*$)'
     endCaptures:
       1:
@@ -497,13 +515,17 @@ repository:
   metaEnvMath: {
     comment: 'Matches math environments'
     patterns: [
-      { include: '#alignMathEnvironment' }
+      { include: '#envMath' }
+      # some sort of `alignat` env?
+      # aligned|gathered
+      # eqnarray (deprecated)
     ]
   }
-  alignMathEnvironment: {
-    comment: 'Matches align environment'
-    contentName: 'meta.environment.math.align.latex'
-    begin: '\\\\begin(\\{)(align(\\*)?)(\\})'
+  envMath: {
+    comment: 'Matches math environments'
+    name: 'meta.environment.math.$2.latex'
+    contentName: 'string.other.math.block.$2.latex'
+    begin: '\\\\begin(\\{)(align|equation|multline|split|gather)(\\*)?(\\})'
     beginCaptures:
       0:
         name: 'support.function.environment.begin.latex'
