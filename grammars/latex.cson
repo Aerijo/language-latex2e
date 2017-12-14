@@ -6,7 +6,7 @@ limitLineLength: false
 # Atom uses the following regex engine -> https://github.com/kkos/oniguruma/blob/master/doc/RE
 
 # Rules to be implemented. Please add to repository and link to a 'meta' to include.
-# The following rules correspond to the ten special latex characters. They are applied at the outmost level, but can be called inside patterns by using `$base`
+# The following rules correspond to the ten special latex characters. They are applied at the outmost level, but can be called inside patterns by using `$self`
 patterns: [
   { include: '#metaControl' } # must go first to catch escaped sequences
   { include: '#metaPercent' }
@@ -72,10 +72,10 @@ repository:
     patterns: [
       comment: 'Optimisation good to implement here. Rework metaComment to be a more general check for escaped characters and comments'
       {
-        include: '#escapedCharacter' # for an escaped %. Possible deprecated by $base match
+        include: '#escapedCharacter' # for an escaped %. Possible deprecated by $self match
       }
       { include: '#lineComment' }
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
   metaCloseBrace: {
@@ -169,10 +169,12 @@ repository:
     match: '''\\\\([\\`\\'\\^\\"\\~\\=\\.]\\s*(\\w|\\{\\w?\\})|[Hcklbdruv]\\{\\w?\\})'''
   }
   lineComment: {
-    comment: 'Line comment. This will find an available % sign and match it to just before another % (where it looks for a magic comment) or the end.'
     name: 'comment.line.percentage.latex'
     begin: '%'
-    end: '(?=%)|$'
+    end: '$'
+    patterns: [
+      { include: '#magicComment' }
+    ]
   }
   escapedCurlyBracket: {
     comment: 'Escaped }. Possible deprecated by escapedCharacter.'
@@ -360,7 +362,7 @@ repository:
         name: 'invalid.illegal.latex'
         match: '(\\\\(\\[|\\(|\\)))'
       }
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
   displayMathMode: {
@@ -390,7 +392,7 @@ repository:
         name: 'invalid.illegal.latex'
         match: '(?<=[^\\\\])(\\$)(?=[^\\$])|(\\\\(\\[|\\(|\\)))'
       }
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
   envGeneric: {
@@ -417,7 +419,7 @@ repository:
       3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
   envDocument: {
@@ -443,7 +445,7 @@ repository:
       3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
   envFigure: {
@@ -476,7 +478,7 @@ repository:
       3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
   metaEnvMath: {
@@ -509,7 +511,7 @@ repository:
       3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
   listEnvironment: {
@@ -536,7 +538,7 @@ repository:
       3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
-      { include: '$base' }
+      { include: '$self' }
     ]
   }
   makeAtSomething: {
@@ -552,7 +554,7 @@ repository:
         name: 'support.function.makeat.latex'
     patterns: [
       { include: '#controlWordWithAt' }
-      { include: '$base'}
+      { include: '$self'}
     ]
   }
   inputFile: {
@@ -687,3 +689,5 @@ repository:
     name: 'constant.character.latex'
     match: '\\^\\^(\\d+|.|$)'
   }
+
+# Unfortunate necessity (mainly making a unique grammar for each coding language)
