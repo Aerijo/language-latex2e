@@ -13,6 +13,9 @@ patterns: [
   {
     include: '#drawCommandMeta'
   }
+  {
+    include: 'text.tex.latex'
+  }
 ]
 
 
