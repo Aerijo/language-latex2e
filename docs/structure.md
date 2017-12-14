@@ -14,3 +14,4 @@ This was the cause of a great many frustrations. The problem was getting nested 
 
 ## TODO
 - Just noticed I broke `\(` and `\)` with the new control symbol regex; I need to write specs.
+- Make it so that `\abc{param}` scopes the group as an argument, while `\abc {param}` treats them separately. This is because spaces after a control sequence are ignored, so placing a space there implies intentional relation, and vice versa.
