@@ -1,14 +1,25 @@
 # Changelog
 
 <!-- ## Unreleased -->
+## 0.10.0
 #### Added
 - More primitives (unknown origin)
+- Basic specs; will be foundation for proper implementation in 1.0.0 release
+- `LaTeX TikZ`: Regular LaTeX grammar added as final pattern / fallback
 
 #### Changed
 - Renamed `./lib/resources/primitives.txt` to `texPrimitives.txt` (and corresponding regex file)
+- Improved regex generator
+- Structure of rules more modular and layered by using more `meta` groups
+- Internal `$base` calls changed to `$self`
+- Scopes of arguments now call `$self` as final pattern
+- `usepackage` and `documentclass` get alternative argument scope rules to regular control sequence + argument pairs
 
 #### Fixed
 - Primitive highlighting for `\ `, `\-`, and `\/`
+
+#### Removed
+- `hypersetup` grammar; was unfinished and unused
 
 ## 0.9.0
 #### Added
