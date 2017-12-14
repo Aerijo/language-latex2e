@@ -589,7 +589,7 @@ repository:
       { include: '#filePathScope' }
     ]
   }
-  filePathScope: { #TODO: Fix this (especially the back pattern, to allow arbitrary ..)
+  filePathScope: {
     comment: 'Matches a file path (UNIX only, add Windows yourself reader).'
     contentName: 'variable.parameter.argument.latex'
     begin: '\\{'
@@ -603,7 +603,7 @@ repository:
     patterns: [
       {
         name: 'support.filepath.back.latex'
-        match: '\\.{2}\\/'
+        match: '\\.{2,}\\/'
       }
       {
         name: 'support.filepath.home.latex'
@@ -615,7 +615,7 @@ repository:
       }
       {
         name: 'support.filepath.directory.latex'
-        match: '[^(\\.{1,2}\\/)].*?\\/'
+        match: '[^(\\.+\\/)].*?\\/'
       }
       {
         name: 'support.filepath.file.latex'
