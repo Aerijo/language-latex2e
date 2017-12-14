@@ -571,11 +571,11 @@ repository:
     ]
   }
   inputFile: {
-    comment: 'Matches the input/include command and allows custom path colours.'
-    begin: '\\\\input(?=[^a-zA-Z@])'
+    comment: 'Matches the input/include command and allows custom path colours. Technically a single letter file is valid, but I think it unlikely someone legitimately means it.'
+    begin: '\\\\(input|include)(?=[^a-zA-Z@])'
     beginCaptures:
       0:
-        name: 'keyword.control.input.latex'
+        name: 'keyword.control.$1.latex'
     end: '(?<=\\})|(^\\s*$)'
     endCaptures:
       1:
