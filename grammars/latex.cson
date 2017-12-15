@@ -382,12 +382,6 @@ repository:
       0:
         name: 'string.other.math.inline.end.latex'
     patterns: [
-      { include: '#commentMeta' }
-      {
-        comment: 'Mathmode special characters are different to text; eg. textbackslash is not allowed'
-        name: 'constant.character.latex'
-        match: '\\\\\\$'
-      }
       {
         comment: 'When in inline math, the exit can only be $ or \)'
         name: 'invalid.illegal.latex'
