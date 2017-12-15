@@ -141,8 +141,7 @@ repository:
       { include: '#metaHyperref' }
       # { include: '#text' } # To break out of mathmode; need to investigate how to enforce plain styling
       # { include: '#commandDefinitions' }
-      # { include: '#styling' } # eg. \bf \it (deprecated)
-      # { include: '#latexStyling' } # eg. \emph
+      { include: '#metaFontStyling' } # eg. \emph
       # { include: '#marginpar' }
       # { include: '#footnote' }
       # { include: '#metaReferences' } # maybe include \ref \label as well?
@@ -173,6 +172,92 @@ repository:
       { include: '#texPrimitives' }
       { include: '#pdfTexPrimitives' }
       { include: '#unsortedPrimitives' }
+    ]
+  }
+  metaFontStyling: {
+    comment: 'For commands that apply bold/italic/emph to text. The first ones are for LaTeX, the latter are plain TeX (deprecated)'
+    patterns: [
+      {
+        begin: '((\\\\)textbf)\\s*(\\{)'
+        beginCaptures:
+          1:
+            name: 'support.function.textbf.latex'
+          2:
+            name: 'punctuation.definition.function.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+        end: '\\}'
+        endCaptures:
+          0:
+            name: 'punctuation.definition.arguments.end.latex'
+        contentName: 'markup.bold.latex'
+        patterns: [
+          {include: '$self'}
+        ]
+      }
+      {
+        begin: '((\\\\)textit)\\s*(\\{)'
+        beginCaptures:
+          1:
+            name: 'support.function.textit.latex'
+          2:
+            name: 'punctuation.definition.function.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+        end: '\\}'
+        endCaptures:
+          0:
+            name: 'punctuation.definition.arguments.end.latex'
+        contentName: 'markup.italic.latex'
+        patterns: [
+          {include: '$self'}
+        ]
+      }
+      {
+        begin: '((\\\\)texttt)\\s*(\\{)'
+        beginCaptures:
+          1:
+            name: 'support.function.texttt.latex'
+          2:
+            name: 'punctuation.definition.function.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+        end: '\\}'
+        endCaptures:
+          0:
+            name: 'punctuation.definition.arguments.end.latex'
+        contentName: 'markup.raw.texttt.latex'
+        patterns: [
+          {include: '$self'}
+        ]
+      }
+      {
+        begin: '((\\\\)emph)\\s*(\\{)'
+        beginCaptures:
+          1:
+            name: 'support.function.emph.latex'
+          2:
+            name: 'punctuation.definition.function.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+        end: '\\}'
+        endCaptures:
+          0:
+            name: 'punctuation.definition.arguments.end.latex'
+        contentName: 'markup.italic.emph.latex'
+        patterns: [
+          {include: '$self'}
+        ]
+      }
+      {
+        comment: 'plain TeX; deprecated'
+        match: '((\\\\)(?:bf|it|rm|sc|sf|sl|tt))(?=[^a-zA-Z@])'
+        captures:
+          1:
+            name: 'invalid.deprecated.font.latex'
+          2:
+            name: 'punctuation.definition.function.latex'
+      }
     ]
   }
 # Other
