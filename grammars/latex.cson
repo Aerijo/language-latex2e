@@ -659,7 +659,7 @@ repository:
     comment: 'Intended to match the url commands provided by hyperref. Less lenient than I would like, but difficult to improve.'
     patterns: [
       {
-        comment: '\href[options]{URL}{text}'
+        comment: '\\href[options]{URL}{text}'
         begin: '((\\\\)href)\\s*(?:(\\[)(.*?)(\\]))?\\s*(\\{)(.*?)(\\})(\\{)'
         beginCaptures:
           1:
@@ -690,7 +690,7 @@ repository:
         ]
       }
       {
-        comment: '\url{URL}'
+        comment: '\\url{URL}'
         match: '((\\\\)(?:nolink|hyperbase)url)(\\{)(.*?)(\\})'
         captures:
           1:
@@ -705,7 +705,7 @@ repository:
             name: 'punctuation.definition.arguments.end.latex'
       }
       {
-        comment: '\hyperimage{URL}{text}'
+        comment: '\\hyperimage{URL}{text}'
         begin: '((\\\\)hyperimage)(\\{)(.*?)(\\})(\\{)'
         beginCaptures:
           1:
@@ -733,7 +733,7 @@ repository:
       #   comment: '\hyperdef{category}{name}{text}'
       # }
       {
-        comment: '\hyperref{URL}{category}{name}{text}; will only attempt to match the URL part.'
+        comment: '\\hyperref{URL}{category}{name}{text}; will only attempt to match the URL part.'
         match: '((\\\\)hyperref)(\\{)(.*?)(\\})'
         captures:
           1:
