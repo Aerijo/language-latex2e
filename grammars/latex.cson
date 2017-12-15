@@ -139,7 +139,7 @@ repository:
       { include: '#verbatim' }
       { include: '#item' }
       { include: '#metaHyperref' }
-      # { include: '#text' } # To break out of mathmode; need to investigate how to enforce plain styling
+      { include: '#text' } # Seems to work well!
       # { include: '#commandDefinitions' }
       { include: '#metaFontStyling' } # eg. \emph
       # { include: '#marginpar' }
@@ -865,6 +865,22 @@ repository:
     comment: 'Im not sure what these are called, but they seem to work (eg. ^^M is a linebreak)'
     name: 'constant.character.latex'
     match: '\\^\\^(\\d+|.|$)'
+  }
+  text: {
+    begin: '((\\\\)text)\\s*(\\{)'
+    beginCaptures:
+      1:
+        name: 'support.function.text.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+    end: '\\}'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.arguments.end.latex'
+    contentName: 'variable.parameter.latex'
+    patterns: [{ include: '$self' }]
   }
 
 # Unfortunate necessity (mainly making a unique grammar for each coding language)
