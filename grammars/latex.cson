@@ -374,12 +374,6 @@ repository:
       { include: '#nestedSquareBrackets' }
     ]
   }
-  endArgumentsMeta: {
-    patterns: [
-      { include: '#doubleBackslash' }
-      { include: '#escapedCurlyBracket' }
-    ]
-  }
   inlineMathMode: {
     comment: 'This can be triggered using $ or \( \). Both can be used in the same pair.'
     contentName: 'string.other.math.inline.latex'
@@ -702,34 +696,40 @@ repository:
     name: 'support.function.general.latex'
     match: '\\\\[a-zA-Z@]+'
   }
-underscoreWithArgument: {
-  comment: 'Matches an underscore and between curly brackets'
-  name: 'punctuation.subscript.latex'
-  begin: '_\\s*(?={)'
-  end: '(?<=\\})'
-  patterns: [
-    { include: '#argumentScope' }
-  ]
-}
-underscoreNoArgument: {
-  comment: 'Matches an underscore and next character or macro. Considering making this give a warning, as brackets is best practice'
-  name: 'punctuation.subscript.latex'
-  match: '_\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
-}
-caretWithArgument: {
-  comment: 'Matches a caret and between curly brackets'
-  name: 'markup.other.superscript.latex'
-  begin: '\\^\\s*'
-  beginCaptures:
-    0:
-      name: 'punctuation.superscript.latex'
-  end: '(?<=[^\\^])'
-  patterns: [
-    { include: '$self' }
-  ]
-}
-caretNoArgument: {
-  comment: 'Matches a caret and next character or macro. Considering making this give a warning, as brackets is best practice'
-  name: 'punctuation.superscript.latex'
-  match: '\\^\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
-}
+  underscoreWithArgument: {
+    comment: 'Matches an underscore and between curly brackets'
+    name: 'punctuation.subscript.latex'
+    begin: '_\\s*(?={)'
+    end: '(?<=\\})'
+    patterns: [
+      { include: '#argumentScope' }
+    ]
+  }
+  underscoreNoArgument: {
+    comment: 'Matches an underscore and next character or macro. Considering making this give a warning, as brackets is best practice'
+    name: 'punctuation.subscript.latex'
+    match: '_\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
+  }
+  caretWithArgument: {
+    comment: 'Matches a caret and between curly brackets'
+    name: 'markup.other.superscript.latex'
+    begin: '\\^\\s*'
+    beginCaptures:
+      0:
+        name: 'punctuation.superscript.latex'
+    end: '(?<=[^\\^])'
+    patterns: [
+      { include: '$self' }
+    ]
+  }
+  caretNoArgument: {
+    comment: 'Matches a caret and next character or macro. Considering making this give a warning, as brackets is best practice'
+    name: 'punctuation.superscript.latex'
+    match: '\\^\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
+  }
+  endArgumentsMeta: {
+    patterns: [
+      { include: '#doubleBackslash' }
+      { include: '#escapedCurlyBracket' }
+    ]
+  }
