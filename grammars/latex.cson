@@ -84,27 +84,33 @@ repository:
     match: '(})'
   }
   metaUnderscore: {
-    comment: 'Underscore means subscript. It will take an argument in brackets if possible. If not, just the single next character. Only valid when within mathmode. Will address this later.'
-    # patterns: [
-    #   { include: '#underscoreWithArgument' }
-    #   { include: '#underscoreNoArgument' }
-    # ]
-    # name: 'punctuation.subscript.latex'
-    name: 'support.function.latex'
-    begin: '\\_'
-    end: '(?<=[^\\_])'
+    comment: 'Underscore means subscript. It will take an argument in brackets if possible. If not, just the single next character. Only valid when within mathmode. May address this later.'
+    name: 'markup.other.subscript.latex'
+    begin: '(\\_)\\s*'
+    beginCaptures:
+      1:
+        name: 'punctuation.subscript.latex'
+    end: '(?<=[^\\_\\s])'
     patterns: [
-      {
-        include: '$self'
-      }
+      { include: '$self' }
     ]
   }
   metaCaret: {
     comment: 'Like underscore, but superscript'
     patterns: [
       { include: '#doubleCaret' }
-      { include: '#caretWithArgument' }
-      { include: '#caretNoArgument' }
+      {
+        comment: 'Matches a caret and following group'
+        name: 'markup.other.superscript.latex'
+        begin: '(\\^)\\s*'
+        beginCaptures:
+          1:
+            name: 'punctuation.superscript.latex'
+        end: '(?<=[^\\^\\s])'
+        patterns: [
+          { include: '$self' }
+        ]
+      }
     ]
   }
   metaHashtag: {
@@ -655,34 +661,6 @@ repository:
     name: 'keyword.control.latex'
     match: '\\\\item'
   }
-  underscoreWithArgument: {
-    comment: 'Matches an underscore and between curly brackets'
-    name: 'punctuation.subscript.latex'
-    begin: '_\\s*(?={)'
-    end: '(?<=\\})'
-    patterns: [
-      { include: '#argumentScope' }
-    ]
-  }
-  underscoreNoArgument: {
-    comment: 'Matches an underscore and next character or macro. Considering making this give a warning, as brackets is best practice'
-    name: 'punctuation.subscript.latex'
-    match: '_\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
-  }
-  caretWithArgument: {
-    comment: 'Matches a caret and between curly brackets'
-    name: 'punctuation.superscript.latex'
-    begin: '\\^\\s*(?={)'
-    end: '(?<=\\})'
-    patterns: [
-      { include: '#argumentScope' }
-    ]
-  }
-  caretNoArgument: {
-    comment: 'Matches a caret and next character or macro. Considering making this give a warning, as brackets is best practice'
-    name: 'punctuation.superscript.latex'
-    match: '\\^\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
-  }
 
   # Experimental
   unitMeasure: {
@@ -724,3 +702,34 @@ repository:
     name: 'support.function.general.latex'
     match: '\\\\[a-zA-Z@]+'
   }
+underscoreWithArgument: {
+  comment: 'Matches an underscore and between curly brackets'
+  name: 'punctuation.subscript.latex'
+  begin: '_\\s*(?={)'
+  end: '(?<=\\})'
+  patterns: [
+    { include: '#argumentScope' }
+  ]
+}
+underscoreNoArgument: {
+  comment: 'Matches an underscore and next character or macro. Considering making this give a warning, as brackets is best practice'
+  name: 'punctuation.subscript.latex'
+  match: '_\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
+}
+caretWithArgument: {
+  comment: 'Matches a caret and between curly brackets'
+  name: 'markup.other.superscript.latex'
+  begin: '\\^\\s*'
+  beginCaptures:
+    0:
+      name: 'punctuation.superscript.latex'
+  end: '(?<=[^\\^])'
+  patterns: [
+    { include: '$self' }
+  ]
+}
+caretNoArgument: {
+  comment: 'Matches a caret and next character or macro. Considering making this give a warning, as brackets is best practice'
+  name: 'punctuation.superscript.latex'
+  match: '\\^\\s*(\\\\[a-zA-Z]+|\\\\[.]|.)?'
+}
