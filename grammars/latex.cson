@@ -183,13 +183,13 @@ repository:
   }
   controlSymbol: {
     comment: 'Mostly covered by escapedCharacter, but this is a catch all for any control symbols'
-    name: 'keyword.control.symbol.latex'
+    name: 'keyword.control.symbol.$1.latex'
     match: '\\\\([^a-zA-Z@]|@[^a-zA-A@])'
   }
   controlWord: {
     comment: 'A catch all for latex control words that have not already been identified.'
-    name: 'support.function.general.latex'
-    match: '\\\\[a-zA-Z@]+'
+    name: 'support.function.general.$1.latex'
+    match: '\\\\([a-zA-Z@]+)'
   }
   accents: {
     comment: 'For standard latex accent macros such as \^ or \`. Not used for now, at least until better rules are developed.'
@@ -426,7 +426,7 @@ repository:
   }
   envGeneric: {
     comment: 'Matches environments not recognised by other rules. Less lenient with random formatting here, it is expected to all be on one line.'
-    contentName: 'meta.environment.latex'
+    contentName: 'meta.environment.$2.latex'
     begin: '\\\\begin(\\{)([\\w \\*]*)(\\})'
     beginCaptures:
       0:
@@ -434,7 +434,7 @@ repository:
       1:
         name: 'punctuation.definition.argument.begin.latex'
       2:
-        name: 'variable.parameter.argument.latex'
+        name: 'variable.parameter.argument.$2.latex'
       3:
         name: 'punctuation.definition.argument.end.latex'
     end: '\\\\end(\\{)(\\2)(\\})'
@@ -444,7 +444,7 @@ repository:
       1:
         name: 'punctuation.definition.argument.begin.latex'
       2:
-        name: 'variable.parameter.argument.latex'
+        name: 'variable.parameter.argument.$2.latex'
       3:
         name: 'punctuation.definition.argument.end.latex'
     patterns: [
