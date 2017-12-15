@@ -178,7 +178,7 @@ repository:
   controlSymbol: {
     comment: 'Mostly covered by escapedCharacter, but this is a catch all for any control symbols'
     name: 'keyword.control.symbol.latex'
-    match: '\\\\[^a-zA-Z]'
+    match: '\\\\([^a-zA-Z@]|@[^a-zA-A@])'
   }
   controlWord: {
     comment: 'A catch all for latex control words that have not already been identified.'
