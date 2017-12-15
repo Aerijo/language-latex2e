@@ -406,12 +406,6 @@ repository:
       1:
         name: 'invalid.deprecated.latex'
     patterns: [
-      { include: '#commentMeta' }
-      {
-        comment: 'Mathmode special characters are different to text; eg. textbackslash is not allowed'
-        name: 'constant.character.latex'
-        match: '\\\\\\$'
-      }
       {
         comment: 'When in display math, the exit can only be $$ or \]'
         name: 'invalid.illegal.latex'
