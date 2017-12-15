@@ -60,34 +60,43 @@ repository:
     match: '&'
   }
   metaOpenBrace: {
+    comment: 'This is useful to ensure balanced brackets for things like {$ math {nested math} math $}, as `}` ends mathmode (for other reasons).'
     contentName: 'meta.group.braces.latex'
     begin: '{'
     beginCaptures:
       0:
-        name: 'punctuation.definition.group.latex'
+        name: 'punctuation.definition.group.begin.latex'
     end: '}'
     endCaptures:
       0:
-        name: 'punctuation.definition.group.latex'
+        name: 'punctuation.definition.group.end.latex'
     patterns: [
-      comment: 'Optimisation good to implement here. Rework metaComment to be a more general check for escaped characters and comments'
-      {
-        include: '#escapedCharacter' # for an escaped %. Possible deprecated by $self match
-      }
-      { include: '#lineComment' }
       { include: '$self' }
     ]
   }
   metaCloseBrace: {
-    comment: 'To reach this means unbalanced brackets: THIS IS AN ERROR. I dont care if youre doing fancy file mish-mashing; DONT DO IT.'
-    name: 'invalid.illegal.latex'
-    match: '}'
+    comment: 'To reach this means unbalanced brackets: THIS IS AN ERROR. I dont care if youre doing fancy file mish-mashing; DONT DO IT. The capture groups feels like a hack job to get multiple scopes on the same match, but oh well.'
+    captures:
+      0:
+        name: 'invalid.illegal.latex'
+      1:
+        name: 'punctuation.definition.group.end.latex'
+    match: '(})'
   }
   metaUnderscore: {
     comment: 'Underscore means subscript. It will take an argument in brackets if possible. If not, just the single next character. Only valid when within mathmode. Will address this later.'
+    # patterns: [
+    #   { include: '#underscoreWithArgument' }
+    #   { include: '#underscoreNoArgument' }
+    # ]
+    # name: 'punctuation.subscript.latex'
+    name: 'support.function.latex'
+    begin: '\\_'
+    end: '(?<=[^\\_])'
     patterns: [
-      { include: '#underscoreWithArgument' }
-      { include: '#underscoreNoArgument' }
+      {
+        include: '$self'
+      }
     ]
   }
   metaCaret: {
@@ -173,11 +182,6 @@ repository:
   }
   controlWord: {
     comment: 'A catch all for latex control words that have not already been identified.'
-    name: 'support.function.general.latex'
-    match: '\\\\[a-zA-Z]+'
-  }
-  controlWordWithAt: {
-    comment: 'To be used when @ is a letter'
     name: 'support.function.general.latex'
     match: '\\\\[a-zA-Z@]+'
   }
@@ -576,7 +580,6 @@ repository:
       0:
         name: 'support.function.makeat.latex'
     patterns: [
-      { include: '#controlWordWithAt' }
       { include: '$self'}
     ]
   }
@@ -714,3 +717,10 @@ repository:
   }
 
 # Unfortunate necessity (mainly making a unique grammar for each coding language)
+
+# Removed
+  controlWordWithAt: {
+    comment: 'To be used when @ is a letter'
+    name: 'support.function.general.latex'
+    match: '\\\\[a-zA-Z@]+'
+  }

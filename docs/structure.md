@@ -9,6 +9,9 @@ The actual entries in `patterns` are the special characters that trigger somethi
 
 ## Specific grammars
 
+### Control word
+The `@` symbol is allowed in every control word, even if it would not normally be considered a part of the control word. This was done because 1) it led to issues with `\makeatletter`, and 2) anyone legitimately wanting an `@` right after a control word can always put a space between the two.
+
 ### usepackage
 This was the cause of a great many frustrations. The problem was getting nested brackets to play well, without an inner `}` being taken as the end for an outer pair. Eventually I settled on the regex seen in the file, but I couldn't tell you exactly how it works, just that it does.
 
