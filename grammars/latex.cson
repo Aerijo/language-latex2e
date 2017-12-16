@@ -1171,6 +1171,8 @@ repository:
     comment: 'This groups together all the minted languages supported by this grammar.'
     patterns: [
       { include: '#mintPython' }
+      { include: '#mintJavascript' }
+      { include: '#mintJSON' }
       { include: '#mintGeneric' }
     ]
   }
@@ -1258,6 +1260,90 @@ repository:
       5:
         name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.python' }]
+  }
+  mintJavascript: {
+    name: 'meta.environment.embedded.js.latex'
+    contentName: 'source.embedded.js'
+    begin: '((\\\\)begin)(\\{)((minted)\\*?)(\\})(?:(\\[)(.*?)(\\]))?(\\{)(js)(\\})'
+    beginCaptures:
+      1:
+        name: 'support.function.environment.begin.latex'
+      2:
+        name: 'punctuation.definition.function.begin.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.minted.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
+        name: 'punctuation.definition.arguments.end.latex'
+      7:
+        name: 'punctuation.definition.arguments.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+      9:
+        name: 'punctuation.definition.arguments.optional.end.latex'
+      10:
+        name: 'punctuation.definition.arguments.begin.latex'
+      11:
+        name: 'variable.parameter.language.js.latex'
+      12:
+        name: 'punctuation.definition.arguments.end.latex'
+    end: '((\\\\)end)(\\{)(minted)(\\})'
+    endCaptures:
+      1:
+        name: 'support.function.environment.end.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.latex'
+      5:
+        name: 'punctuation.definition.arguments.end.latex'
+    patterns: [{ include: 'source.js' }]
+  }
+  mintJSON: {
+    name: 'meta.environment.embedded.json.latex'
+    contentName: 'source.embedded.json'
+    begin: '((\\\\)begin)(\\{)((minted)\\*?)(\\})(?:(\\[)(.*?)(\\]))?(\\{)(json)(\\})'
+    beginCaptures:
+      1:
+        name: 'support.function.environment.begin.latex'
+      2:
+        name: 'punctuation.definition.function.begin.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.minted.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
+        name: 'punctuation.definition.arguments.end.latex'
+      7:
+        name: 'punctuation.definition.arguments.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+      9:
+        name: 'punctuation.definition.arguments.optional.end.latex'
+      10:
+        name: 'punctuation.definition.arguments.begin.latex'
+      11:
+        name: 'variable.parameter.language.json.latex'
+      12:
+        name: 'punctuation.definition.arguments.end.latex'
+    end: '((\\\\)end)(\\{)(minted)(\\})'
+    endCaptures:
+      1:
+        name: 'support.function.environment.end.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.latex'
+      5:
+        name: 'punctuation.definition.arguments.end.latex'
+    patterns: [{ include: 'source.json' }]
   }
 
 
