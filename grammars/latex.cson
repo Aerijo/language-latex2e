@@ -158,7 +158,7 @@ repository:
       { include: '#envFigure' }
       { include: '#metaEnvMath' }
       # { include: '#metaEnvTable' }
-      # { include: '#metaEnvList' }
+      { include: '#envList' }
       # { include: '#envGnuplot' }
       # { include: '#metaEnvMinted' }
       # { include: '#metaEnvListing' }
@@ -739,6 +739,95 @@ repository:
       { include: '$self' }
     ]
   }
+  makeAtSomething: {
+    comment: 'Matches the makeat(letter|other) commands so that they get custom highlighting (because @ is now a character)'
+    contentName: 'markup.raw.verbatim.latex' # To make user aware of its effect
+    begin: '(\\\\)makeatletter\\b'
+    beginCaptures:
+      0:
+        name: 'support.function.makeat.latex'
+    end: '(\\\\)makeatother\\b'
+    endCaptures:
+      0:
+        name: 'support.function.makeat.latex'
+    patterns: [
+      { include: '$self'}
+    ]
+  }
+  inputFile: {
+    comment: 'Matches the input/include command and allows custom path colours. Technically a single letter file is valid, but I think it unlikely someone legitimately means it.'
+    begin: '\\\\(input|include)(?=[^a-zA-Z@])'
+    beginCaptures:
+      0:
+        name: 'keyword.control.$1.latex'
+    end: '(?<=\\})|(^\\s*$)'
+    endCaptures:
+      1:
+        name: 'invalid.illegal.latex'
+    patterns:[
+      { include: '#awaitingArgumentBrackets' }
+      {
+        comment: 'Only this one necessary because escaped characters will be picked up by awaitingArgumentBrackets.'
+        include: '#lineComment'
+      }
+      { include: '#filePathScope' }
+    ]
+  }
+  filePathScope: {
+    comment: 'Matches a file path (UNIX only, add Windows yourself reader).'
+    contentName: 'variable.parameter.arguments.latex'
+    begin: '\\{'
+    beginCaptures:
+      0:
+        name: 'punctuation.definition.arguments.begin.latex'
+    end: '\\}'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.arguments.end.latex'
+    patterns: [
+      {
+        name: 'support.filepath.back.latex'
+        match: '\\.{2,}\\/'
+      }
+      {
+        name: 'support.filepath.home.latex'
+        match: '\\.\\/'
+      }
+      {
+        name: 'support.filepath.root.latex'
+        match: '(?<=\\{)\\/'
+      }
+      {
+        name: 'support.filepath.directory.latex'
+        match: '[^(\\.+\\/)].*?\\/'
+      }
+      {
+        name: 'support.filepath.file.latex'
+        match: '[^}]*'
+      }
+    ]
+  }
+  verbatim: {
+    comment: 'Finds an inline verbatim string of the format \verb+...+'
+    name: 'string.function.verbatim'
+    match: '\\\\verb([^a-zA-Z])(.*?)(\\1)'
+    captures:
+      0:
+        name: 'support.function.vebatim.latex'
+      1:
+        name: 'punctuation.latex'
+      2:
+        name: 'markup.raw.verbatim.latex'
+      3:
+        name: 'punctuation.latex'
+  }
+  item: {
+    comment: 'This command is still defined everywhere'
+    name: 'keyword.control.latex'
+    match: '\\\\item'
+  }
+
+  # Environments
   envGeneric: {
     comment: 'Matches environments not recognised by other rules. Less lenient with random formatting here, it is expected to all be on one line.'
     contentName: 'meta.environment.$2.latex'
@@ -862,120 +951,43 @@ repository:
       { include: '$self' }
     ]
   }
-  listEnvironment: {
-    comment: 'Matches itemize/enumerate/description environment'
-    contentName: 'meta.environment.list.latex'
-    begin: '\\\\begin(\\{)((itemize|enumerate|description)(\\*)?)(\\})'
+  envList: {
+    comment: 'Matches itemize|enumerate|description environment'
+    contentName: 'meta.environment.list.$5.latex'
+    begin: '((\\\\)begin)(\\{)((itemize|enumerate|description)\\*?)(\\})(?:(\\[)(.*?)(\\]))?'
     beginCaptures:
-      0:
-        name: 'support.function.environment.begin.latex'
       1:
-        name: 'punctuation.definition.arguments.begin.latex'
+        name: 'support.function.environment.begin.latex'
       2:
-        name: 'variable.parameter.arguments.latex'
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.function.environment.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
+        name: 'punctuation.definition.arguments.end.latex'
+      7:
+        name: 'punctuation.definition.arguments.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+      9:
+        name: 'punctuation.definition.arguments.optional.end.latex'
+    end: '((\\\\)end)(\\{)(\\4)(\\})'
+    endCaptures:
+      1:
+        name: 'support.function.environment.end.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.function.environment.latex'
       5:
         name: 'punctuation.definition.arguments.end.latex'
-    end: '\\\\end(\\{)(\\2)(\\})'
-    endCaptures:
-      0:
-        name: 'support.function.environment.end.latex'
-      1:
-        name: 'punctuation.definition.arguments.begin.latex'
-      2:
-        name: 'variable.parameter.arguments.latex'
-      3:
-        name: 'punctuation.definition.arguments.end.latex'
-    patterns: [
-      { include: '$self' }
-    ]
+    patterns: [{ include: '$self' }]
   }
-  makeAtSomething: {
-    comment: 'Matches the makeat(letter|other) commands so that they get custom highlighting (because @ is now a character)'
-    contentName: 'markup.raw.verbatim.latex' # To make user aware of its effect
-    begin: '(\\\\)makeatletter\\b'
-    beginCaptures:
-      0:
-        name: 'support.function.makeat.latex'
-    end: '(\\\\)makeatother\\b'
-    endCaptures:
-      0:
-        name: 'support.function.makeat.latex'
-    patterns: [
-      { include: '$self'}
-    ]
-  }
-  inputFile: {
-    comment: 'Matches the input/include command and allows custom path colours. Technically a single letter file is valid, but I think it unlikely someone legitimately means it.'
-    begin: '\\\\(input|include)(?=[^a-zA-Z@])'
-    beginCaptures:
-      0:
-        name: 'keyword.control.$1.latex'
-    end: '(?<=\\})|(^\\s*$)'
-    endCaptures:
-      1:
-        name: 'invalid.illegal.latex'
-    patterns:[
-      { include: '#awaitingArgumentBrackets' }
-      {
-        comment: 'Only this one necessary because escaped characters will be picked up by awaitingArgumentBrackets.'
-        include: '#lineComment'
-      }
-      { include: '#filePathScope' }
-    ]
-  }
-  filePathScope: {
-    comment: 'Matches a file path (UNIX only, add Windows yourself reader).'
-    contentName: 'variable.parameter.arguments.latex'
-    begin: '\\{'
-    beginCaptures:
-      0:
-        name: 'punctuation.definition.arguments.begin.latex'
-    end: '\\}'
-    endCaptures:
-      0:
-        name: 'punctuation.definition.arguments.end.latex'
-    patterns: [
-      {
-        name: 'support.filepath.back.latex'
-        match: '\\.{2,}\\/'
-      }
-      {
-        name: 'support.filepath.home.latex'
-        match: '\\.\\/'
-      }
-      {
-        name: 'support.filepath.root.latex'
-        match: '(?<=\\{)\\/'
-      }
-      {
-        name: 'support.filepath.directory.latex'
-        match: '[^(\\.+\\/)].*?\\/'
-      }
-      {
-        name: 'support.filepath.file.latex'
-        match: '[^}]*'
-      }
-    ]
-  }
-  verbatim: {
-    comment: 'Finds an inline verbatim string of the format \verb+...+'
-    name: 'string.function.verbatim'
-    match: '\\\\verb([^a-zA-Z])(.*?)(\\1)'
-    captures:
-      0:
-        name: 'support.function.vebatim.latex'
-      1:
-        name: 'punctuation.latex'
-      2:
-        name: 'markup.raw.verbatim.latex'
-      3:
-        name: 'punctuation.latex'
-  }
-  item: {
-    comment: 'This command is still defined everywhere'
-    name: 'keyword.control.latex'
-    match: '\\\\item'
-  }
+
 
   # Experimental
   unitMeasure: {
