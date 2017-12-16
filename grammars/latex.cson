@@ -143,7 +143,7 @@ repository:
       # { include: '#commandDefinitions' }
       { include: '#metaFontStyling' } # eg. \emph
       # { include: '#marginpar' }
-      # { include: '#footnote' }
+      { include: '#metaFootnote' }
       # { include: '#metaReferences' } # maybe include \ref \label as well?
       # { include: '#verbScantokens' } # not sure what this is for
       # { include: '#constants' } # words that represent constants
@@ -351,6 +351,34 @@ repository:
             name: 'markup.underline.link.latex'
           5:
             name: 'punctuation.definition.arguments.end.latex'
+      }
+    ]
+  }
+  metaFootnote: {
+    patterns: [
+      {
+        match: '(\\\\)footnotemark(?![a-zA-Z@])'
+        captures:
+          0:
+            name: 'support.function.footnote.footnotemark.latex'
+          1:
+            name: 'punctuation.definition.function.latex'
+      }
+      {
+        begin: '((\\\\)footnote(?:text)?)\\s*(\\{)'
+        beginCaptures:
+          1:
+            name: 'support.function.footnote.latex'
+          2:
+            name: 'punctuation.definition.function.latex'
+          3:
+            name: 'punctuation.definition.argument.begin.latex'
+        end: '\\}'
+        endCaptures:
+          0:
+            name: 'punctuation.definition.argument.end.latex'
+        contentName: 'meta.footnote.latex'
+        patterns: [{ include: '$self' }]
       }
     ]
   }
