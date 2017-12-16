@@ -1,3 +1,4 @@
+[See this on atom.io](https://atom.io/packages/language-latex2e)
 # language-latex2e package
 
 This package is a replacement for the already existing [`language-latex`](https://atom.io/packages/language-latex) package. The design philosophy is if it is valid LaTeX, it gets correct syntax highlighting (within reason). For example, it will correctly highlight the optional arguments to `\usepackage`.
