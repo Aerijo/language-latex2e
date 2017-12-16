@@ -32,7 +32,7 @@ repository:
         name: 'keyword.control.environment.tikzpicture.tikz'
     patterns: [
       {
-        include: '$base'
+        include: '$self'
       }
     ]
   }
