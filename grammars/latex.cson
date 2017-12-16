@@ -536,15 +536,15 @@ repository:
   }
   argumentScope: {
     comment: 'Matches arguments brackets (the outmost of nested brackets). Is a general rule to use anywhere.'
-    contentName: 'variable.parameter.argument.latex'
+    contentName: 'variable.parameter.arguments.latex'
     begin: '\\{'
     beginCaptures:
       0:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
     end: '\\}'
     endCaptures:
       0:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
     patterns: [
       { include: '$self' }
     ]
@@ -555,11 +555,11 @@ repository:
     begin: '\\{'
     beginCaptures:
       0:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
     end: '\\}'
     endCaptures:
       0:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
     patterns: [
       { include: '$self' }
     ]
@@ -633,21 +633,21 @@ repository:
       0:
         name: 'support.function.environment.begin.latex'
       1:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
       2:
-        name: 'variable.parameter.argument.$2.latex'
+        name: 'variable.parameter.arguments.$2.latex'
       3:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
     end: '\\\\end(\\{)(\\2)(\\})'
     endCaptures:
       0:
         name: 'support.function.environment.end.latex'
       1:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
       2:
-        name: 'variable.parameter.argument.$2.latex'
+        name: 'variable.parameter.arguments.$2.latex'
       3:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
     patterns: [
       { include: '$self' }
     ]
@@ -659,21 +659,21 @@ repository:
       0:
         name: 'support.function.environment.begin.latex'
       1:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
       2:
-        name: 'variable.parameter.argument.latex'
+        name: 'variable.parameter.arguments.latex'
       3:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
     end: '\\\\end(\\{)(document)(\\})'
     endCaptures:
       0:
         name: 'support.function.environment.end.latex'
       1:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
       2:
-        name: 'variable.parameter.argument.latex'
+        name: 'variable.parameter.arguments.latex'
       3:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
     patterns: [
       { include: '$self' }
     ]
@@ -686,11 +686,11 @@ repository:
       0:
         name: 'support.function.environment.begin.latex'
       1:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
       2:
-        name: 'variable.parameter.argument.latex'
+        name: 'variable.parameter.arguments.latex'
       3:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
       5:
         name: 'punctuation.definition.optional.begin.latex'
       6:
@@ -702,11 +702,11 @@ repository:
       0:
         name: 'support.function.environment.end.latex'
       1:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
       2:
-        name: 'variable.parameter.argument.latex'
+        name: 'variable.parameter.arguments.latex'
       3:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
     patterns: [
       { include: '$self' }
     ]
@@ -729,21 +729,21 @@ repository:
       0:
         name: 'support.function.environment.begin.latex'
       1:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
       2:
-        name: 'variable.parameter.argument.latex'
+        name: 'variable.parameter.arguments.latex'
       4:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
     end: '\\\\end(\\{)(\\2)(\\})'
     endCaptures:
       0:
         name: 'support.function.environment.end.latex'
       1:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
       2:
-        name: 'variable.parameter.argument.latex'
+        name: 'variable.parameter.arguments.latex'
       3:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
     patterns: [
       { include: '$self' }
     ]
@@ -756,21 +756,21 @@ repository:
       0:
         name: 'support.function.environment.begin.latex'
       1:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
       2:
-        name: 'variable.parameter.argument.latex'
+        name: 'variable.parameter.arguments.latex'
       5:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
     end: '\\\\end(\\{)(\\2)(\\})'
     endCaptures:
       0:
         name: 'support.function.environment.end.latex'
       1:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
       2:
-        name: 'variable.parameter.argument.latex'
+        name: 'variable.parameter.arguments.latex'
       3:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
     patterns: [
       { include: '$self' }
     ]
@@ -811,15 +811,15 @@ repository:
   }
   filePathScope: {
     comment: 'Matches a file path (UNIX only, add Windows yourself reader).'
-    contentName: 'variable.parameter.argument.latex'
+    contentName: 'variable.parameter.arguments.latex'
     begin: '\\{'
     beginCaptures:
       0:
-        name: 'punctuation.definition.argument.begin.latex'
+        name: 'punctuation.definition.arguments.begin.latex'
     end: '\\}'
     endCaptures:
       0:
-        name: 'punctuation.definition.argument.end.latex'
+        name: 'punctuation.definition.arguments.end.latex'
     patterns: [
       {
         name: 'support.filepath.back.latex'
