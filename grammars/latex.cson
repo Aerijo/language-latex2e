@@ -164,7 +164,7 @@ repository:
       # { include: '#metaEnvListing' }
       { include: '#envLuaCode' }
       { include: '#envVerbatim' }
-      # { include: '#tikzPicture' }
+      { include: '#envTikz' }
       { include: '#envGeneric' }
     ]
   }
@@ -1135,6 +1135,37 @@ repository:
       5:
         name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.lua' }] # The l-latex package has complicated stuff here, so this might break
+  }
+  envTikz: {
+    comment: 'The manual shows it can take an optional argument that may be several lines. This will be ignored for now.'
+    name: 'meta.environment.embedded.$5.latex'
+    contentName: 'source.embedded.tikz'
+    begin: '((\\\\)begin)(\\{)((tikzpicture)\\*?)(\\})'
+    beginCaptures:
+      1:
+        name: 'support.function.environment.begin.latex'
+      2:
+        name: 'punctuation.definition.function.begin.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.$5.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
+        name: 'punctuation.definition.arguments.end.latex'
+    end: '((\\\\)end)(\\{)(\\4)(\\})'
+    endCaptures:
+      1:
+        name: 'support.function.environment.end.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.latex'
+      5:
+        name: 'punctuation.definition.arguments.end.latex'
+    patterns: [{ include: 'text.tex.latex.tikz' }] # The l-latex package has complicated stuff here, so this might break
   }
 
 
