@@ -917,40 +917,84 @@ repository:
     patterns: [{ include: '$self' }]
   }
   metaEnvMath: {
-    comment: 'Matches math environments'
     patterns: [
-      { include: '#envMath' }
-      # some sort of `alignat` env?
-      # aligned|gathered
-      # eqnarray (deprecated)
-    ]
-  }
-  envMath: {
-    comment: 'Matches math environments'
-    name: 'meta.environment.math.$2.latex'
-    contentName: 'string.other.math.block.$2.latex'
-    begin: '\\\\begin(\\{)(align|equation|multline|split|gather)(\\*)?(\\})'
-    beginCaptures:
-      0:
-        name: 'support.function.environment.begin.latex'
-      1:
-        name: 'punctuation.definition.arguments.begin.latex'
-      2:
-        name: 'variable.parameter.arguments.latex'
-      4:
-        name: 'punctuation.definition.arguments.end.latex'
-    end: '\\\\end(\\{)(\\2)(\\})'
-    endCaptures:
-      0:
-        name: 'support.function.environment.end.latex'
-      1:
-        name: 'punctuation.definition.arguments.begin.latex'
-      2:
-        name: 'variable.parameter.arguments.latex'
-      3:
-        name: 'punctuation.definition.arguments.end.latex'
-    patterns: [
-      { include: '$self' }
+      {
+        comment: 'Matches generic math environments'
+        name: 'meta.environment.math.$5.latex'
+        contentName: 'string.other.math.block.$5.latex'
+        begin: '((\\\\)begin)(\\{)((align(ed)?|equation|multline|split|gather(ed)?)\\*?)(\\})(?:(\\[)(.*?)(\\]))?'
+        beginCaptures:
+          1:
+            name: 'support.function.environment.begin.latex'
+          2:
+            name: 'punctuation.definition.function.begin.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+          4:
+            name: 'variable.parameter.function.environment.$5.latex'
+          # 5: Used for meta scope name (basically just non starred version)
+          6:
+            name: 'punctuation.definition.arguments.end.latex'
+          7:
+            name: 'punctuation.definition.arguments.optional.begin.latex'
+          8:
+            name: 'variable.parameter.optional.function.environment.latex'
+          9:
+            name: 'punctuation.definition.arguments.optional.end.latex'
+        end: '((\\\\)end)(\\{)(\\4)(\\})'
+        endCaptures:
+          1:
+            name: 'support.function.environment.end.latex'
+          2:
+            name: 'punctuation.definition.function.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+          4:
+            name: 'variable.parameter.function.environment.latex'
+          5:
+            name: 'punctuation.definition.arguments.end.latex'
+        patterns: [{ include: '$self' }]
+      }
+      {
+        comment: 'Matches the alignat environment'
+        name: 'meta.environment.math.$5.latex'
+        contentName: 'string.other.math.block.$5.latex'
+        begin: '((\\\\)begin)(\\{)((alignat)\\*?)(\\})(?:(\\{)(.*?)(\\}))?'
+        beginCaptures:
+          1:
+            name: 'support.function.environment.begin.latex'
+          2:
+            name: 'punctuation.definition.function.begin.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+          4:
+            name: 'variable.parameter.function.environment.$5.latex'
+          # 5: Used for meta scope name (basically just non starred version)
+          6:
+            name: 'punctuation.definition.arguments.end.latex'
+          7:
+            name: 'punctuation.definition.arguments.begin.latex'
+          8:
+            name: 'variable.parameter.function.environment.latex'
+            patterns: [
+              { include: '#numericConstants' }
+              { include: '$self' }] # This is amazing! It works!
+          9:
+            name: 'punctuation.definition.arguments.end.latex'
+        end: '((\\\\)end)(\\{)(\\4)(\\})'
+        endCaptures:
+          1:
+            name: 'support.function.environment.end.latex'
+          2:
+            name: 'punctuation.definition.function.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+          4:
+            name: 'variable.parameter.function.environment.latex'
+          5:
+            name: 'punctuation.definition.arguments.end.latex'
+        patterns: [{ include: '$self' }]
+      }
     ]
   }
   envList: {
@@ -1046,6 +1090,11 @@ repository:
         name: 'constant.character.latex'
       1:
         name: 'punctuation.definition.constant.latex'
+  }
+  numericConstants: {
+    comment: 'To match numbers of form 12, 1.2, etc.'
+    match: '(\\d*\\.\\d+|\\d+(\\.)?\\d*)'
+    name: 'constant.numeric.math.latex'
   }
 
 # Unfortunate necessity (mainly making a unique grammar for each coding language)
