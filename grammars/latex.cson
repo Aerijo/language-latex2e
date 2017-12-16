@@ -140,13 +140,15 @@ repository:
       { include: '#item' }
       { include: '#metaHyperref' }
       { include: '#text' } # Seems to work well!
-      # { include: '#commandDefinitions' }
       { include: '#metaFontStyling' } # eg. \emph
-      # { include: '#marginpar' }
       { include: '#metaFootnote' }
       { include: '#metaReferences' } # maybe include \ref \label as well?
-      # { include: '#verbScantokens' } # not sure what this is for
       { include: '#constants' } # words that represent constants
+
+      # Potential additions:
+      # { include: '#commandDefinitions' }
+      # { include: '#marginpar' }
+      # { include: '#verbScantokens' } # not sure what this is for
     ]
   }
   metaEnvironment: {
