@@ -197,9 +197,7 @@ repository:
           0:
             name: 'punctuation.definition.arguments.end.latex'
         contentName: 'markup.bold.latex'
-        patterns: [
-          {include: '$self'}
-        ]
+        patterns: [{ include: '$self' }]
       }
       {
         begin: '((\\\\)textit)\\s*(\\{)'
