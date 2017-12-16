@@ -1,6 +1,43 @@
 # Changelog
 
 <!-- ## Unreleased -->
+
+## 0.11.0
+#### Added
+- `\include` (in addition to `\input`)
+- Hyperref url commands
+- Font commands (eg. `\textbf`); plain TeX ones such as `\bf` are marked as deprecated
+- Using `\text{...}` within mathmode will cause the contents to look normal/different to regular math (or at least appear to)
+- `\footnote`, `\footnotemark`, `\footnotetext`
+- Reference commands (eg. `\label`). These were taken from `language-latex`
+- Extended constants support (besides escaped characters). These were taken from `language-latex`
+- List environments (eg. enumerate)
+- alignat environment
+- Mathmode can find numbers of form 123, 1.23, or .123
+- Verbatim environment
+- Gnuplot environment
+- Luacode environment
+- Better TikZ environment (actual TikZ highlighting still lacking specific rules)
+- Minted environment for various languages, and generic scope for unknown languages
+- Table environment. This was taken (verbatim) from `language-latex`
+
+
+#### Changed
+- `@` is now always considered a valid control word character
+- `_` and `^` patterns improved
+- The (control word | environment name) is now the final selector in the scope chain (the terminology here is probably wrong, just look at [this commit](https://github.com/Aerijo/language-latex2e/commit/08b5cae144b0ad6d251cf6b86fd19051fea1f24d))
+- document environment is no longer a begin/end match; it will simply find all instances of either
+- Allows starred variant of figure environment
+- Various scope name changes; changes will be reduced after 1.0.0 release
+
+
+#### Fixed
+- `\item` now checks it is at a word boundary before it gets applied
+
+#### Removed
+- Redundant comment checking patterns on some rules
+- Some other rules that were not used
+
 ## 0.10.0
 #### Added
 - More primitives (unknown origin)
