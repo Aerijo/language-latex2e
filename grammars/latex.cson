@@ -1173,6 +1173,11 @@ repository:
       { include: '#mintPython' }
       { include: '#mintJavascript' }
       { include: '#mintJSON' }
+      { include: '#mintCoffeescript'}
+      { include: '#mintCSS'}
+      { include: '#mintLess'}
+      { include: '#mintXML'}
+      { include: '#mintRuby'}
       { include: '#mintGeneric' }
     ]
   }
@@ -1345,7 +1350,216 @@ repository:
         name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.json' }]
   }
-
+  mintCoffeescript: {
+    name: 'meta.environment.embedded.coffee.latex'
+    contentName: 'source.embedded.coffee'
+    begin: '((\\\\)begin)(\\{)((minted)\\*?)(\\})(?:(\\[)(.*?)(\\]))?(\\{)(coffee(?:\\-?script)?)(\\})'
+    beginCaptures:
+      1:
+        name: 'support.function.environment.begin.latex'
+      2:
+        name: 'punctuation.definition.function.begin.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.minted.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
+        name: 'punctuation.definition.arguments.end.latex'
+      7:
+        name: 'punctuation.definition.arguments.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+      9:
+        name: 'punctuation.definition.arguments.optional.end.latex'
+      10:
+        name: 'punctuation.definition.arguments.begin.latex'
+      11:
+        name: 'variable.parameter.language.coffee.latex'
+      12:
+        name: 'punctuation.definition.arguments.end.latex'
+    end: '((\\\\)end)(\\{)(minted)(\\})'
+    endCaptures:
+      1:
+        name: 'support.function.environment.end.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.latex'
+      5:
+        name: 'punctuation.definition.arguments.end.latex'
+    patterns: [{ include: 'source.coffee' }]
+  }
+  mintCSS: {
+    name: 'meta.environment.embedded.css.latex'
+    contentName: 'source.embedded.css'
+    begin: '((\\\\)begin)(\\{)((minted)\\*?)(\\})(?:(\\[)(.*?)(\\]))?(\\{)(css)(\\})'
+    beginCaptures:
+      1:
+        name: 'support.function.environment.begin.latex'
+      2:
+        name: 'punctuation.definition.function.begin.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.minted.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
+        name: 'punctuation.definition.arguments.end.latex'
+      7:
+        name: 'punctuation.definition.arguments.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+      9:
+        name: 'punctuation.definition.arguments.optional.end.latex'
+      10:
+        name: 'punctuation.definition.arguments.begin.latex'
+      11:
+        name: 'variable.parameter.language.css.latex'
+      12:
+        name: 'punctuation.definition.arguments.end.latex'
+    end: '((\\\\)end)(\\{)(minted)(\\})'
+    endCaptures:
+      1:
+        name: 'support.function.environment.end.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.latex'
+      5:
+        name: 'punctuation.definition.arguments.end.latex'
+    patterns: [{ include: 'source.css' }]
+  }
+  mintLess: {
+    name: 'meta.environment.embedded.less.latex'
+    contentName: 'source.embedded.less'
+    begin: '((\\\\)begin)(\\{)((minted)\\*?)(\\})(?:(\\[)(.*?)(\\]))?(\\{)(less)(\\})'
+    beginCaptures:
+      1:
+        name: 'support.function.environment.begin.latex'
+      2:
+        name: 'punctuation.definition.function.begin.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.minted.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
+        name: 'punctuation.definition.arguments.end.latex'
+      7:
+        name: 'punctuation.definition.arguments.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+      9:
+        name: 'punctuation.definition.arguments.optional.end.latex'
+      10:
+        name: 'punctuation.definition.arguments.begin.latex'
+      11:
+        name: 'variable.parameter.language.less.latex'
+      12:
+        name: 'punctuation.definition.arguments.end.latex'
+    end: '((\\\\)end)(\\{)(minted)(\\})'
+    endCaptures:
+      1:
+        name: 'support.function.environment.end.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.latex'
+      5:
+        name: 'punctuation.definition.arguments.end.latex'
+    patterns: [{ include: 'source.less' }]
+  }
+  mintXML: {
+    name: 'meta.environment.embedded.xml.latex'
+    contentName: 'source.embedded.xml'
+    begin: '((\\\\)begin)(\\{)((minted)\\*?)(\\})(?:(\\[)(.*?)(\\]))?(\\{)(xml)(\\})'
+    beginCaptures:
+      1:
+        name: 'support.function.environment.begin.latex'
+      2:
+        name: 'punctuation.definition.function.begin.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.minted.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
+        name: 'punctuation.definition.arguments.end.latex'
+      7:
+        name: 'punctuation.definition.arguments.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+      9:
+        name: 'punctuation.definition.arguments.optional.end.latex'
+      10:
+        name: 'punctuation.definition.arguments.begin.latex'
+      11:
+        name: 'variable.parameter.language.xml.latex'
+      12:
+        name: 'punctuation.definition.arguments.end.latex'
+    end: '((\\\\)end)(\\{)(minted)(\\})'
+    endCaptures:
+      1:
+        name: 'support.function.environment.end.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.latex'
+      5:
+        name: 'punctuation.definition.arguments.end.latex'
+    patterns: [{ include: 'source.xml' }]
+  }
+  mintRuby: {
+    name: 'meta.environment.embedded.ruby.latex'
+    contentName: 'source.embedded.ruby'
+    begin: '((\\\\)begin)(\\{)((minted)\\*?)(\\})(?:(\\[)(.*?)(\\]))?(\\{)(ruby|rb)(\\})'
+    beginCaptures:
+      1:
+        name: 'support.function.environment.begin.latex'
+      2:
+        name: 'punctuation.definition.function.begin.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.minted.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
+        name: 'punctuation.definition.arguments.end.latex'
+      7:
+        name: 'punctuation.definition.arguments.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+      9:
+        name: 'punctuation.definition.arguments.optional.end.latex'
+      10:
+        name: 'punctuation.definition.arguments.begin.latex'
+      11:
+        name: 'variable.parameter.language.ruby.latex'
+      12:
+        name: 'punctuation.definition.arguments.end.latex'
+    end: '((\\\\)end)(\\{)(minted)(\\})'
+    endCaptures:
+      1:
+        name: 'support.function.environment.end.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.latex'
+      5:
+        name: 'punctuation.definition.arguments.end.latex'
+    patterns: [{ include: 'source.ruby' }]
+  }
 
   # Experimental
   unitMeasure: {
