@@ -146,7 +146,7 @@ repository:
       { include: '#metaFootnote' }
       { include: '#metaReferences' } # maybe include \ref \label as well?
       # { include: '#verbScantokens' } # not sure what this is for
-      # { include: '#constants' } # words that represent constants
+      { include: '#constants' } # words that represent constants
     ]
   }
   metaEnvironment: {
@@ -1021,6 +1021,15 @@ repository:
         name: 'punctuation.definition.arguments.end.latex'
     contentName: 'variable.parameter.latex'
     patterns: [{ include: '$self' }]
+  }
+  constants: {
+    comment: 'Taken from language-latex'
+    match: '(\\\\)(text(s(terling|ixoldstyle|urd|e(ction|venoldstyle|rvicemark))|yen|n(ineoldstyle|umero|aira)|c(ircledP|o(py(left|right)|lonmonetary)|urrency|e(nt(oldstyle)?|lsius))|t(hree(superior|oldstyle|quarters(emdash)?)|i(ldelow|mes)|w(o(superior|oldstyle)|elveudash)|rademark)|interrobang(down)?|zerooldstyle|o(hm|ne(superior|half|oldstyle|quarter)|penbullet|rd(feminine|masculine))|d(i(scount|ed|v(orced)?)|o(ng|wnarrow|llar(oldstyle)?)|egree|agger(dbl)?|blhyphen(char)?)|uparrow|p(ilcrow|e(so|r(t(housand|enthousand)|iodcentered))|aragraph|m)|e(stimated|ightoldstyle|uro)|quotes(traight(dblbase|base)|ingle)|f(iveoldstyle|ouroldstyle|lorin|ractionsolidus)|won|l(not|ira|e(ftarrow|af)|quill|angle|brackdbl)|a(s(cii(caron|dieresis|acute|grave|macron|breve)|teriskcentered)|cutedbl)|r(ightarrow|e(cipe|ferencemark|gistered)|quill|angle|brackdbl)|g(uarani|ravedbl)|m(ho|inus|u(sicalnote)?|arried)|b(igcircle|orn|ullet|lank|a(ht|rdbl)|rokenbar)))(?![a-zA-Z@])'
+    captures:
+      0:
+        name: 'constant.character.latex'
+      1:
+        name: 'punctuation.definition.constant.latex'
   }
 
 # Unfortunate necessity (mainly making a unique grammar for each coding language)
