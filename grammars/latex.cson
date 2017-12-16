@@ -840,7 +840,7 @@ repository:
       3:
         name: 'punctuation.definition.arguments.begin.latex'
       4:
-        name: 'variable.parameter.function.environment.$5.latex'
+        name: 'variable.parameter.environment.$5.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6:
         name: 'punctuation.definition.arguments.end.latex'
@@ -859,7 +859,7 @@ repository:
       3:
         name: 'punctuation.definition.arguments.begin.latex'
       4:
-        name: 'variable.parameter.function.environment.latex'
+        name: 'variable.parameter.environment.latex'
       5:
         name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: '$self' }]
@@ -876,7 +876,7 @@ repository:
       4:
         name: 'punctuation.definition.arguments.begin.latex'
       5:
-        name: 'variable.parameter.function.environment.document.latex'
+        name: 'variable.parameter.environment.document.latex'
       6:
         name: 'punctuation.definition.arguments.end.latex'
   }
@@ -892,7 +892,7 @@ repository:
       3:
         name: 'punctuation.definition.arguments.begin.latex'
       4:
-        name: 'variable.parameter.function.environment.$5.latex'
+        name: 'variable.parameter.environment.$5.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6:
         name: 'punctuation.definition.arguments.end.latex'
@@ -911,7 +911,7 @@ repository:
       3:
         name: 'punctuation.definition.arguments.begin.latex'
       4:
-        name: 'variable.parameter.function.environment.latex'
+        name: 'variable.parameter.environment.latex'
       5:
         name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: '$self' }]
@@ -931,7 +931,7 @@ repository:
           3:
             name: 'punctuation.definition.arguments.begin.latex'
           4:
-            name: 'variable.parameter.function.environment.$5.latex'
+            name: 'variable.parameter.environment.$5.latex'
           # 5: Used for meta scope name (basically just non starred version)
           6:
             name: 'punctuation.definition.arguments.end.latex'
@@ -950,7 +950,7 @@ repository:
           3:
             name: 'punctuation.definition.arguments.begin.latex'
           4:
-            name: 'variable.parameter.function.environment.latex'
+            name: 'variable.parameter.environment.latex'
           5:
             name: 'punctuation.definition.arguments.end.latex'
         patterns: [{ include: '$self' }]
@@ -968,14 +968,14 @@ repository:
           3:
             name: 'punctuation.definition.arguments.begin.latex'
           4:
-            name: 'variable.parameter.function.environment.$5.latex'
+            name: 'variable.parameter.environment.$5.latex'
           # 5: Used for meta scope name (basically just non starred version)
           6:
             name: 'punctuation.definition.arguments.end.latex'
           7:
             name: 'punctuation.definition.arguments.begin.latex'
           8:
-            name: 'variable.parameter.function.environment.latex'
+            name: 'variable.parameter.environment.latex'
             patterns: [
               { include: '#numericConstants' }
               { include: '$self' }] # This is amazing! It works!
@@ -990,7 +990,7 @@ repository:
           3:
             name: 'punctuation.definition.arguments.begin.latex'
           4:
-            name: 'variable.parameter.function.environment.latex'
+            name: 'variable.parameter.environment.latex'
           5:
             name: 'punctuation.definition.arguments.end.latex'
         patterns: [{ include: '$self' }]
@@ -1009,7 +1009,7 @@ repository:
       3:
         name: 'punctuation.definition.arguments.begin.latex'
       4:
-        name: 'variable.parameter.function.environment.$5.latex'
+        name: 'variable.parameter.environment.$5.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6:
         name: 'punctuation.definition.arguments.end.latex'
