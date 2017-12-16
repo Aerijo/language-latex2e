@@ -1037,7 +1037,7 @@ repository:
     comment: 'Matches verbatim environment.'
     name: 'meta.environment.verbatim.latex'
     contentName: 'markup.raw.verbatim.latex'
-    begin: '((\\\\)begin)(\\{)((verbatim))(\\})(?:(\\[)(.*?)(\\]))?'
+    begin: '((\\\\)begin)(\\{)(([vV]erbatim|alltt))(\\})(?:(\\[)(.*?)(\\]))?'
     beginCaptures:
       1:
         name: 'support.function.environment.begin.latex'
@@ -1046,7 +1046,7 @@ repository:
       3:
         name: 'punctuation.definition.arguments.begin.latex'
       4:
-        name: 'variable.parameter.environment.$5.latex'
+        name: 'variable.parameter.environment.verbatim.$5.latex'
       # 5: Here to keep numbering consistent with other environments
       6:
         name: 'punctuation.definition.arguments.end.latex'
