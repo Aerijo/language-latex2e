@@ -866,29 +866,19 @@ repository:
   }
   envDocument: {
     comment: 'To stop the entire contents of the document environment being labelled. Its useless anyway, as I split up my work and just include it into the main file.'
-    begin: '\\\\begin(\\{)(document)(\\})'
-    beginCaptures:
-      0:
-        name: 'support.function.environment.begin.latex'
+    match: '((\\\\)(begin|end))(\\{)(document)(\\})'
+    captures:
       1:
-        name: 'punctuation.definition.arguments.begin.latex'
+        name: 'support.function.environment.$3.document.latex'
       2:
-        name: 'variable.parameter.arguments.latex'
-      3:
-        name: 'punctuation.definition.arguments.end.latex'
-    end: '\\\\end(\\{)(document)(\\})'
-    endCaptures:
-      0:
-        name: 'support.function.environment.end.latex'
-      1:
+        name: 'punctuation.definition.function.latex'
+      # 3: This is for the first group scopes
+      4:
         name: 'punctuation.definition.arguments.begin.latex'
-      2:
-        name: 'variable.parameter.arguments.latex'
-      3:
+      5:
+        name: 'variable.parameter.function.environment.document.latex'
+      6:
         name: 'punctuation.definition.arguments.end.latex'
-    patterns: [
-      { include: '$self' }
-    ]
   }
   envFigure: {
     comment: 'Matches the common figure environment'
