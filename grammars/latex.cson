@@ -144,7 +144,7 @@ repository:
       { include: '#metaFontStyling' } # eg. \emph
       # { include: '#marginpar' }
       { include: '#metaFootnote' }
-      # { include: '#metaReferences' } # maybe include \ref \label as well?
+      { include: '#metaReferences' } # maybe include \ref \label as well?
       # { include: '#verbScantokens' } # not sure what this is for
       # { include: '#constants' } # words that represent constants
     ]
@@ -372,16 +372,128 @@ repository:
           2:
             name: 'punctuation.definition.function.latex'
           3:
-            name: 'punctuation.definition.argument.begin.latex'
+            name: 'punctuation.definition.arguments.begin.latex'
         end: '\\}'
         endCaptures:
           0:
-            name: 'punctuation.definition.argument.end.latex'
+            name: 'punctuation.definition.arguments.end.latex'
         contentName: 'meta.footnote.latex'
         patterns: [{ include: '$self' }]
       }
     ]
   }
+  metaReferences: {
+    comment: 'The following have all been taken (mostly) directly from language-latex.'
+    patterns: [
+      {
+        comment: 'Taken from language-latex'
+        begin: '((\\\\)(?:\\w*[rR]ef\\*?))(\\{)'
+        beginCaptures:
+          1:
+            name: 'keyword.control.ref.latex'
+          2:
+            name: 'punctuation.definition.keyword.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+        end: '\\}'
+        endCaptures:
+          0:
+            name: 'punctuation.definition.arguments.begin.latex'
+        contentName: 'meta.reference.latex'
+        patterns: [
+          { include: '#controlWord' }
+          { include: '#controlSymbol' }
+          {
+            match: '[!\u0028-\u007A\u00A1-\u017F\u3001-\u30FF\u0391-\u03CE\u0410-\u044F\u4E00-\u9FFF\uFF0C\uFF0E]'
+            name: 'constant.other.reference.latex'
+          }
+        ]
+      }
+      {
+        comment: 'Taken from language-latex'
+        begin: '((\\\\)label)(\\{)'
+        beginCaptures:
+          1:
+            name: 'keyword.control.label.latex'
+          2:
+            name: 'punctuation.definition.keyword.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+        end: '\\}'
+        endCaptures:
+          0:
+            name: 'punctuation.definition.arguments.end.latex'
+        name: 'meta.definition.latex'
+        patterns: [
+          { include: '#controlWord' }
+          { include: '#controlSymbol' }
+          {
+            match: '[!\u0028-\u007A\u00A1-\u017F\u3001-\u30FF\u0391-\u03CE\u0410-\u044F\u4E00-\u9FFF\uFF0C\uFF0E]'
+            name: 'constant.other.reference.latex'
+          }
+        ]
+      }
+      {
+        comment: 'Taken from language-latex'
+        begin: '''(?x)
+                    ((\\\\)(?:text)?(?:paren)?(?:auto)?(?:foot)?(?:full)?(?:no)?(?:short)?[cC]ites?(?:al)?(?:t|p|author|year(?:par)?|title)?[ANP]*\\*?)
+                    (?:(\\[)[^\\]]*(\\]))?
+                    (?:(\\[)[^\\]]*(\\]))?
+                    (\\{)
+                 '''
+        captures:
+          1:
+            name: 'keyword.control.cite.latex'
+          2:
+            name: 'punctuation.definition.keyword.latex'
+          3:
+            name: 'punctuation.definition.arguments.optional.begin.latex'
+          4:
+            name: 'punctuation.definition.arguments.optional.end.latex'
+          5:
+            name: 'punctuation.definition.arguments.optional.begin.latex'
+          6:
+            name: 'punctuation.definition.arguments.optional.end.latex'
+          7:
+            name: 'punctuation.definition.arguments.latex'
+        end: '\\}'
+        endCaptures:
+          0:
+            name: 'punctuation.definition.arguments.latex'
+        name: 'meta.citation.latex'
+        patterns: [
+          { include: '#controlWord' }
+          { include: '#controlSymbol' }
+          {
+            match: '[!\u0028-\u007A\u00A1-\u017F\u3001-\u30FF\u0391-\u03CE\u0410-\u044F\u4E00-\u9FFF\uFF0C\uFF0E]'
+            name: 'constant.other.reference.citation.latex'
+          }
+        ]
+      }
+      {
+        comment: 'Taken from language-latex'
+        begin: '(\\\\bibitem)(\\{)'
+        beginCaptures:
+          1:
+            name: 'keyword.control.bibitem.latex'
+          2:
+            name: 'punctuation.definition.arguments.begin.latex'
+        end: '\\}'
+        endCaptures:
+          0:
+            name: 'punctuation.definition.arguments.end.latex'
+        patterns: [
+          { include: '#controlWord' }
+          { include: '#controlSymbol' }
+          {
+            match: '[!\u0028-\u007A\u00A1-\u017F\u3001-\u30FF\u0391-\u03CE\u0410-\u044F\u4E00-\u9FFF\uFF0C\uFF0E]'
+            name: 'constant.other.reference.bibitem.latex'
+          }
+        ]
+      }
+    ]
+  }
+
 # Other
   escapedCharacter: {
     comment: 'Finds escaped characters like \$ and \%. Uses this regex so unique capture groups can be used.'
