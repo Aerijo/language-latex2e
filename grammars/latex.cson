@@ -260,6 +260,100 @@ repository:
       }
     ]
   }
+  metaHyperref: {
+    comment: 'Intended to match the url commands provided by hyperref. Less lenient than I would like, but difficult to improve.'
+    patterns: [
+      {
+        comment: '\\href[options]{URL}{text}'
+        begin: '((\\\\)href)\\s*(?:(\\[)(.*?)(\\]))?\\s*(\\{)(.*?)(\\})(\\{)'
+        beginCaptures:
+          1:
+            name: 'support.function.href.latex'
+          2:
+            name: 'punctuation.definition.function.latex'
+          3:
+            name: 'punctuation.definition.arguments.optional.begin.latex'
+          4:
+            name: 'variable.parameter.optional.latex'
+          5:
+            name: 'punctuation.definition.arguments.optional.end.latex'
+          6:
+            name: 'punctuation.definition.arguments.begin.latex'
+          7:
+            name: 'markup.underline.link.latex'
+          8:
+            name: 'punctuation.definition.arguments.end.latex'
+          9:
+            name: 'punctuation.definition.arguments.begin.latex'
+        end: '(\\}|^\\s*$)'
+        endCaptures:
+          0:
+            name: 'punctuation.definition.arguments.end.latex'
+        contentName: 'variable.parameter.latex'
+        patterns: [
+          { include: '$self' }
+        ]
+      }
+      {
+        comment: '\\url{URL}'
+        match: '((\\\\)(?:nolink|hyperbase)url)(\\{)(.*?)(\\})'
+        captures:
+          1:
+            name: 'support.function.url.latex'
+          2:
+            name: 'punctuation.definition.function.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+          4:
+            name: 'markup.underline.link.latex'
+          5:
+            name: 'punctuation.definition.arguments.end.latex'
+      }
+      {
+        comment: '\\hyperimage{URL}{text}'
+        begin: '((\\\\)hyperimage)(\\{)(.*?)(\\})(\\{)'
+        beginCaptures:
+          1:
+            name: 'support.function.url.image.latex'
+          2:
+            name: 'punctuation.definition.function.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+          4:
+            name: 'markup.underline.link.latex'
+          5:
+            name: 'punctuation.definition.arguments.end.latex'
+          6:
+            name: 'punctuation.definition.arguments.begin.latex'
+        end: '(\\}|^\\s*$)'
+        endCaptures:
+          0:
+            name: 'punctuation.definition.arguments.end.latex'
+        contentName: 'variable.parameter.latex'
+        patterns: [
+          { include: '$self' }
+        ]
+      }
+      # {
+      #   comment: '\hyperdef{category}{name}{text}'
+      # }
+      {
+        comment: '\\hyperref{URL}{category}{name}{text}; will only attempt to match the URL part.'
+        match: '((\\\\)hyperref)(\\{)(.*?)(\\})'
+        captures:
+          1:
+            name: 'support.function.url.latex'
+          2:
+            name: 'punctuation.definition.function.latex'
+          3:
+            name: 'punctuation.definition.arguments.begin.latex'
+          4:
+            name: 'markup.underline.link.latex'
+          5:
+            name: 'punctuation.definition.arguments.end.latex'
+      }
+    ]
+  }
 # Other
   escapedCharacter: {
     comment: 'Finds escaped characters like \$ and \%. Uses this regex so unique capture groups can be used.'
@@ -739,100 +833,6 @@ repository:
     comment: 'This command is still defined everywhere'
     name: 'keyword.control.latex'
     match: '\\\\item'
-  }
-  metaHyperref: {
-    comment: 'Intended to match the url commands provided by hyperref. Less lenient than I would like, but difficult to improve.'
-    patterns: [
-      {
-        comment: '\\href[options]{URL}{text}'
-        begin: '((\\\\)href)\\s*(?:(\\[)(.*?)(\\]))?\\s*(\\{)(.*?)(\\})(\\{)'
-        beginCaptures:
-          1:
-            name: 'support.function.href.latex'
-          2:
-            name: 'punctuation.definition.function.latex'
-          3:
-            name: 'punctuation.definition.arguments.optional.begin.latex'
-          4:
-            name: 'variable.parameter.optional.latex'
-          5:
-            name: 'punctuation.definition.arguments.optional.end.latex'
-          6:
-            name: 'punctuation.definition.arguments.begin.latex'
-          7:
-            name: 'markup.underline.link.latex'
-          8:
-            name: 'punctuation.definition.arguments.end.latex'
-          9:
-            name: 'punctuation.definition.arguments.begin.latex'
-        end: '(\\}|^\\s*$)'
-        endCaptures:
-          0:
-            name: 'punctuation.definition.arguments.end.latex'
-        contentName: 'variable.parameter.latex'
-        patterns: [
-          { include: '$self' }
-        ]
-      }
-      {
-        comment: '\\url{URL}'
-        match: '((\\\\)(?:nolink|hyperbase)url)(\\{)(.*?)(\\})'
-        captures:
-          1:
-            name: 'support.function.url.latex'
-          2:
-            name: 'punctuation.definition.function.latex'
-          3:
-            name: 'punctuation.definition.arguments.begin.latex'
-          4:
-            name: 'markup.underline.link.latex'
-          5:
-            name: 'punctuation.definition.arguments.end.latex'
-      }
-      {
-        comment: '\\hyperimage{URL}{text}'
-        begin: '((\\\\)hyperimage)(\\{)(.*?)(\\})(\\{)'
-        beginCaptures:
-          1:
-            name: 'support.function.url.image.latex'
-          2:
-            name: 'punctuation.definition.function.latex'
-          3:
-            name: 'punctuation.definition.arguments.begin.latex'
-          4:
-            name: 'markup.underline.link.latex'
-          5:
-            name: 'punctuation.definition.arguments.end.latex'
-          6:
-            name: 'punctuation.definition.arguments.begin.latex'
-        end: '(\\}|^\\s*$)'
-        endCaptures:
-          0:
-            name: 'punctuation.definition.arguments.end.latex'
-        contentName: 'variable.parameter.latex'
-        patterns: [
-          { include: '$self' }
-        ]
-      }
-      # {
-      #   comment: '\hyperdef{category}{name}{text}'
-      # }
-      {
-        comment: '\\hyperref{URL}{category}{name}{text}; will only attempt to match the URL part.'
-        match: '((\\\\)hyperref)(\\{)(.*?)(\\})'
-        captures:
-          1:
-            name: 'support.function.url.latex'
-          2:
-            name: 'punctuation.definition.function.latex'
-          3:
-            name: 'punctuation.definition.arguments.begin.latex'
-          4:
-            name: 'markup.underline.link.latex'
-          5:
-            name: 'punctuation.definition.arguments.end.latex'
-      }
-    ]
   }
 
   # Experimental
