@@ -1170,7 +1170,8 @@ repository:
   metaEnvMinted: {
     comment: 'This groups together all the minted languages supported by this grammar.'
     patterns: [
-      { include: '#mintGeneric'}
+      { include: '#mintPython' }
+      { include: '#mintGeneric' }
     ]
   }
 
@@ -1215,6 +1216,48 @@ repository:
         name: 'variable.parameter.environment.latex'
       5:
         name: 'punctuation.definition.arguments.end.latex'
+  }
+  mintPython: {
+    name: 'meta.environment.embedded.python.latex'
+    contentName: 'source.embedded.python'
+    begin: '((\\\\)begin)(\\{)((minted)\\*?)(\\})(?:(\\[)(.*?)(\\]))?(\\{)(python3?|py3?)(\\})'
+    beginCaptures:
+      1:
+        name: 'support.function.environment.begin.latex'
+      2:
+        name: 'punctuation.definition.function.begin.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.minted.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
+        name: 'punctuation.definition.arguments.end.latex'
+      7:
+        name: 'punctuation.definition.arguments.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+      9:
+        name: 'punctuation.definition.arguments.optional.end.latex'
+      10:
+        name: 'punctuation.definition.arguments.begin.latex'
+      11:
+        name: 'variable.parameter.language.python.latex'
+      12:
+        name: 'punctuation.definition.arguments.end.latex'
+    end: '((\\\\)end)(\\{)(minted)(\\})'
+    endCaptures:
+      1:
+        name: 'support.function.environment.end.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.latex'
+      5:
+        name: 'punctuation.definition.arguments.end.latex'
+    patterns: [{ include: 'source.python' }]
   }
 
 
