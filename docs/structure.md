@@ -16,5 +16,4 @@ The `@` symbol is allowed in every control word, even if it would not normally b
 This was the cause of a great many frustrations. The problem was getting nested brackets to play well, without an inner `}` being taken as the end for an outer pair. Eventually I settled on the regex seen in the file, but I couldn't tell you exactly how it works, just that it does.
 
 ## TODO
-- Just noticed I broke `\(` and `\)` with the new control symbol regex; I need to write specs.
-- Make it so that `\abc{param}` scopes the group as an argument, while `\abc {param}` treats them separately. This is because spaces after a control sequence are ignored, so placing a space there implies intentional relation, and vice versa.
+Migrated to GitHub projects tab
