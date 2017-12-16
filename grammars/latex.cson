@@ -157,15 +157,19 @@ repository:
       { include: '#envDocument' }
       { include: '#envFigure' }
       { include: '#metaEnvMath' }
-      # { include: '#metaEnvTable' }
       { include: '#envList' }
       { include: '#envGnuplot' }
       { include: '#metaEnvMinted' }
-      # { include: '#metaEnvListing' }
       { include: '#envLuaCode' }
       { include: '#envVerbatim' }
       { include: '#envTikz' }
+      { include: '#envTable' }
       { include: '#envGeneric' }
+
+      # Potential additions:
+      # Better table rules; currently taken from language-latex
+      # { include: '#metaEnvListing' }
+      # More languages with minted
     ]
   }
   metaPrimitives: {
@@ -1167,6 +1171,71 @@ repository:
         name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'text.tex.latex.tikz' }] # The l-latex package has complicated stuff here, so this might break
   }
+  envTable: {
+    comment: 'The following is taken verbatim (sans key quotes) from language-latex'
+    begin: '''(?x)
+                (?:\\s*)
+                ((\\\\)begin)
+                (\\{)
+                (array|tabular[xy*]?)
+                (\\})
+                (\\s*)?
+             '''
+    captures:
+      1:
+        name: 'support.function.begin.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.function.latex'
+      5:
+        name: 'punctuation.definition.arguments.end.latex'
+    contentName: 'meta.data.environment.tabular.latex'
+    end: '''(?x)
+              (?:\\s*)
+              ((\\\\)end)
+              (\\{)
+              (\\4)
+              (\\})
+              (?:\\s*)?
+           '''
+    name: 'meta.function.environment.tabular.latex'
+    patterns: [
+      {
+        match: '\\\\\\\\'
+        name: 'punctuation.definition.table.row2.latex'
+      }
+      {
+        begin: '(?:^|(?<=\\\\\\\\))(?!\\\\\\\\|\\s*\\\\end\\{(?:tabular|array))'
+        end: '(?=\\\\\\\\|\\s*\\\\end\\{(?:tabular|array))'
+        name: 'meta.row2.environment.tabular.latex'
+        patterns: [
+          {
+            match: '&'
+            name: 'punctuation.definition.table.cell.latex'
+          }
+          {
+            begin: '(?:^|(?<=&))((?!&|\\\\\\\\|$))'
+            end: '(?=&|\\\\\\\\|\\s*\\\\end\\{(?:tabular|array))'
+            name: 'meta.cell.environment.tabular.latex'
+            patterns: [
+              {
+                include: '$base'
+              }
+            ]
+          }
+          {
+            include: '$base'
+          }
+        ]
+      }
+      {
+        include: '$base'
+      }
+    ]
+  }
   metaEnvMinted: {
     comment: 'This groups together all the minted languages supported by this grammar.'
     patterns: [
@@ -1181,7 +1250,6 @@ repository:
       { include: '#mintGeneric' }
     ]
   }
-
   mintGeneric: {
     comment: 'A catch all for any other languages.'
     name: 'meta.environment.embedded.$11.latex'
