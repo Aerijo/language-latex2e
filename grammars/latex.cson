@@ -162,7 +162,7 @@ repository:
       { include: '#envGnuplot' }
       # { include: '#metaEnvMinted' }
       # { include: '#metaEnvListing' }
-      # { include: '#envLuaCode' }
+      { include: '#envLuaCode' }
       { include: '#envVerbatim' }
       # { include: '#tikzPicture' }
       { include: '#envGeneric' }
@@ -830,7 +830,7 @@ repository:
   # Environments
   envGeneric: {
     comment: 'Matches environments not recognised by other rules. Less lenient with random formatting here, it is expected to all be on one line.'
-    contentName: 'meta.environment.general.$5.latex'
+    name: 'meta.environment.general.$5.latex'
     begin: '((\\\\)begin)(\\{)((\\w+)\\*?)(\\})(?:(\\[)(.*?)(\\]))?'
     beginCaptures:
       1:
@@ -1105,6 +1105,36 @@ repository:
       5:
         name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.gnuplot' }]
+  }
+  envLuaCode: {
+    name: 'meta.environment.embedded.$5.latex'
+    contentName: 'source.embedded.lua'
+    begin: '((\\\\)begin)(\\{)((luacode)\\*?)(\\})'
+    beginCaptures:
+      1:
+        name: 'support.function.environment.begin.latex'
+      2:
+        name: 'punctuation.definition.function.begin.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.$5.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
+        name: 'punctuation.definition.arguments.end.latex'
+    end: '((\\\\)end)(\\{)(\\4)(\\})'
+    endCaptures:
+      1:
+        name: 'support.function.environment.end.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.latex'
+      5:
+        name: 'punctuation.definition.arguments.end.latex'
+    patterns: [{ include: 'source.lua' }] # The l-latex package has complicated stuff here, so this might break
   }
 
 
