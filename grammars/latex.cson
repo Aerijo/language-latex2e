@@ -160,7 +160,7 @@ repository:
       # { include: '#metaEnvTable' }
       { include: '#envList' }
       { include: '#envGnuplot' }
-      # { include: '#metaEnvMinted' }
+      { include: '#metaEnvMinted' }
       # { include: '#metaEnvListing' }
       { include: '#envLuaCode' }
       { include: '#envVerbatim' }
@@ -1166,6 +1166,55 @@ repository:
       5:
         name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'text.tex.latex.tikz' }] # The l-latex package has complicated stuff here, so this might break
+  }
+  metaEnvMinted: {
+    comment: 'This groups together all the minted languages supported by this grammar.'
+    patterns: [
+      { include: '#mintGeneric'}
+    ]
+  }
+
+  mintGeneric: {
+    comment: 'A catch all for any other languages.'
+    name: 'meta.environment.embedded.$11.latex'
+    contentName: 'markup.raw.verbatim.latex'
+    begin: '((\\\\)begin)(\\{)((minted)\\*?)(\\})(?:(\\[)(.*?)(\\]))?(\\{)([a-zA-Z]*)(\\})'
+    beginCaptures:
+      1:
+        name: 'support.function.environment.begin.latex'
+      2:
+        name: 'punctuation.definition.function.begin.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.$5.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
+        name: 'punctuation.definition.arguments.end.latex'
+      7:
+        name: 'punctuation.definition.arguments.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+      9:
+        name: 'punctuation.definition.arguments.optional.end.latex'
+      10:
+        name: 'punctuation.definition.arguments.begin.latex'
+      11:
+        name: 'variable.parameter.language.$11.latex'
+      12:
+        name: 'punctuation.definition.arguments.end.latex'
+    end: '((\\\\)end)(\\{)(\\4)(\\})'
+    endCaptures:
+      1:
+        name: 'support.function.environment.end.latex'
+      2:
+        name: 'punctuation.definition.function.latex'
+      3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.environment.latex'
+      5:
+        name: 'punctuation.definition.arguments.end.latex'
   }
 
 
