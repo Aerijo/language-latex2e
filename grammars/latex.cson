@@ -1093,7 +1093,7 @@ repository:
   }
   numericConstants: {
     comment: 'To match numbers of form 12, 1.2, etc.'
-    match: '(\\d*\\.\\d+|\\d+(\\.)?\\d*)'
+    match: '(\\d*\\.\\d+|(\\d+\\.)?\\d*)'
     name: 'constant.numeric.math.latex'
   }
 
