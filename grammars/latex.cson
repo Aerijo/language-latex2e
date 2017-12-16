@@ -830,30 +830,39 @@ repository:
   # Environments
   envGeneric: {
     comment: 'Matches environments not recognised by other rules. Less lenient with random formatting here, it is expected to all be on one line.'
-    contentName: 'meta.environment.$2.latex'
-    begin: '\\\\begin(\\{)([\\w \\*]*)(\\})'
+    contentName: 'meta.environment.general.$5.latex'
+    begin: '((\\\\)begin)(\\{)((\\w+)\\*?)(\\})(?:(\\[)(.*?)(\\]))?'
     beginCaptures:
-      0:
+      1:
         name: 'support.function.environment.begin.latex'
-      1:
-        name: 'punctuation.definition.arguments.begin.latex'
       2:
-        name: 'variable.parameter.arguments.$2.latex'
+        name: 'punctuation.definition.function.begin.latex'
       3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.function.environment.$5.latex'
+      # 5: Used for meta scope name (basically just non starred version)
+      6:
         name: 'punctuation.definition.arguments.end.latex'
-    end: '\\\\end(\\{)(\\2)(\\})'
+      7:
+        name: 'punctuation.definition.arguments.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+      9:
+        name: 'punctuation.definition.arguments.optional.end.latex'
+    end: '((\\\\)end)(\\{)(\\4)(\\})'
     endCaptures:
-      0:
-        name: 'support.function.environment.end.latex'
       1:
-        name: 'punctuation.definition.arguments.begin.latex'
+        name: 'support.function.environment.end.latex'
       2:
-        name: 'variable.parameter.arguments.$2.latex'
+        name: 'punctuation.definition.function.latex'
       3:
+        name: 'punctuation.definition.arguments.begin.latex'
+      4:
+        name: 'variable.parameter.function.environment.latex'
+      5:
         name: 'punctuation.definition.arguments.end.latex'
-    patterns: [
-      { include: '$self' }
-    ]
+    patterns: [{ include: '$self' }]
   }
   envDocument: {
     comment: 'To stop the entire contents of the document environment being labelled. Its useless anyway, as I split up my work and just include it into the main file.'
@@ -959,11 +968,11 @@ repository:
       1:
         name: 'support.function.environment.begin.latex'
       2:
-        name: 'punctuation.definition.function.latex'
+        name: 'punctuation.definition.function.begin.latex'
       3:
         name: 'punctuation.definition.arguments.begin.latex'
       4:
-        name: 'variable.parameter.function.environment.latex'
+        name: 'variable.parameter.function.environment.$5.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6:
         name: 'punctuation.definition.arguments.end.latex'
