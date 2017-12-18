@@ -422,7 +422,7 @@ repository:
   }
   controlSymbol: {
     comment: 'Mostly covered by escapedCharacter, but this is a catch all for any control symbols'
-    name: 'keyword.control.symbol.$1.latex'
+    name: 'keyword.control.symbol.latex'
     match: '\\\\([^a-zA-Z@]|@[^a-zA-A@])'
   }
   controlWord: {
