@@ -2,6 +2,21 @@
 
 <!-- ## Unreleased -->
 
+## 0.11.1
+#### Added
+- Scopes unit-value pairs (no space) to allow spell checker to ignore; eg. 12pt
+- Preview of highlighting using a dark theme
+
+#### Changed
+- Code cleanup to remove redundant lines
+
+#### Fixed
+- `\verb` will optionally finish on end of line (doesn't wait for terminating character to appear before appyling scope)
+
+#### Removed
+- In `genericSymbol`, the symbol itself from the generic scope name. It caused odd behaviour with <section>\\`</section> and the toggle comment line command
+
+
 ## 0.11.0
 #### Added
 - `\include` (in addition to `\input`)
