@@ -18,6 +18,7 @@ patterns: [
   { include: '#metaUnderscore' }
   { include: '#metaCaret' }
   { include: '#metaHashtag' }
+  { include: '#metaOther' } # for specific things that do not fit in the above
 ]
 
 repository:
@@ -108,6 +109,15 @@ repository:
       1: name: 'variable.parameter.hashtag.3.latex'
       2: name: 'variable.parameter.hashtag.2.latex'
       3: name: 'variable.parameter.hashtag.1.latex'
+  }
+  metaOther: {
+    patterns: [
+      {
+        comment: 'Finds value + unit pairs and scopes them for spell checkers.'
+        match: '\\d+(pt|mm|cm|in|ex|em|bp|pc|dd|cc|sp)\\b'
+        name: 'meta.definition.value.latex'
+      }
+    ]
   }
 
 # Other meta groups
@@ -376,6 +386,7 @@ repository:
         patterns: [
           { include: '#controlWord' }
           { include: '#controlSymbol' }
+          { include: '#metaHashtag' }
           {
             match: '[!\u0028-\u007A\u00A1-\u017F\u3001-\u30FF\u0391-\u03CE\u0410-\u044F\u4E00-\u9FFF\uFF0C\uFF0E]'
             name: 'constant.other.reference.citation.latex'
@@ -494,7 +505,8 @@ repository:
   }
   magicComment: {
     comment: 'Can be improved to change color depending if the command matches a known string'
-    name: 'keyword.control.magic.latex'
+    name: 'comment.line.percentage.latex'
+    captures: 0: name: 'keyword.control.magic.latex'
     match: '''(?x)   # Allow comments like this. More of an educational thing, really, for anyone reading this.
      ((        # Capture groups 1 & 2
        (%)     # Capture percent sign
