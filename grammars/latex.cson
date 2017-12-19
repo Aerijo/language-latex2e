@@ -39,7 +39,7 @@ repository:
   metaPercent: {
     comment: 'This is called when there is a lone percent sign (escaped covered by metaControl).'
     patterns: [
-      { include: '#magicComment' }
+      { include: '#metaMagicComment' }
       { include: '#lineComment' }
     ]
   }
@@ -56,7 +56,7 @@ repository:
     match: '~'
   }
   metaAmpersand: {
-    comment: 'The ampersand normally represents alignment (catcode 4). Probably not useful (or legal) outside of align or table environment. However, it must be left this way to let users implement custom environments.'
+    comment: 'The ampersand normally represents alignment (catcode 4). Probably not useful (or legal) outside of align or table environment. However, it should be left this way to let users implement custom syntax.'
     name: 'punctuation.alignment.latex'
     match: '&'
   }
@@ -439,7 +439,7 @@ repository:
     name: 'comment.line.percentage.latex'
     begin: '%'
     end: '$'
-    patterns: [{ include: '#magicComment' }]
+    patterns: [{ include: '#metaMagicComment' }]
   }
   escapedCurlyBracket: {
     comment: 'Escaped }. Possible deprecated by escapedCharacter.'
@@ -499,24 +499,76 @@ repository:
     patterns: [
       { include: '#doubleBackslash' }
       { include: '#escapedCharacter' }
-      { include: '#magicComment' }
+      { include: '#metaMagicComment' }
       { include: '#lineComment' }
     ]
   }
-  magicComment: {
-    comment: 'Can be improved to change color depending if the command matches a known string'
-    name: 'comment.line.percentage.latex'
-    captures: 0: name: 'keyword.control.magic.latex'
-    match: '''(?x)   # Allow comments like this. More of an educational thing, really, for anyone reading this.
-     ((        # Capture groups 1 & 2
-       (%)     # Capture percent sign
-       (\\ !(?>TEX|BIB)\\ )  # See https://github.com/kkos/oniguruma/blob/771535fce64f225f9fa2f965dbb55277e18fbde9/doc/RE#L252 for ?>
-       (\\S+)    # A word (this is required as far as I know)
-       )       # End capture group 2
-       (\\ = \\ )  # Match = with space (required)
-     )         # End capture group 1
-     .*$       # To end; some options have spaces
-   '''
+  metaMagicComment: {
+    patterns: [
+      {
+        comment: 'Simplify syntax highlighting until the next magic syntax comment'
+        begin: '% !(?>T[eE]X) syntax = plain'
+        beginCaptures: 0: name: 'keyword.control.magic.syntax.plain.latex'
+        end: '(?=% !T[eE]X syntax)'
+        contentName: 'meta.syntax.plain.latex'
+        patterns: [{ include: '#syntaxPlain'}]
+      }
+      {
+        comment: 'Forces mathmode until the next magic syntax comment'
+        begin: '% !(?>T[eE]X) syntax = math'
+        beginCaptures: 0: name: 'keyword.control.magic.syntax.math.latex'
+        end: '(?=% !T[eE]X syntax)'
+        contentName: 'string.other.math.latex'
+        patterns: [{ include: '$self' }]
+      }
+      {
+        comment: 'Forces out of mathmode. Actually implemented in the mathMode patterns, as I dont know how to force an exit indirectly.'
+        match: '% !(?>T[eE]X) syntax = text'
+        captures: 0: name: 'keyword.control.magic.syntax.text.latex'
+      }
+      {
+        begin: '% !(?>T[eE]X) syntax = verbatim'
+        beginCaptures: 0: name: 'keyword.control.magic.syntax.verbatim.latex'
+        end: '(?=% !T[eE]X syntax)'
+        contentName: 'markup.raw.verbatim.latex'
+      }
+      {
+        begin: '% !(?>T[eE]X) syntax = none'
+        beginCaptures: 0: name: 'keyword.control.magic.syntax.verbatim.latex'
+        end: '(?=% !T[eE]X syntax)'
+        contentName: 'meta.syntax.none.latex'
+      }
+      {
+        comment: 'Can be improved to change color depending if the command matches a known string'
+        name: 'comment.line.percentage.latex'
+        captures: 0: name: 'keyword.control.magic.latex'
+        match: '''(?x)   # Allow comments like this. More of an educational thing, really, for anyone reading this.
+         ((        # Capture groups 1 & 2
+           (%)     # Capture percent sign
+           (\\ !(?>T[eE]X|BIB)\\ )  # See https://github.com/kkos/oniguruma/blob/771535fce64f225f9fa2f965dbb55277e18fbde9/doc/RE#L252 for ?>
+           (\\S+)    # A word (this is required as far as I know)
+           )       # End capture group 2
+           (\\ = \\ )  # Match = with space (required)
+         )         # End capture group 1
+         .*$       # To end; some options have spaces
+       '''
+      }
+    ]
+  }
+  syntaxPlain: {
+    comment: 'This is bare minimum that should work in most cases. It does not attempt to match pairs of anything, or specific constructions; just control sequences'
+    patterns: [
+      { include: '#controlSymbol' }
+      { include: '#controlWord' }
+      { include: '#lineComment' }
+      {
+        comment: 'Does not look for matching, just shows it is there'
+        match: '(\\$\\$)|(\\$)'
+        captures:
+          1: name: 'string.other.math.display.latex'
+          2: name: 'string.other.math.inline.latex'
+      }
+    ]
   }
   documentclass: {
     comment: 'Documentclass finder.'
@@ -619,7 +671,7 @@ repository:
     beginCaptures:
       0: name: 'string.other.math.display.begin.latex'
       1: name: 'invalid.deprecated.latex'
-    end: '(\\$\\$)|(\\\\\\])|(?=\\})'
+    end: '(\\$\\$)|(\\\\\\])|(?=\\})|((?=% !T[eE]X syntax))'
     endCaptures:
       0: name: 'string.other.math.display.end.latex'
       1: name: 'invalid.deprecated.latex'
