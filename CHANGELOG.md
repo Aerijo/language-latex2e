@@ -2,6 +2,16 @@
 
 <!-- ## Unreleased -->
 
+## 0.12.0
+#### Added
+- Magic syntax comments
+- Supporting documentation in README.md and docs
+- File used to make preview screenshot
+- Package keywords
+
+#### Changed
+- Redone ./docs/structure.md
+
 ## 0.11.1
 #### Added
 - Scopes unit-value pairs (no space) to allow spell checker to ignore; eg. 12pt
