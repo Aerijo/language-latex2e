@@ -1,0 +1,27 @@
+% !TEX magic_comments = yes
+\documentclass[a4paper]{article}
+\usepackage[
+	T1,
+  % not this option,
+]{fontenc} % It supports multiline package options
+\usepackage{minted} \usepackage{mathtools} \usepackage{hyperref}
+\begin{document}
+How your {\LaTeX} document will look with this package. Screenshot taken with:
+\begin{description}
+ \item [UI] One Dark UI \item [Syntax] One Dark Syntax \item [Font] Menlo
+\end{description}
+
+Text $ math \text{text $nested math$ text} math $ text \\
+\textbf{bold} \textit{italic} \texttt{typewriter} \emph{emphasis} \\
+\verb|verbatim| \href{http://google.com.au/search?q=author%27s%20URL}{replacement text}
+
+\label{eq:gauss} \autocite{eq:gauss} \\
+\` \~ \! \@ \# \$ \% \^ \& \* \( \) \- \_ \= \+ % Spot the primitives.
+\[ \{ \] \} \| \; \: \' \" \, \< \. \> \/ \?    % Escaped constants are orange.
+
+What a weir^^64 way to write \verb|what a weird way to write|.
+\tracingmacros=2 % It knows standard primitives
+\begin{minted}{js}
+  var x = myFunc(); // It supports embedded languages
+\end{minted}
+\end{document}
