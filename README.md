@@ -18,6 +18,13 @@ Most features available in `language-latex` have been implemented, so all that r
 
 The package will scope grammar if it is installed through Atom like any other package. You may find that [`language-latex`](https://atom.io/packages/language-latex) (if installed) needs to be disabled for this one to work properly.
 
+## Tips
+This package supports a new [magic comment](https://tex.stackexchange.com/questions/78101/when-and-why-should-i-use-tex-ts-program-and-tex-encoding) of the form
+```latex
+% !TEX syntax = value
+```
+See [the documentation](docs/magic_comments.md) for details.
+
 ## The hack jobs. Sorry.
 These sections detail how to set up the spell checking, linting and formatting packages.
 
