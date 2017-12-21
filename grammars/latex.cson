@@ -507,7 +507,7 @@ repository:
     patterns: [
       {
         comment: 'Simplify syntax highlighting until the next magic syntax comment'
-        begin: '% !(?>T[eE]X) syntax = plain'
+        begin: '% !(?>T[eE]X) syntax\\s*=\\s*plain\\s*$'
         beginCaptures: 0: name: 'keyword.control.magic.syntax.plain.latex'
         end: '(?=% !T[eE]X syntax)'
         contentName: 'meta.syntax.plain.latex'
@@ -515,7 +515,7 @@ repository:
       }
       {
         comment: 'Forces mathmode until the next magic syntax comment'
-        begin: '% !(?>T[eE]X) syntax = math'
+        begin: '% !(?>T[eE]X) syntax\\s*=\\s*math\\s*$'
         beginCaptures: 0: name: 'keyword.control.magic.syntax.math.latex'
         end: '(?=% !T[eE]X syntax)'
         contentName: 'string.other.math.latex'
@@ -523,17 +523,17 @@ repository:
       }
       {
         comment: 'Forces out of mathmode. Actually implemented in the mathMode patterns, as I dont know how to force an exit indirectly.'
-        match: '% !(?>T[eE]X) syntax = text'
+        match: '% !(?>T[eE]X) syntax\\s*=\\s*text\\s*$'
         captures: 0: name: 'keyword.control.magic.syntax.text.latex'
       }
       {
-        begin: '% !(?>T[eE]X) syntax = verbatim'
+        begin: '% !(?>T[eE]X) syntax\\s*=\\s*verbatim\\s*$'
         beginCaptures: 0: name: 'keyword.control.magic.syntax.verbatim.latex'
         end: '(?=% !T[eE]X syntax)'
         contentName: 'markup.raw.verbatim.latex'
       }
       {
-        begin: '% !(?>T[eE]X) syntax = none'
+        begin: '% !(?>T[eE]X) syntax\\s*=\\s*none\\s*$'
         beginCaptures: 0: name: 'keyword.control.magic.syntax.verbatim.latex'
         end: '(?=% !T[eE]X syntax)'
         contentName: 'meta.syntax.none.latex'
@@ -563,10 +563,12 @@ repository:
       { include: '#lineComment' }
       {
         comment: 'Does not look for matching, just shows it is there'
-        match: '(\\$\\$)|(\\$)'
+        match: '(\\$\\$)|(\\$)|(\\{)|(\\})'
         captures:
           1: name: 'string.other.math.display.latex'
           2: name: 'string.other.math.inline.latex'
+          3: name: 'punctuation.definition.group.begin.latex'
+          4: name: 'punctuation.definition.group.end.latex'
       }
     ]
   }
