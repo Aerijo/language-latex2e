@@ -990,7 +990,7 @@ repository:
     comment: 'The manual shows it can take an optional argument that may be several lines. This will be ignored for now.'
     name: 'meta.environment.embedded.$5.latex'
     contentName: 'source.embedded.tikz'
-    begin: '((\\\\)begin)(\\{)((tikzpicture)\\*?)(\\})'
+    begin: '((\\\\)begin)(\\{)((tikzpicture)\\*?)(\\})(?:(\\[)(.*?)(\\]))?'
     beginCaptures:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
@@ -998,6 +998,14 @@ repository:
       4: name: 'variable.parameter.environment.$5.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
+      7: name: 'punctuation.definition.arguments.optional.begin.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.tikz.latex'
+        patterns: [
+          { include: '#tikzOptions' }
+          { include: '$self' }
+        ]
+      9: name: 'punctuation.definition.arguments.optional.end.latex'
     end: '((\\\\)end)(\\{)(\\4)(\\})'
     endCaptures:
       1: name: 'support.function.environment.end.latex'
@@ -1136,6 +1144,10 @@ repository:
     comment: 'To match numbers of form 12, 1.2, etc.'
     match: '(\\d*\\.\\d+|(\\d+\\.)?\\d*)'
     name: 'constant.numeric.math.latex'
+  }
+  tikzOptions: {
+    comment: 'Specifically for the options that can be given to tikz. Placeholder for now'
+    match: '$impossible'
   }
 
 # Unfortunate necessity (mainly making a unique grammar for each coding language)
