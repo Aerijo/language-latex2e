@@ -7,77 +7,43 @@ firstLineMatch: '\\\\begin\\{'
 limitLineLength: false
 
 patterns: [
+  { include: '#coordinate' }
+  { include: '#options' }
+  { include: '#pathDescriptor' }
   {
-    include: '#beginTikzPicture'
+    comment: 'This prevents .tikz files being scoped as LaTeX & embedded with TikZ'
+    match: '((\\\\)(begin|end))(\\{)(tikzpicture)(\\})'
+    captures:
+      1: name: 'support.function.environment.$3.latex'
+      2: name: 'punctuation.definition.function.$3.latex'
+      # 3: For knowing if the capture is `begin` or `end`
+      4: name: 'punctuation.definition.arguments.begin.latex'
+      5: name: 'variable.parameter.environment.tikzpicture.latex'
+      6: name: 'punctuation.definition.arguments.end.latex'
   }
-  {
-    include: '#drawCommandMeta'
-  }
-  {
-    include: 'text.tex.latex'
-  }
+  { include: 'text.tex.latex' }
 ]
 
 
 repository:
-  beginTikzPicture: {
-    comment: 'Looks for begin/end tikzpicture. This env should be in the file, even if separate from the main document.'
-    begin: '(\\\\)begin\\{tikzpicture\\}'
-    beginCaptures:
-      0:
-        name: 'keyword.control.environment.tikzpicture.tikz'
-    end: '(\\\\)end\\{tikzpicture\\}'
-    endCaptures:
-      0:
-        name: 'keyword.control.environment.tikzpicture.tikz'
-    patterns: [
-      {
-        include: '$self'
-      }
-    ]
+  # General structures that apply anywhere
+  coordinate: {
+    comment: 'The contents is either a point, or name (which refers to a point).'
+    match: '(\\()(.*?)(\\))'
+    captures:
+      1: name: 'punctuation.definition.begin.coordinate.tikz'
+      2:
+        name: 'markup.other.coordinate.tikz'
+        patterns: [{ include: '$self' }]
+      3: name: 'punctuation.definition.end.coordinate.tikz'
   }
-  drawCommandMeta: {
-    begin: '(\\\\)draw\\b'
-    beginCaptures:
-      0:
-        name: 'support.function.draw.tikz'
-    end: '\\;'
-    endCaptures:
-      0:
-        name: 'punctuation.definition.lineend.tikz'
-    patterns: [
-      {
-        include: '#squareBrackets'
-      }
-      {
-        include: '#parentheses'
-      }
-      {
-        include: '#pathDescriptor'
-      }
-    ]
-  }
-  squareBrackets: {
-    contentName: 'variable.parameter.optional.tikz'
+  options: {
     begin: '\\['
-    beginCaptures:
-      0:
-        name: 'punctuation.definition.optional.begin.tikz'
+    beginCaptures: 0: name: 'punctuation.definition.argument.optional.begin.tikz'
     end: '\\]'
-    endCaptures:
-      0:
-        name: 'punctuation.definition.optional.end.tikz'
-  }
-  parentheses: {
-    contentName: 'variable.parameter.tikz'
-    begin: '\\('
-    beginCaptures:
-      0:
-        name: 'punctuation.definition.begin.tikz'
-    end: '\\)'
-    endCaptures:
-      0:
-        name: 'punctuation.definition.end.tikz'
+    endCaptures: 0: name: 'punctuation.definition.argument.optional.end.tikz'
+    contentName: 'variable.parameter.optional.tikz'
+    patterns: [{ include: '$self' }]
   }
   pathDescriptor: {
     comment: 'For the constructions like --, -|, |-, etc.'
