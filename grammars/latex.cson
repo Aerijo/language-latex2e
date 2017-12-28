@@ -699,31 +699,41 @@ repository:
     patterns: [{ include: '$self'}]
   }
   inputFile: {
-    comment: 'Matches the input/include command and allows custom path colours. Technically a single letter file is valid, but I think it unlikely someone legitimately means it.'
-    begin: '\\\\(input|include)(?=[^a-zA-Z@])'
-    beginCaptures:
-      0: name: 'keyword.control.$1.latex'
-    end: '(?<=\\})|(^\\s*$)'
-    endCaptures:
-      1: name: 'invalid.illegal.latex'
-    patterns:[
-      { include: '#awaitingArgumentBrackets' }
+    patterns: [
       {
-        comment: 'Only this one necessary because escaped characters will be picked up by awaitingArgumentBrackets.'
-        include: '#lineComment'
+        comment: 'Matches the input/include command and allows custom path colours. Braces are technically optional, but the command will only be recognised if present.'
+        contentName: 'variable.parameter.arguments.latex'
+        begin: '((\\\\)(input|include))\\s*(\\{)'
+        beginCaptures:
+          1: name: 'keyword.control.$1.latex'
+          2: name: 'punctuation.definition.function.latex'
+          4: name: 'punctuation.definition.arguments.begin.latex'
+        end: '(\\})'
+        endCaptures:
+          1: name: 'punctuation.definition.arguments.end.latex'
+        patterns:[
+          { include: '#filePathScope' }
+        ]
       }
-      { include: '#filePathScope' }
+      {
+        comment: 'For alternative syntax without braces'
+        match: '((\\\\)(input|include))\\s*(.*?)(?:\\s|$)'
+        captures:
+          1: name: 'keyword.control.$1.latex'
+          2: name: 'punctuation.definition.function.latex'
+          4: patterns: [
+            { include: '#escapedCharacter' }
+            { include: '#controlWord' }
+            { include: '#controlSymbol' }
+            { include: '#lineComment' }
+            { include: '#filePathScope' }
+            { include: '$self' }
+          ]
+      }
     ]
   }
   filePathScope: {
     comment: 'Matches a file path (UNIX only, add Windows yourself reader).'
-    contentName: 'variable.parameter.arguments.latex'
-    begin: '\\{'
-    beginCaptures:
-      0: name: 'punctuation.definition.arguments.begin.latex'
-    end: '\\}'
-    endCaptures:
-      0: name: 'punctuation.definition.arguments.end.latex'
     patterns: [
       {
         name: 'support.filepath.back.latex'
@@ -739,11 +749,15 @@ repository:
       }
       {
         name: 'support.filepath.directory.latex'
-        match: '[^(\\.+\\/)].*?\\/'
+        match: '[^(?:\\.+\\/)]([^%]*?)\\/'
+        captures:
+          1: patterns: [{ include: '$self' }]
       }
       {
         name: 'support.filepath.file.latex'
-        match: '[^}]*'
+        match: '([^}%]*)'
+        captures:
+          1: patterns: [{ include: '$self' }]
       }
     ]
   }
