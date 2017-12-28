@@ -9,7 +9,7 @@ limitLineLength: false
 patterns: [
   {
     comment: 'Bare minimum to make the log file look good. I will look into its syntax some other time.'
-    match: '(\\\\)[\\w@]*'
+    match: '(\\\\)[a-zA-Z@]*'
     name: 'support.function.general.latex.log'
   }
   {
