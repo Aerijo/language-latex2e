@@ -13,6 +13,10 @@ patterns: [
     name: 'support.function.general.latex.log'
   }
   {
+    match: '(\\\\)[^a-zA-Z@]?'
+    name: 'keyword.control.symbol.latex.log'
+  }
+  {
     match: '\\![a-zA-Z]+.*$' # Doesn't work
     name: 'invalid.illegal.latex.log'
   }
@@ -20,8 +24,11 @@ patterns: [
     include: '#filePath'
   }
   {
-    match: '\\#\\d+'
-    name: 'constant.character.latex'
+    match: '(\\#{3,}[1-9])|(\\#{2}[1-9])|(\\#[1-9])'
+    captures:
+      1: name: 'variable.parameter.hashtag.3.latex'
+      2: name: 'variable.parameter.hashtag.2.latex'
+      3: name: 'variable.parameter.hashtag.1.latex'
   }
 ]
 
