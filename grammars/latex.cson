@@ -738,7 +738,7 @@ repository:
       }
       {
         comment: 'For alternative syntax without braces'
-        match: '((\\\\)(input|include))\\s*(.*?)(?:\\s|$)'
+        match: '((\\\\)(input|include))\\s+(.*?)(?:\\s|$)'
         captures:
           1: name: 'keyword.control.$1.latex'
           2: name: 'punctuation.definition.function.latex'
