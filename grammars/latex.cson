@@ -26,6 +26,7 @@ repository:
   metaControl: {
     comment: 'All these commands begin with a backslash.'
     patterns: [
+      { include: '#doubleCaret' } # Temporary, to see if it works better this way.
       { include: '#metaCommonControlSequences' }
       { include: '#metaEnvironment' }
       { include: '#metaDollar' } # Because of \( and \[. Must appear below escaped characters, to prevent \$ from being a false positive.
@@ -139,6 +140,7 @@ repository:
       { include: '#metaFootnote' }
       { include: '#metaReferences' } # maybe include \ref \label as well?
       { include: '#constants' } # words that represent constants
+      { include: '#catcode' } # and all the other <something>code commands
 
       # Potential additions:
       # { include: '#commandDefinitions' }
@@ -171,6 +173,13 @@ repository:
   metaPrimitives: {
     comment: 'Allows organisation of various primitive sources'
     patterns: [
+      # {
+      #   match: '((\\\\)catcode)\\s*\\`(.*?)='
+      #   captures:
+      #     1: name: 'entity.name.function.primitive.latex'
+      #     2: name: 'punctuation.definition.function.latex'
+      #     3: patterns: [{ include: '$self' }]
+      # }
       { include: '#texPrimitives' }
       { include: '#pdfTexPrimitives' }
       { include: '#unsortedPrimitives' }
@@ -416,6 +425,14 @@ repository:
   }
 
 # Other
+  catcode: {
+    comment: 'Prevent catcoding from triggering mathmode; could be made more general into whenever a backtick is followed by math mode brackets'
+    match: '((\\\\)(?>cat|math|sf|del)code)`(\\\\\\(|\\\\\\[)'
+    captures:
+      1: name: 'entity.name.function.primitive.latex'
+      2: name: 'punctuation.definition.function.latex'
+      3: name: 'keyword.control.symbol.latex'
+  }
   escapedCharacter: {
     comment: 'Finds escaped characters like \$ and \%. Uses this regex so unique capture groups can be used.'
     name: 'constant.character.latex'
@@ -424,7 +441,7 @@ repository:
   controlSymbol: {
     comment: 'Mostly covered by escapedCharacter, but this is a catch all for any control symbols'
     name: 'keyword.control.symbol.latex'
-    match: '\\\\([^a-zA-Z@]|@[^a-zA-A@])'
+    match: '\\\\([^a-zA-Z@]|@[^a-zA-Z@])'
   }
   controlWord: {
     comment: 'A catch all for latex control words that have not already been identified.'
@@ -1133,7 +1150,7 @@ repository:
   doubleCaret: {
     comment: 'Im not sure what these are called, but they seem to work (eg. ^^M is a linebreak)'
     name: 'constant.character.latex'
-    match: '\\^\\^(\\d+|.|$)'
+    match: '(\\\\)?\\^\\^(\\d+|.|$)'
   }
   text: {
     begin: '((\\\\)text)\\s*(\\{)'
