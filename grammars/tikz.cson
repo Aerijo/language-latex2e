@@ -11,6 +11,10 @@ patterns: [
   { include: '#options' }
   { include: '#pathDescriptor' }
   {
+    match: '\\$'
+    name: 'markup.other.calc.tikz'
+  }
+  {
     comment: 'This prevents .tikz files being scoped as LaTeX & embedded with TikZ'
     match: '((\\\\)(begin|end))(\\{)(tikzpicture)(\\})'
     captures:
@@ -29,13 +33,12 @@ repository:
   # General structures that apply anywhere
   coordinate: {
     comment: 'The contents is either a point, or name (which refers to a point).'
-    match: '(\\()(.*?)(\\))'
-    captures:
-      1: name: 'punctuation.definition.begin.coordinate.tikz'
-      2:
-        name: 'markup.other.coordinate.tikz'
-        patterns: [{ include: '$self' }]
-      3: name: 'punctuation.definition.end.coordinate.tikz'
+    begin: '\\('
+    end: '\\)|$'
+    beginCaptures: 0: name: 'punctuation.definition.begin.coordinate.tikz'
+    endCaptures: 0: name: 'punctuation.definition.end.coordinate.tikz'
+    contentName:'markup.other.coordinate.tikz'
+    patterns: [{ include: '$self' }]
   }
   options: {
     begin: '\\['
@@ -43,7 +46,7 @@ repository:
     end: '\\]'
     endCaptures: 0: name: 'punctuation.definition.argument.optional.end.tikz'
     contentName: 'variable.parameter.optional.tikz'
-    patterns: [{ include: '$self' }]
+    patterns: [{ include: '#text.tex.latex.tikz' }]
   }
   pathDescriptor: {
     comment: 'For the constructions like --, -|, |-, etc.'
