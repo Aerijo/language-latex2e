@@ -21,7 +21,7 @@
 - Code cleanup to remove redundant lines
 
 #### Fixed
-- `\verb` will optionally finish on end of line (doesn't wait for terminating character to appear before appyling scope)
+- `\verb` will optionally finish on end of line (doesn't wait for terminating character to appear before applying scope)
 
 #### Removed
 - In `genericSymbol`, the symbol itself from the generic scope name. It caused odd behaviour with <section>\\`</section> and the toggle comment line command
