@@ -709,7 +709,6 @@ repository:
     patterns: [
       {
         comment: 'Matches the input/include command and allows custom path colours. Braces are technically optional, but the command will only be recognised if present.'
-        applyEndPatternLast: true
         contentName: 'variable.parameter.arguments.latex'
         begin: '((\\\\)(input|include))\\s*(\\{)'
         beginCaptures:
@@ -720,9 +719,9 @@ repository:
         endCaptures:
           1: name: 'punctuation.definition.arguments.end.latex'
         patterns: [
-          # { include: '#filePathScope' }
-          { include: '#controlWord' }
-          { include: '#controlSymbol' }
+          { include: '$self' }
+          # { include: '#controlWord' }
+          # { include: '#controlSymbol' }
         ]
       }
       {
