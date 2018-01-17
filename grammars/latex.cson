@@ -131,7 +131,7 @@ repository:
       { include: '#usepackage' }
       { include: '#inputFile' }
       { include: '#sectioning' }
-      { include: '#makeAtSomething' }
+      # { include: '#makeAtSomething' } # Deprecated now that @ is valid everywhere (and interferes with files that use it at beginning & end)
       { include: '#verbatim' }
       { include: '#item' }
       { include: '#metaHyperref' }
@@ -376,11 +376,11 @@ repository:
       {
         comment: 'Taken from language-latex'
         begin: '''(?x)
-                    ((\\\\)(?:text)?(?:paren)?(?:auto)?(?:foot)?(?:full)?(?:no)?(?:short)?[cC]ites?(?:al)?(?:t|p|author|year(?:par)?|title)?[ANP]*\\*?)
-                    (?:(\\[)[^\\]]*(\\]))?
-                    (?:(\\[)[^\\]]*(\\]))?
-                    (\\{)
-                 '''
+                  ((\\\\)(?:text)?(?:paren)?(?:auto)?(?:foot)?(?:full)?(?:no)?(?:short)?[cC]ites?(?:al)?(?:t|p|author|year(?:par)?|title)?[ANP]*\\*?)
+                  (?:(\\[)[^\\]]*(\\]))?
+                  (?:(\\[)[^\\]]*(\\]))?
+                  (\\{)
+               '''
         captures:
           1: name: 'keyword.control.cite.latex'
           2: name: 'punctuation.definition.keyword.latex'
@@ -426,6 +426,7 @@ repository:
 
 # Other
   catcode: {
+    # sfcode can take a macro as argument? Needs more work.
     comment: 'Prevent catcoding from triggering mathmode; could be made more general into whenever a backtick is followed by math mode brackets'
     match: '((\\\\)(?>cat|math|sf|del|uc|lo)code)\\s*\\`?(\\\\.(?!\\^))'
     captures:
@@ -561,15 +562,15 @@ repository:
         name: 'comment.line.percentage.latex'
         captures: 0: name: 'keyword.control.magic.latex'
         match: '''(?x)   # Allow comments like this. More of an educational thing, really, for anyone reading this.
-         ((        # Capture groups 1 & 2
-           (%)     # Capture percent sign
-           (\\ !(?>T[eE]X|BIB)\\ )  # See https://github.com/kkos/oniguruma/blob/771535fce64f225f9fa2f965dbb55277e18fbde9/doc/RE#L252 for ?>
-           (\\S+)    # A word (this is required as far as I know)
-           )       # End capture group 2
-           (\\ = \\ )  # Match = with space (required)
-         )         # End capture group 1
-         .*$       # To end; some options have spaces
-       '''
+                 ((        # Capture groups 1 & 2
+                   (%)     # Capture percent sign
+                   (\\ !(?>T[eE]X|BIB)\\ )  # See https://github.com/kkos/oniguruma/blob/771535fce64f225f9fa2f965dbb55277e18fbde9/doc/RE#L252 for ?>
+                   (\\S+)    # A word (this is required as far as I know)
+                   )       # End capture group 2
+                   (\\ = \\ )  # Match = with space (required)
+                 )         # End capture group 1
+                 .*$       # To end; some options have spaces
+               '''
       }
     ]
   }
@@ -704,79 +705,78 @@ repository:
       { include: '$self' }
     ]
   }
-  makeAtSomething: {
-    comment: 'Matches the makeat(letter|other) commands so that they get custom highlighting (because @ is now a character)'
-    contentName: 'markup.raw.verbatim.latex' # To make user aware of its effect
-    begin: '(\\\\)makeatletter\\b'
-    beginCaptures:
-      0: name: 'support.function.makeat.latex'
-    end: '(\\\\)makeatother\\b'
-    endCaptures:
-      0: name: 'support.function.makeat.latex'
-    patterns: [{ include: '$self'}]
-  }
   inputFile: {
     patterns: [
       {
         comment: 'Matches the input/include command and allows custom path colours. Braces are technically optional, but the command will only be recognised if present.'
+        applyEndPatternLast: true
         contentName: 'variable.parameter.arguments.latex'
         begin: '((\\\\)(input|include))\\s*(\\{)'
         beginCaptures:
-          1: name: 'keyword.control.$1.latex'
+          1: name: 'keyword.control.$3.latex'
           2: name: 'punctuation.definition.function.latex'
           4: name: 'punctuation.definition.arguments.begin.latex'
         end: '(\\})'
         endCaptures:
           1: name: 'punctuation.definition.arguments.end.latex'
-        patterns:[
-          { include: '#filePathScope' }
+        patterns: [
+          # { include: '#filePathScope' }
+          { include: '#controlWord' }
+          { include: '#controlSymbol' }
         ]
       }
       {
         comment: 'For alternative syntax without braces'
-        match: '((\\\\)(input|include))\\s+(.*?)(?:\\s|$)'
+        match: '((\\\\)(input|include))\\s+(.*?)(?:\\s|$)' # Add in (?!a-zA-Z@) check
         captures:
-          1: name: 'keyword.control.$1.latex'
+          1: name: 'keyword.control.$3.latex'
           2: name: 'punctuation.definition.function.latex'
           4: patterns: [
             { include: '#escapedCharacter' }
             { include: '#controlWord' }
             { include: '#controlSymbol' }
             { include: '#lineComment' }
-            { include: '#filePathScope' }
-            { include: '$self' }
+            # { include: '#filePathScope' }
           ]
       }
     ]
   }
   filePathScope: {
-    comment: 'Matches a file path (UNIX only, add Windows yourself reader).'
-    patterns: [
-      {
-        name: 'support.filepath.back.latex'
-        match: '\\.{2,}\\/'
-      }
-      {
-        name: 'support.filepath.home.latex'
-        match: '\\.\\/'
-      }
-      {
-        name: 'support.filepath.root.latex'
-        match: '(?<=\\{)\\/'
-      }
-      {
-        name: 'support.filepath.directory.latex'
-        match: '[^(?:\\.+\\/)]([^%]*?)\\/'
-        captures:
-          1: patterns: [{ include: '$self' }]
-      }
-      {
-        name: 'support.filepath.file.latex'
-        match: '([^}%]*)'
-        captures:
-          1: patterns: [{ include: '$self' }]
-      }
-    ]
+    comment: 'Matches a file path (UNIX only, add Windows yourself reader). CURRENTLY BROKEN'
+    # patterns: [
+    #   { include: '#controlWord' }
+    #   { include: '#controlSymbol' }
+    #   {
+    #     name: 'support.filepath.back.latex'
+    #     match: '\\.{2,}\\/'
+    #   }
+    #   {
+    #     name: 'support.filepath.home.latex'
+    #     match: '\\.\\/'
+    #   }
+    #   {
+    #     name: 'support.filepath.root.latex'
+    #     match: '(?<=\\{)\\/'
+    #   }
+    #   {
+    #     name: 'support.filepath.directory.latex'
+    #     match: '[^(?:\\.+\\/)]([^%\\{\\}]*?)\\/'
+    #     captures:
+    #       1: patterns: [
+    #         { include: '#controlWord' }
+    #         { include: '#controlSymbol' }
+    #       ]
+    #   }
+    #   {
+    #     name: 'support.filepath.file.latex'
+    #     match: '([^%\\{\\}]*)'
+    #     captures:
+    #       1: patterns: [
+    #         { include: '#controlWord' }
+    #         { include: '#controlSymbol' }
+    #       ]
+    #   }
+    # ]
   }
   verbatim: {
     comment: 'Finds an inline verbatim string of the format \verb+...+'
@@ -1049,13 +1049,13 @@ repository:
   envTable: {
     comment: 'The following is taken verbatim (sans key quotes) from language-latex'
     begin: '''(?x)
-                (?:\\s*)
-                ((\\\\)begin)
-                (\\{)
-                (array|tabular[xy*]?)
-                (\\})
-                (\\s*)?
-             '''
+              (?:\\s*)
+              ((\\\\)begin)
+              (\\{)
+              (array|tabular[xy*]?)
+              (\\})
+              (\\s*)?
+           '''
     captures:
       1: name: 'support.function.begin.latex'
       2: name: 'punctuation.definition.function.latex'
@@ -1064,13 +1064,13 @@ repository:
       5: name: 'punctuation.definition.arguments.end.latex'
     contentName: 'meta.data.environment.tabular.latex'
     end: '''(?x)
-              (?:\\s*)
-              ((\\\\)end)
-              (\\{)
-              (\\4)
-              (\\})
-              (?:\\s*)?
-           '''
+            (?:\\s*)
+            ((\\\\)end)
+            (\\{)
+            (\\4)
+            (\\})
+            (?:\\s*)?
+         '''
     name: 'meta.function.environment.tabular.latex'
     patterns: [
       {
@@ -1129,8 +1129,8 @@ repository:
   }
   keywords: {
     comment: '''Taken from the TeXBook. Not sorted.
-      at, bp, by, cc, cm, dd, depth, em, ex, fil, height, in, l, minus, mm, mu, pc, plus, pt, scaled, sp, spread, to, true, width
-    '''
+               at, bp, by, cc, cm, dd, depth, em, ex, fil, height, in, l, minus, mm, mu, pc, plus, pt, scaled, sp, spread, to, true, width
+             '''
   }
   texPrimitives: {
     comment: 'This took a long time to write </joke>. Really though, dont even bother trying to edit it. Just add more primitives to the list in ../lib/resources, and recompile it.'
@@ -1418,3 +1418,15 @@ repository:
   }
 
 # Removed
+
+  makeAtSomething: {
+    comment: 'Matches the makeat(letter|other) commands so that they get custom highlighting (because @ is now a character)'
+    contentName: 'markup.raw.verbatim.latex' # To make user aware of its effect
+    begin: '(\\\\)makeatletter\\b'
+    beginCaptures:
+      0: name: 'support.function.makeat.latex'
+    end: '(\\\\)makeatother\\b'
+    endCaptures:
+      0: name: 'support.function.makeat.latex'
+    patterns: [{ include: '$self'}]
+  }
