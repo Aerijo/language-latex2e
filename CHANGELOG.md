@@ -2,6 +2,13 @@
 
 <!-- ## Unreleased -->
 
+## 0.12.1
+#### Changed
+- File path sections inside `\input` and `\include` no longer get dedicated scopes; this is (hopefully temporary) to prevent an infinite loop bug.
+
+#### Removed
+- The `makeatletter` rules are no longer useful (now that `@` is always considered a valid control word character), so have been removed.
+
 ## 0.12.0
 #### Added
 - Magic syntax comments
