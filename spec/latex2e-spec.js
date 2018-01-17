@@ -1,6 +1,6 @@
 describe("LaTeX grammar", function() {
   var grammar = null;
-  var root = "text.tex.latex" // defined here to allow painless changes (and reduce typing)
+  var root = "text.tex.latex"; // defined here to allow painless changes (and reduce typing)
 
   beforeEach(() => {
     waitsForPromise(() => {
@@ -20,7 +20,7 @@ describe("LaTeX grammar", function() {
   it("is configured correctly", () => {
     expect(grammar.maxLineLength).toBe(Infinity);
     expect(grammar.maxTokensPerLine).toBe(atom.config.get("language-latex2e.maxTokensPerLine"));
-  })
+  });
 
   it("tokenizes spaces", () => {
     let tokens = grammar.tokenizeLine(" ").tokens;
