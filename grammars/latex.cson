@@ -446,8 +446,11 @@ repository:
   }
   controlWord: {
     comment: 'A catch all for latex control words that have not already been identified.'
-    name: 'support.function.general.$1.latex'
-    match: '\\\\([a-zA-Z@]+)'
+    match: '(\\\\)([a-zA-Z@]+)'
+    captures:
+      0: name: 'support.function.general.latex'
+      1: name: 'punctuation.definition.function.latex'
+      2: name: 'support.function.general.tex'
   }
   accents: {
     comment: 'For standard latex accent macros such as \^ or \`. Not used for now, at least until better rules are developed.'
