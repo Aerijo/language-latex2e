@@ -805,7 +805,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.$5.latex'
+      4: name: 'variable.parameter.function.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -816,7 +816,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: '$self' }]
   }
@@ -828,14 +828,14 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.$5.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     end: '((\\\\)end)(\\{)(\\4)(\\})'
     endCaptures:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
   }
   envDocument: {
@@ -846,18 +846,18 @@ repository:
       2: name: 'punctuation.definition.function.latex'
       # 3: This is for the first group scopes
       4: name: 'punctuation.definition.arguments.begin.latex'
-      5: name: 'variable.parameter.environment.document.latex'
+      5: name: 'variable.parameter.function.document.latex'
       6: name: 'punctuation.definition.arguments.end.latex'
   }
   envFigure: {
     comment: 'Matches the common figure environment'
-    contentName: 'meta.environment.float.$5.latex'
+    name: 'meta.environment.float.$5.latex'
     begin: '((\\\\)begin)(\\{)((figure)\\*?)(\\})(?:(\\[)(.*?)(\\]))?'
     beginCaptures:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.$5.latex'
+      4: name: 'variable.parameter.function.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -868,7 +868,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: '$self' }]
   }
@@ -883,7 +883,7 @@ repository:
           1: name: 'support.function.environment.begin.latex'
           2: name: 'punctuation.definition.function.begin.latex'
           3: name: 'punctuation.definition.arguments.begin.latex'
-          4: name: 'variable.parameter.environment.$5.latex'
+          4: name: 'variable.parameter.function.latex'
           # 5: Used for meta scope name (basically just non starred version)
           6: name: 'punctuation.definition.arguments.end.latex'
           7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -894,7 +894,7 @@ repository:
           1: name: 'support.function.environment.end.latex'
           2: name: 'punctuation.definition.function.latex'
           3: name: 'punctuation.definition.arguments.begin.latex'
-          4: name: 'variable.parameter.environment.latex'
+          4: name: 'variable.parameter.function.latex'
           5: name: 'punctuation.definition.arguments.end.latex'
         patterns: [{ include: '$self' }]
       }
@@ -907,12 +907,12 @@ repository:
           1: name: 'support.function.environment.begin.latex'
           2: name: 'punctuation.definition.function.begin.latex'
           3: name: 'punctuation.definition.arguments.begin.latex'
-          4: name: 'variable.parameter.environment.$5.latex'
+          4: name: 'variable.parameter.function.latex'
           # 5: Used for meta scope name (basically just non starred version)
           6: name: 'punctuation.definition.arguments.end.latex'
           7: name: 'punctuation.definition.arguments.begin.latex'
           8:
-            name: 'variable.parameter.environment.latex'
+            name: 'variable.parameter.function.latex'
             patterns: [
               { include: '#numericConstants' }
               { include: '$self' }
@@ -923,7 +923,7 @@ repository:
           1: name: 'support.function.environment.end.latex'
           2: name: 'punctuation.definition.function.latex'
           3: name: 'punctuation.definition.arguments.begin.latex'
-          4: name: 'variable.parameter.environment.latex'
+          4: name: 'variable.parameter.function.latex'
           5: name: 'punctuation.definition.arguments.end.latex'
         patterns: [{ include: '$self' }]
       }
@@ -937,7 +937,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.$5.latex'
+      4: name: 'variable.parameter.function.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -948,7 +948,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: '$self' }]
   }
@@ -961,7 +961,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.verbatim.$5.latex'
+      4: name: 'variable.parameter.function.latex'
       # 5: Here to keep numbering consistent with other environments
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -972,7 +972,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
   }
   envGnuplot: {
@@ -984,7 +984,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.$5.latex'
+      4: name: 'variable.parameter.function.latex'
       # 5: Used for $4 and meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -995,7 +995,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.gnuplot' }]
   }
@@ -1007,7 +1007,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.$5.latex'
+      4: name: 'variable.parameter.function.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
     end: '((\\\\)end)(\\{)(\\4)(\\})'
@@ -1015,7 +1015,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.lua' }] # The l-latex package has complicated stuff here, so this might break
   }
@@ -1028,7 +1028,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.$5.latex'
+      4: name: 'variable.parameter.function.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -1044,7 +1044,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'text.tex.latex.tikz' }] # The l-latex package has complicated stuff here, so this might break
   }
@@ -1193,7 +1193,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.$5.latex'
+      4: name: 'variable.parameter.function.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -1207,7 +1207,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
   }
   mintPython: {
@@ -1218,7 +1218,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.minted.latex'
+      4: name: 'variable.parameter.function.minted.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -1232,7 +1232,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.python' }]
   }
@@ -1244,7 +1244,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.minted.latex'
+      4: name: 'variable.parameter.function.minted.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -1258,7 +1258,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.js' }]
   }
@@ -1270,7 +1270,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.minted.latex'
+      4: name: 'variable.parameter.function.minted.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -1284,7 +1284,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.json' }]
   }
@@ -1296,7 +1296,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.minted.latex'
+      4: name: 'variable.parameter.function.minted.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -1310,7 +1310,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.coffee' }]
   }
@@ -1322,7 +1322,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.minted.latex'
+      4: name: 'variable.parameter.function.minted.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -1336,7 +1336,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.css' }]
   }
@@ -1348,7 +1348,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.minted.latex'
+      4: name: 'variable.parameter.function.minted.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -1362,7 +1362,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.less' }]
   }
@@ -1374,7 +1374,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.minted.latex'
+      4: name: 'variable.parameter.function.minted.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -1388,7 +1388,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.xml' }]
   }
@@ -1400,7 +1400,7 @@ repository:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.minted.latex'
+      4: name: 'variable.parameter.function.minted.latex'
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
@@ -1414,7 +1414,7 @@ repository:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
       3: name: 'punctuation.definition.arguments.begin.latex'
-      4: name: 'variable.parameter.environment.latex'
+      4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
     patterns: [{ include: 'source.ruby' }]
   }
