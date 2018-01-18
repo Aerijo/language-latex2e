@@ -343,7 +343,7 @@ repository:
         end: '\\}'
         endCaptures:
           0: name: 'punctuation.definition.arguments.begin.latex'
-        contentName: 'meta.reference.latex'
+        name: 'meta.reference.latex'
         patterns: [
           { include: '#controlWord' }
           { include: '#controlSymbol' }
