@@ -1,3 +1,4 @@
+comment.block.latex
 comment.line.percentage.latex
 constant.character.accent.latex
 constant.character.latex
@@ -13,15 +14,19 @@ entity.name.section.$1.latex
 invalid.deprecated.font.latex
 invalid.deprecated.latex
 invalid.illegal.latex
-keyword.control.$1.latex
+keyword.control.$3.latex
 keyword.control.bibitem.latex
 keyword.control.cite.latex
 keyword.control.label.latex
 keyword.control.latex
 keyword.control.magic.latex
+keyword.control.magic.syntax.math.latex
+keyword.control.magic.syntax.plain.latex
+keyword.control.magic.syntax.text.latex
+keyword.control.magic.syntax.verbatim.latex
 keyword.control.preamble.latex
 keyword.control.ref.latex
-keyword.control.symbol.$1.latex
+keyword.control.symbol.latex
 markup.bold.latex
 markup.italic.emph.latex
 markup.italic.latex
@@ -35,6 +40,7 @@ meta.citation.latex
 meta.data.environment.tabular.latex
 meta.definition.latex
 meta.definition.value.latex
+meta.environment.comment.latex
 meta.environment.embedded.$11.latex
 meta.environment.embedded.$5.latex
 meta.environment.embedded.coffee.latex
@@ -56,6 +62,8 @@ meta.group.braces.latex
 meta.preamble.latex
 meta.reference.latex
 meta.row2.environment.tabular.latex
+meta.syntax.none.latex
+meta.syntax.plain.latex
 punctuation.alignment.latex
 punctuation.definition.arguments.begin.latex
 punctuation.definition.arguments.end.latex
@@ -95,6 +103,7 @@ string.other.math.display.latex
 string.other.math.inline.begin.latex
 string.other.math.inline.end.latex
 string.other.math.inline.latex
+string.other.math.latex
 support.class.latex
 support.filepath.back.latex
 support.filepath.directory.latex
@@ -108,8 +117,8 @@ support.function.environment.begin.latex
 support.function.environment.end.latex
 support.function.footnote.footnotemark.latex
 support.function.footnote.latex
-support.function.general.$1.latex
 support.function.general.latex
+support.function.general.tex
 support.function.href.latex
 support.function.makeat.latex
 support.function.section.latex
@@ -121,12 +130,9 @@ support.function.url.image.latex
 support.function.url.latex
 support.function.vebatim.latex
 variable.parameter.arguments.latex
-variable.parameter.environment.$5.latex
-variable.parameter.environment.document.latex
-variable.parameter.environment.latex
-variable.parameter.environment.minted.latex
-variable.parameter.environment.verbatim.$5.latex
+variable.parameter.function.document.latex
 variable.parameter.function.latex
+variable.parameter.function.minted.latex
 variable.parameter.hashtag.1.latex
 variable.parameter.hashtag.2.latex
 variable.parameter.hashtag.3.latex
@@ -141,4 +147,5 @@ variable.parameter.language.ruby.latex
 variable.parameter.language.xml.latex
 variable.parameter.latex
 variable.parameter.optional.function.environment.latex
+variable.parameter.optional.function.environment.tikz.latex
 variable.parameter.optional.latex
