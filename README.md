@@ -8,10 +8,6 @@ This package is a replacement for the already existing [`language-latex`](https:
 
 ## Current Status
 
-~~This package is still in a decidedly unfinished state, with many scopes missing and already implemented behaviour lacking some features. It currently requires a custom theme to display as intended, and~~ it's a bit of a hack job to get programs such as [`linter-spell`](https://atom.io/packages/linter-spell) and [`linter-chktex`](https://atom.io/packages/linter-chktex) working.
-
-We're almost ready for a v1.0.0 release!
-
 Most features available in `language-latex` have been implemented, so all that remains is to tidy up the grammar rules. If you think you can help in anyway, feel free to go to the GitHub page and raise an issue or submit a pull request.
 
 ## Installation
@@ -25,7 +21,7 @@ This package supports a new [magic comment](https://tex.stackexchange.com/questi
 ```
 See [the documentation](docs/magic_comments.md) for details.
 
-## The hack jobs. Sorry.
+## Setup
 These sections detail how to set up the spell checking, linting and formatting packages.
 
 ### Snippets
@@ -36,9 +32,13 @@ Snippets have been removed from this package. To get them back ~~mail ₿10 by c
 
 I recommend using the package [`linter-spell`](https://atom.io/packages/linter-spell) to manage spell checking. You will need a version of Aspell or Hunspell on your system, see the package itself for more help. One thing to make sure of is that you specify the absolute path for Hunspell | Aspell.
 
-In addition, you want the package [`linter-spell-latex`](https://atom.io/packages/linter-spell-latex). This is where the hack job begins: when a LaTeX command is marked as misspelt, check the scope (right click; Show Cursor Scope). Then go to the package folder (settings; view code) and open `lib/main.js`. Scroll down a little to reach the big list of scopes (you'll know when you see it). Add the scope in the same style as the ones already there (make sure you set it to false).
+In addition, you need the package [`linter-spell-latex`](https://atom.io/packages/linter-spell-latex) (this provides the LaTeX specific information to `linter-spell`, which is the general spell checking package). If the package is not activating, a quick fix is to make the change seen [here](https://github.com/AtomLinter/linter-spell-latex/pull/28/files). To confirm if the package is active, you can paste the following function into the dev tools console (`View -> Developer -> Toggle Developer Tools`)
+```
+!!atom.packages.getActivePackage("linter-spell-latex")
+```
+If it returns `true`, then it's active. If false, it's not active. Simples. \*\*insert meerkat sounds\*\*.
 
-Some things (such as `[2em]` for spacing) are not scoped by this package yet, so this solution will not work every time.
+If things are being spell checked that shouldn't, first make sure it doesn't happen with `language-latex`. If the issue is unique to this package, make an issue [here](https://github.com/Aerijo/language-latex2e/issues). If both packages have the same spell checking issue, make the issue at `linter-spell-latex`, and the maintainers there can redirect you if necessary. Always make sure your issue isn't already there before starting a new one.
 
 
 ### Chktex
