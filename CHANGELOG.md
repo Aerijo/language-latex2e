@@ -2,6 +2,10 @@
 
 <!-- ## Unreleased -->
 
+## 0.12.2
+#### Removed
+Generic functions no longer get their name in the scope. Hopefully temporary, but necessary for `linter-spell` compatibility.
+
 ## 0.12.1
 #### Changed
 - File path sections inside `\input` and `\include` no longer get dedicated scopes; this is (hopefully temporary) to prevent an infinite loop bug.
