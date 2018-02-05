@@ -1,0 +1,18 @@
+id: 'latex'
+name: 'LaTeX'
+type: 'tree-sitter'
+parser: 'tree-sitter-latex2e'
+legacyScopeName: 'text.tex.latex'
+
+fileTypes: ['tex']
+
+folds: [
+  { type: 'comment' }
+]
+
+comments:
+  start: '%'
+
+scopes:
+  'program': 'text.tex.latex'
+  'comment': 'comment.line.latex'
