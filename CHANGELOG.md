@@ -1,6 +1,10 @@
 # Changelog
 
 <!-- ## Unreleased -->
+## 0.13.0
+#### Changed
+- Math mode is now scoped to `markup` (from `string`). Style support is builtin.
+- Begin work on `tree-sitter` grammar.
 
 ## 0.12.2
 #### Removed
