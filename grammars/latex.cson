@@ -1,14 +1,22 @@
-scopeName: 'text.tex.latex'
-name: 'LaTeX2e'
-fileTypes: [ 'tex' ]
-limitLineLength: false
+scopeName: 'text.tex.latex' # used on all text the `initialRule` is applied to.
+# For what initialRule is, see https://gist.github.com/Aerijo/b8c82d647db783187804e86fa0a604a1
+
+name: 'LaTeX2e' # aesthetic name to show in language selection menu
+fileTypes: [ 'tex' ] # used by the automatic grammar selector to generate a score
+limitLineLength: false # don't truncate lines when tokenizing
+maxTokensPerLine: 300 # match up to 300 tokens per line. This setting is actually changed by the ../lib/language-latex2e.js file
+
+injectionSelector: 'source.embedded.latex' # when this scope is present in another grammar, inject this grammar
 
 # Atom uses the following regex engine -> https://github.com/kkos/oniguruma/blob/master/doc/RE
 
 # Rules to be implemented. Please add to repository and link to a 'meta' to include.
-# The following rules correspond to the ten special latex characters. They are applied at the outmost level, but can be called inside patterns by using `$self`
+# The following rules (mostly) correspond to the ten special latex characters.
+# They are applied at the outmost level, but can be called inside patterns by using `$self`
+
+# The order is largely irrelevant, as no rules should have the same start pattern.
 patterns: [
-  { include: '#metaControl' } # must go first to catch escaped sequences
+  { include: '#metaControl' }
   { include: '#metaPercent' }
   { include: '#metaDollar' }
   { include: '#metaTilde' }
@@ -95,10 +103,10 @@ repository:
       {
         comment: 'Matches a caret and following group'
         name: 'markup.other.superscript.latex'
-        begin: '(\\^)\\s*'
+        begin: '(\\^)[^\\S$]*?'
         beginCaptures:
           1: name: 'punctuation.superscript.latex'
-        end: '(?<=[^\\^\\s])'
+        end: '(?<=[^\\^\\s])|$'
         patterns: [{ include: '$self' }]
       }
     ]
@@ -540,7 +548,7 @@ repository:
         begin: '% !(?>T[eE]X) syntax\\s*=\\s*math\\s*$'
         beginCaptures: 0: name: 'keyword.control.magic.syntax.math.latex'
         end: '(?=% !T[eE]X syntax)'
-        contentName: 'string.other.math.latex'
+        contentName: 'markup.other.math.latex'
         patterns: [{ include: '$self' }]
       }
       {
@@ -587,8 +595,8 @@ repository:
         comment: 'Does not look for matching, just shows it is there'
         match: '(\\$\\$)|(\\$)|(\\{)|(\\})'
         captures:
-          1: name: 'string.other.math.display.latex'
-          2: name: 'string.other.math.inline.latex'
+          1: name: 'markup.other.math.display.latex'
+          2: name: 'markup.other.math.inline.latex'
           3: name: 'punctuation.definition.group.begin.latex'
           4: name: 'punctuation.definition.group.end.latex'
       }
@@ -672,13 +680,13 @@ repository:
   }
   inlineMathMode: {
     comment: 'This can be triggered using $ or \( \). Both can be used in the same pair.'
-    contentName: 'string.other.math.inline.latex'
+    contentName: 'markup.other.math.inline.latex'
     begin: '(\\$)|(\\\\\\()'
     beginCaptures:
-      0: name: 'string.other.math.inline.begin.latex'
+      0: name: 'markup.other.math.inline.begin.latex'
     end: '(\\$)|(\\\\\\))|(?=\\})'
     endCaptures:
-      0: name: 'string.other.math.inline.end.latex'
+      0: name: 'markup.other.math.inline.end.latex'
     patterns: [
       {
         comment: 'When in inline math, the exit can only be $ or \)'
@@ -690,14 +698,14 @@ repository:
   }
   displayMathMode: {
     comment: 'This can be triggered using $$ or \[ \]. Both can be used in the same pair.'
-    contentName: 'string.other.math.display.latex'
+    contentName: 'markup.other.math.display.latex'
     begin: '(\\$\\$)|(\\\\\\[)'
     beginCaptures:
-      0: name: 'string.other.math.display.begin.latex'
+      0: name: 'markup.other.math.display.begin.latex'
       1: name: 'invalid.deprecated.latex'
     end: '(\\$\\$)|(\\\\\\])|(?=\\})|((?=% !T[eE]X syntax))'
     endCaptures:
-      0: name: 'string.other.math.display.end.latex'
+      0: name: 'markup.other.math.display.end.latex'
       1: name: 'invalid.deprecated.latex'
     patterns: [
       {
@@ -877,7 +885,7 @@ repository:
       {
         comment: 'Matches generic math environments'
         name: 'meta.environment.math.$5.latex'
-        contentName: 'string.other.math.block.$5.latex'
+        contentName: 'markup.other.math.block.$5.latex'
         begin: '((\\\\)begin)(\\{)((align(?:ed)?|equation|multline|split|gather(?:ed)?)\\*?)(\\})(?:(\\[)(.*?)(\\]))?'
         beginCaptures:
           1: name: 'support.function.environment.begin.latex'
@@ -901,7 +909,7 @@ repository:
       {
         comment: 'Matches the alignat environment'
         name: 'meta.environment.math.$5.latex'
-        contentName: 'string.other.math.block.$5.latex'
+        contentName: 'markup.other.math.block.$5.latex'
         begin: '((\\\\)begin)(\\{)((alignat)\\*?)(\\})(?:(\\{)(.*?)(\\}))?'
         beginCaptures:
           1: name: 'support.function.environment.begin.latex'
