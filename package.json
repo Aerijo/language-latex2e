@@ -23,7 +23,7 @@
       "value": 2
     }
   },
-  "dependencies": {
+  "devDependencies": {
     "tree-sitter-latex2e": "^0.0.0"
   }
 }
