@@ -1,6 +1,6 @@
 scopeName: 'text.tex.latex.tikz'
 name: 'LaTeX TikZ'
-filetypes: [
+fileTypes: [
   'tikz'
 ]
 # firstLineMatch: '\\\\begin\\{'
