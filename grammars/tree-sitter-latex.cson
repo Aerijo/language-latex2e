@@ -1,5 +1,5 @@
 id: 'latex'
-name: 'LaTeX'
+name: 'LaTeX2e-tree'
 type: 'tree-sitter'
 parser: 'tree-sitter-latex2e'
 legacyScopeName: 'text.tex.latex'
@@ -16,3 +16,5 @@ comments:
 scopes:
   'program': 'text.tex.latex'
   'comment': 'comment.line.latex'
+  'control_sequence': 'support.function.general.latex'
+  'number': 'constant.character.latex'
