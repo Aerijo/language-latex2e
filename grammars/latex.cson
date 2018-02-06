@@ -810,7 +810,7 @@ repository:
   envGeneric: {
     comment: 'Matches environments not recognised by other rules. Less lenient with random formatting here, it is expected to all be on one line.'
     name: 'meta.environment.general.$5.latex'
-    begin: '((\\\\)begin)(\\{)((\\w+)\\*?)(\\})(?:(\\[)(.*?)(\\]))?'
+    begin: '((\\\\)begin)(\\{)((\\w+)\\*?)(\\})(?:(\\[)(.*)(\\]))?'
     beginCaptures:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
@@ -819,7 +819,9 @@ repository:
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
-      8: name: 'variable.parameter.optional.function.environment.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+        patterns: [{ include: '$self' }]
       9: name: 'punctuation.definition.arguments.optional.end.latex'
     end: '((\\\\)end)(\\{)(\\4)(\\})'
     endCaptures:
@@ -862,7 +864,7 @@ repository:
   envFigure: {
     comment: 'Matches the common figure environment'
     name: 'meta.environment.float.$5.latex'
-    begin: '((\\\\)begin)(\\{)((figure)\\*?)(\\})(?:(\\[)(.*?)(\\]))?'
+    begin: '((\\\\)begin)(\\{)((figure)\\*?)(\\})(?:(\\[)(.*)(\\]))?'
     beginCaptures:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
@@ -871,7 +873,9 @@ repository:
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
-      8: name: 'variable.parameter.optional.function.environment.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+        patterns: [{ include: '$self' }]
       9: name: 'punctuation.definition.arguments.optional.end.latex'
     end: '((\\\\)end)(\\{)(\\4)(\\})'
     endCaptures:
@@ -888,7 +892,7 @@ repository:
         comment: 'Matches generic math environments'
         name: 'meta.environment.math.$5.latex'
         contentName: 'markup.other.math.block.$5.latex'
-        begin: '((\\\\)begin)(\\{)((align(?:ed)?|equation|multline|split|gather(?:ed)?)\\*?)(\\})(?:(\\[)(.*?)(\\]))?'
+        begin: '((\\\\)begin)(\\{)((align(?:ed)?|equation|multline|split|gather(?:ed)?)\\*?)(\\})(?:(\\[)(.*)(\\]))?'
         beginCaptures:
           1: name: 'support.function.environment.begin.latex'
           2: name: 'punctuation.definition.function.begin.latex'
@@ -897,7 +901,9 @@ repository:
           # 5: Used for meta scope name (basically just non starred version)
           6: name: 'punctuation.definition.arguments.end.latex'
           7: name: 'punctuation.definition.arguments.optional.begin.latex'
-          8: name: 'variable.parameter.optional.function.environment.latex'
+          8:
+            name: 'variable.parameter.optional.function.environment.latex'
+            patterns: [{ include: '$self' }]
           9: name: 'punctuation.definition.arguments.optional.end.latex'
         end: '((\\\\)end)(\\{)(\\4)(\\})'
         endCaptures:
@@ -942,7 +948,7 @@ repository:
   envList: {
     comment: 'Matches itemize|enumerate|description environment'
     contentName: 'meta.environment.list.$5.latex'
-    begin: '((\\\\)begin)(\\{)((itemize|enumerate|description)\\*?)(\\})(?:(\\[)(.*?)(\\]))?'
+    begin: '((\\\\)begin)(\\{)((itemize|enumerate|description)\\*?)(\\})(?:(\\[)(.*)(\\]))?'
     beginCaptures:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
@@ -951,7 +957,9 @@ repository:
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
-      8: name: 'variable.parameter.optional.function.environment.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+        patterns: [{ include: '$self' }]
       9: name: 'punctuation.definition.arguments.optional.end.latex'
     end: '((\\\\)end)(\\{)(\\4)(\\})'
     endCaptures:
@@ -966,7 +974,7 @@ repository:
     comment: 'Matches verbatim environment.'
     name: 'meta.environment.verbatim.latex'
     contentName: 'markup.raw.verbatim.latex'
-    begin: '((\\\\)begin)(\\{)(([vV]erbatim|alltt))(\\})(?:(\\[)(.*?)(\\]))?'
+    begin: '((\\\\)begin)(\\{)(([vV]erbatim|alltt))(\\})(?:(\\[)(.*)(\\]))?'
     beginCaptures:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
@@ -975,7 +983,9 @@ repository:
       # 5: Here to keep numbering consistent with other environments
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
-      8: name: 'variable.parameter.optional.function.environment.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+        patterns: [{ include: '$self' }]
       9: name: 'punctuation.definition.arguments.optional.end.latex'
     end: '((\\\\)end)(\\{)(\\4)(\\})'
     endCaptures:
@@ -989,7 +999,7 @@ repository:
     comment: 'Matches gnuplot env.'
     name: 'meta.environment.embedded.$5.latex'
     contentName: 'source.embedded.gnuplot'
-    begin: '((\\\\)begin)(\\{)((gnuplot)\\*?)(\\})(?:(\\[)(.*?)(\\]))?'
+    begin: '((\\\\)begin)(\\{)((gnuplot)\\*?)(\\})(?:(\\[)(.*)(\\]))?'
     beginCaptures:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
@@ -998,7 +1008,9 @@ repository:
       # 5: Used for $4 and meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
-      8: name: 'variable.parameter.optional.function.environment.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+        patterns: [{ include: '$self' }]
       9: name: 'punctuation.definition.arguments.optional.end.latex'
     end: '((\\\\)end)(\\{)(\\4)(\\})'
     endCaptures:
@@ -1198,7 +1210,7 @@ repository:
     comment: 'A catch all for any other languages.'
     name: 'meta.environment.embedded.$11.latex'
     contentName: 'markup.raw.verbatim.latex'
-    begin: '((\\\\)begin)(\\{)((minted)\\*?)(\\})(?:(\\[)(.*?)(\\]))?(\\{)([a-zA-Z]*)(\\})'
+    begin: '((\\\\)begin)(\\{)((minted)\\*?)(\\})(?:(\\[)(.*)(\\]))?(\\{)([a-zA-Z]*)(\\})'
     beginCaptures:
       1: name: 'support.function.environment.begin.latex'
       2: name: 'punctuation.definition.function.begin.latex'
@@ -1207,7 +1219,9 @@ repository:
       # 5: Used for meta scope name (basically just non starred version)
       6: name: 'punctuation.definition.arguments.end.latex'
       7: name: 'punctuation.definition.arguments.optional.begin.latex'
-      8: name: 'variable.parameter.optional.function.environment.latex'
+      8:
+        name: 'variable.parameter.optional.function.environment.latex'
+        patterns: [{ include: '$self' }]
       9: name: 'punctuation.definition.arguments.optional.end.latex'
       10: name: 'punctuation.definition.arguments.begin.latex'
       11: name: 'variable.parameter.language.$11.latex'
