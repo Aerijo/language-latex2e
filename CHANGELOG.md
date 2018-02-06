@@ -1,6 +1,14 @@
 # Changelog
 
 <!-- ## Unreleased -->
+
+## 0.13.4
+#### Added
+- Templates for issues and PR's
+
+#### Changed
+- Underscore rules are only applied in math mode.
+
 ## 0.13.0
 #### Changed
 - Math mode is now scoped to `markup` (from `string`). Style support is builtin.
