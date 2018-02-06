@@ -18,3 +18,4 @@ scopes:
   'comment': 'comment.line.latex'
   'control_sequence': 'support.function.general.latex'
   'number': 'constant.character.latex'
+  'group': 'markup.bold'
