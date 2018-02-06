@@ -23,7 +23,7 @@ patterns: [
   { include: '#metaAmpersand' }
   { include: '#metaOpenBrace' }
   { include: '#metaCloseBrace' }
-  { include: '#metaUnderscore' }
+  # { include: '#metaUnderscore' } # only good in math mode. User will get an error themselves if not set up properly for use in text.
   { include: '#metaCaret' }
   { include: '#metaHashtag' }
   { include: '#metaOther' } # for specific things that do not fit in the above
@@ -693,6 +693,7 @@ repository:
         name: 'invalid.illegal.latex'
         match: '(\\\\(\\[|\\(|\\)))'
       }
+      { include: '#metaUnderscore'}
       { include: '$self' }
     ]
   }
@@ -713,6 +714,7 @@ repository:
         name: 'invalid.illegal.latex'
         match: '(?<=[^\\\\])(\\$)(?=[^\\$])|(\\\\(\\[|\\(|\\)))'
       }
+      { include: '#metaUnderscore'}
       { include: '$self' }
     ]
   }
