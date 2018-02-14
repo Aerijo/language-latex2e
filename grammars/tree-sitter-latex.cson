@@ -19,3 +19,4 @@ scopes:
   'control_sequence': 'support.function.general.latex'
   'number': 'constant.character.latex'
   'group': 'markup.bold'
+  'argument': 'markup.italic'
