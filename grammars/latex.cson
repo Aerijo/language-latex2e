@@ -6,8 +6,6 @@ fileTypes: [ 'tex' ] # used by the automatic grammar selector to generate a scor
 limitLineLength: false # don't truncate lines when tokenizing
 maxTokensPerLine: 300 # match up to 300 tokens per line. This setting is actually changed by the ../lib/language-latex2e.js file
 
-injectionSelector: 'source.embedded.latex' # when this scope is present in another grammar, inject this grammar
-
 # Atom uses the following regex engine -> https://github.com/kkos/oniguruma/blob/master/doc/RE
 
 # Rules to be implemented. Please add to repository and link to a 'meta' to include.
