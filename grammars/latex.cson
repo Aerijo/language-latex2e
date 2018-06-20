@@ -789,9 +789,9 @@ repository:
     # ]
   }
   verbatim: {
-    comment: 'Finds an inline verbatim string of the format \verb+...+'
+    comment: 'Finds an inline verbatim string of the format \\verb+...+'
     name: 'string.function.verbatim'
-    match: '\\\\verb([^a-zA-Z])(.*?)(?:(\\1)|$)'
+    match: '\\\\(?:verb|hsk)([^a-zA-Z])(.*?)(?:(\\1)|$)'
     captures:
       0: name: 'support.function.vebatim.latex'
       1: name: 'punctuation.latex'

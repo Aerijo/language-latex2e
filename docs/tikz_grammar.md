@@ -154,7 +154,7 @@ The expansion of these is irregular, but `[]` always represents options.
 
 According to the manual, 'everything between `node` and the opening brace of a node is optional'. I take this to mean `node {}` is the bare minimum for a legal node. It further clarifies that the end of the node specification os detected by the opening curly brace. However, if the key `node contents` is given as an option, the node specifications ends at the closing square bracket. This makes it difficult to reliably scope a node, as users can make custom aliases for the options. A better approach is to handle each element separately, and work out a way to differentiate `(<coordinate>)` from `(<name>)`.
 
-- Although, the name is techinically a reference to the node's position, so it wouldn't be wrong to scope the name as a coordinate as well.
+- Although, the name is technically a reference to the node's position, so it wouldn't be wrong to scope the name as a coordinate as well.
 
   Additionally, the ordering of any elements following the `<foreach statements>` is optional and can be repeated.
 

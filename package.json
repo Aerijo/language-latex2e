@@ -10,6 +10,7 @@
   },
   "keywords": [
     "latex",
+    "bibtex",
     "syntax",
     "highlighting",
     "grammar"
@@ -22,5 +23,8 @@
       "level": "error",
       "value": 2
     }
+  },
+  "dependencies": {
+    "tree-sitter-bibtex": "latest"
   }
 }

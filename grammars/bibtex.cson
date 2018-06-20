@@ -1,0 +1,182 @@
+scopeName: 'text.tex.bibtex'
+name: 'BiBTeX'
+fileTypes: [ 'exp' ]
+limitLineLength: false
+
+patterns: [
+  { include: '#at_command' }
+  { include: '#comment_text' }
+]
+
+repository:
+  comment_text:
+    begin: '[^@\\n]'
+    end: '(?=@)'
+    name: 'comment.block.bibtex'
+
+  at_command:
+    patterns: [
+      { include: '#comment_command' }
+      { include: '#string_command' }
+      { include: '#preamble_command' }
+      { include: '#entry_command' }
+    ]
+
+  comment_command:
+    match: '@\\s*[cC][oO][mM][mM][eE][nN][tT]'
+    name: 'comment.line.at-sign.bibtex'
+
+  string_command:
+    name: 'meta.string.bibtex'
+    begin: '(@)\\s*([sS][tT][rR][iI][nN][gG])\\s*([^\\{\\(]*)'
+    beginCaptures:
+      1: name: 'constant.command_start.bibtex'
+      2: name: 'keyword.string.bibtex'
+      3: name: 'invalid.illegal.bibtex'
+    end: '(?<![\\{\\(])'
+
+    # the trick that makes this whole rule work. It will capture the rest
+    # of the begin group, and try for the patterns before ending (because
+    # figuratively anything ends this)
+    applyEndPatternLast: true
+    patterns: [
+      { include: '#string_body_brace' }
+      { include: '#string_body_paren' }
+    ]
+
+  string_body_brace:
+    contentName: 'meta.string_body.bibtex'
+    begin: '\\{'
+    beginCaptures: 0: name: 'punctuation.block.string.start'
+    end: '\\}'
+    endCaptures: 0: name: 'punctuation.block.string.end'
+    patterns: [{ include: '#field' }]
+
+  string_body_paren:
+    contentName: 'meta.string_body.bibtex'
+    begin: '\\('
+    beginCaptures: 0: name: 'punctuation.block.start'
+    end: '\\)'
+    endCaptures: 0: name: 'punctuation.block.end'
+    patterns: [{ include: '#field' }]
+
+  value:
+    patterns: [
+      { include: '#nested_braces' }
+      { include: '#quote_section' }
+      { include: '#number' }
+      { include: '#identifier' }
+    ]
+
+  nested_braces:
+    begin: '\\{'
+    beginCaptures: 0: name: 'punctuation.definition.brace.begin.bibtex'
+    end: '\\}'
+    endCaptures: 0: name: 'punctuation.definition.brace.end.bibtex'
+    patterns: [{ include: '#nested_braces' }]
+
+  quote_section:
+    begin: '"'
+    beginCaptures: 0: name: 'punctuation.definition.string.begin.bibtex'
+    end: '"'
+    endCaptures: 0: name: 'punctuation.definition.string.begin.bibtex'
+    contentName: 'string.field.bibtex'
+    patterns: [{ include: '#nested_braces' }]
+
+  number:
+    match: '[0-9]+'
+    name: 'constant.numeric.bibtex'
+
+  identifier:
+    match: '[\\!\\$\\&\\*\\+\\-\\.\\/\\:\\;<>\\?\\@\\[\\]\\\\\^\\_\\`\\|\\~a-zA-Z][\\!\\$\\&\\*\\+\\-\\.\\/\\:\\;<>\\?\\@\\[\\]\\\\\^\\_\\`\\|\\~a-zA-Z0-9]*'
+    name: 'variable.other.identifier.bibtex'
+
+
+  preamble_command:
+    name: 'meta.preamble.bibtex'
+    begin: '(@)\\s*([pP][rR][eE][aA][mM][bB][lL][eE])\\s*([^\\{\\(]*)'
+    beginCaptures:
+      1: name: 'constant.command_start.bibtex'
+      2: name: 'keyword.preamble.bibtex'
+      3: name: 'invalid.illegal.bibtex'
+    end: '(?<![\\{\\(])'
+    applyEndPatternLast: true
+    patterns: [
+      { include: '#preamble_body_brace' }
+      { include: '#preamble_body_paren' }
+    ]
+
+  preamble_body_brace:
+    contentName: 'meta.preamble_body.bibtex'
+    begin: '\\{'
+    beginCaptures: 0: name: 'punctuation.block.string.start'
+    end: '\\}'
+    endCaptures: 0: name: 'punctuation.block.string.end'
+    patterns: [{ include: '#value' }]
+
+  preamble_body_paren:
+    contentName: 'meta.preamble_body.bibtex'
+    begin: '\\('
+    beginCaptures: 0: name: 'punctuation.block.string.start'
+    end: '\\)'
+    endCaptures: 0: name: 'punctuation.block.string.end'
+    patterns: [{ include: '#value' }]
+
+
+  entry_command:
+    name: 'meta.entry.bibtex'
+    begin: '(@)(.*?)\\s*(?=[\\{\\(])'
+    beginCaptures:
+      1: name: 'constant.command_start.bibtex'
+      2:
+        name: 'keyword.preamble.bibtex'
+        patterns: [{ include: '#identifier' }]
+      3: name: 'invalid.illegal.bibtex'
+    end: '(?<![\\{\\(])'
+    applyEndPatternLast: true
+    patterns: [
+      { include: '#entry_body_brace' }
+      { include: '#entry_body_paren' }
+    ]
+
+  entry_body_brace:
+    contentName: 'meta.entry_body.bibtex'
+    begin: '\\{\\s*([^,\\s\\t\\n\\}]*)'
+    beginCaptures:
+      0: name: 'punctuation.block.string.start'
+      1: name: 'string.unquoted.key.bibtex'
+    end: '\\}'
+    endCaptures: 0: name: 'punctuation.block.string.end'
+    patterns: [{ include: '#_field' }]
+
+  entry_body_paren:
+    contentName: 'meta.entry_body.bibtex'
+    begin: '\\(\\s*([^,\\s\\t\\n\\)]*)'
+    beginCaptures:
+      0: name: 'punctuation.block.string.start'
+      1: name: 'string.unquoted.key.bibtex'
+    end: '\\)'
+    endCaptures: 0: name: 'punctuation.block.string.end'
+    patterns: [{ include: '#_field' }]
+
+  _field:
+    begin: ','
+    end: '(?=>[,\\}\\)])'
+    patterns: [{ include: '#field' }]
+
+  field:
+    patterns: [
+      {
+        match: '='
+        name: 'keword.operator.bibtex'
+      }
+      {
+        begin: '(?<==)\\s*'
+        end: '(?=[,\\)\\}])' # ')' is picked up by the end of the current rule
+        patterns: [{ include: '#value' }]
+      }
+      {
+        match: '([^=]*?)\\s*(?==)'
+        captures: 1: patterns: [{ include: '#identifier' }]
+      }
+    ]
