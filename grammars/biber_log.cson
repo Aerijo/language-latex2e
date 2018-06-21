@@ -1,0 +1,31 @@
+scopeName: 'text.tex.biber.log'
+name: 'Biber Log'
+fileTypes: [
+  'blg'
+]
+firstLineMatch: '^[\\d+]\\sConfig\\.pm\\:\\d+>\\sINFO\\s\\-\\sThis is Biber [\\d\\.]+$'
+limitLineLength: false
+
+patterns: [
+  { include: '#error' }
+  { include: '#warning' }
+  { include: '#info' }
+  { include: '#debug' }
+]
+
+repository:
+  error:
+    match: '(ERROR)\\s*(?=\\-)'
+    captures: 1: name: 'markup.other.log.error'
+
+  warning:
+    match: '(WARN)\\s*(?=\\-)'
+    captures: 1: name: 'markup.other.log.warn'
+
+  info:
+    match: '(INFO)\\s*(?=\\-)'
+    captures: 1: name: 'markup.other.log.info'
+
+  debug:
+    match: '(DEBUG)\\s*(?=\\-)'
+    captures: 1: name: 'markup.other.log.debug'

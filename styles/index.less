@@ -1,3 +1,20 @@
 .syntax--markup.syntax--other.syntax--math.syntax--latex {
   color: @syntax-color-snippet
 }
+
+atom-text-editor .syntax--text.syntax--tex.syntax--biber.syntax--log {
+  .syntax--markup.syntax--other.syntax--log {
+    &.syntax--error {
+      color: @text-color-error;
+    }
+    &.syntax--warn {
+      color: @text-color-warning;
+    }
+    &.syntax--info {
+      color: @text-color-info;
+    }
+    &.syntax--debug {
+      color: darken(@text-color-success, 13);
+    }
+  }
+}

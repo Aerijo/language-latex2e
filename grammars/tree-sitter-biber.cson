@@ -2,7 +2,7 @@ legacyScopeName: 'text.tex.bibtex'
 
 fileTypes: ['bib']
 
-firstLineMatch: 'bibtex'
+firstLineMatch: '[^(bibtex)]'
 
 id: 'bibtex'
 
@@ -17,9 +17,8 @@ scopes:
   'comment': 'comment.inline'
   'comment_command': 'comment.block'
 
-  'entry > identifier': 'constant'
-  'entry > key_b': 'keyword'
-  'entry > key_p': 'keyword'
+  'entry > name': 'constant'
+  'entry > key': 'keyword'
 
   'field > identifier': 'variable.other.identifier'
   'field > value': 'string'
