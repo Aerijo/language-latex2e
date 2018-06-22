@@ -12,6 +12,12 @@ type: 'tree-sitter'
 
 parser: 'tree-sitter-bibtex'
 
+folds: [
+  {
+    type: 'comment'
+  }
+]
+
 scopes:
   'program': 'text.tex.bibtex'
   'comment': 'comment.inline'

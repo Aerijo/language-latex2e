@@ -1,24 +1,40 @@
-legacyScopeName: 'text.tex.bibtex'
+legacyScopeName: 'text.tex.bibtex'  # I've only seen bibtex be used
 
 fileTypes: ['bib']
 
 firstLineMatch: '[^(bibtex)]'
 
-id: 'bibtex'
+id: 'biber'
 
-name: 'Tree BiBTeX'
+name: 'Tree Biber'
 
 type: 'tree-sitter'
 
-parser: 'tree-sitter-bibtex'
+parser: 'tree-sitter-biber'
+
+folds: [
+  {
+    type: 'comment'
+  }
+  {
+    type: 'junk'
+  }
+]
+
+comments:
+  start: '% '
 
 scopes:
   'program': 'text.tex.bibtex'
+  'junk': 'comment.inline'
   'comment': 'comment.inline'
   'comment_command': 'comment.block'
+
+  '"@"': 'constant'
 
   'entry > name': 'constant'
   'entry > key': 'keyword'
 
-  'field > identifier': 'variable.other.identifier'
-  'field > value': 'string'
+  'string': 'string'
+  'nonnegative_integer': 'constant.numeric'
+  'identifier': 'variable.other.identifier'
