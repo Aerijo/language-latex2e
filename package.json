@@ -27,5 +27,13 @@
   "dependencies": {
     "tree-sitter-bibtex": "latest",
     "tree-sitter-biber": "latest"
+  },
+  "configSchema": {
+    "maxTokensPerLine": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 300,
+      "description": "Use with caution; higher numbers can reduce performance measurably. See README for more info."
+    }
   }
 }
