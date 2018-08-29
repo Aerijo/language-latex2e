@@ -1,4 +1,5 @@
 legacyScopeName: 'text.tex.bibtex'
+scopeName: 'text.tex.bibtex'
 
 fileTypes: ['bib']
 
