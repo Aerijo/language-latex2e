@@ -1,4 +1,4 @@
-name: 'Embedded LaTeX' # doesn't appear to be used anywhere
+name: 'Plain LaTeX' # appears in grammar selection menu
 injectionSelector: 'source.embedded.latex'
 scopeName: "plain.latex" # doesn't appear to be used anywhere
 patterns: [{ include: "text.tex.latex#syntaxPlain"}]
