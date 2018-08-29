@@ -1,3 +1,4 @@
-injectionSelector: 'source.embedded.latex' # when this scope is present in another grammar, inject this grammar
-scopeName: 'source.embedded.latex'
-patterns: [{ include: 'text.tex.latex' }]
+name: 'Embedded LaTeX' # doesn't appear to be used anywhere
+injectionSelector: 'source.embedded.latex'
+scopeName: "plain.latex" # doesn't appear to be used anywhere
+patterns: [{ include: "text.tex.latex#syntaxPlain"}]
