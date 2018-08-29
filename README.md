@@ -8,6 +8,8 @@ This package is a replacement for the already existing [`language-latex`](https:
 
 NOTE: `bibtex` has a different syntax to `biber`. I have added `bibtex` support, not `biber` support as of writing this. If you're using `biblatex` for citations, and you haven't explicity set `backend=bibtex`, then you are using `biber`.
 
+- REQUIRES `make` build tool. 
+
 ## Current Status
 
 Most features available in `language-latex` have been implemented, so all that remains is to tidy up the grammar rules. If you think you can help in anyway, feel free to go to the GitHub page and raise an issue or submit a pull request.
