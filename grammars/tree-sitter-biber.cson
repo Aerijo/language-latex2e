@@ -1,10 +1,11 @@
-legacyScopeName: 'text.tex.bibtex'  # I've only seen bibtex be used
+legacyScopeName: 'text.tex.bibtex'  # API changed; this is no longer needed
+scopeName: 'text.tex.bibtex'
 
 fileTypes: ['bib']
 
 firstLineMatch: '[^(bibtex)]'
 
-id: 'biber'
+id: 'biber' # API changed; this is no longer needed
 
 name: 'Tree Biber'
 
