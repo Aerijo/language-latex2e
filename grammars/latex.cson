@@ -5,6 +5,9 @@ name: 'LaTeX2e' # aesthetic name to show in language selection menu
 fileTypes: [
   'bbx'
   'cbx'
+  'lbx'
+  'dbx'
+  'def'
   'cls'
   'lco'
   'sty'
@@ -594,18 +597,40 @@ repository:
   syntaxPlain: {
     comment: 'This is bare minimum that should work in most cases. It does not attempt to match pairs of anything, or specific constructions; just control sequences'
     patterns: [
-      { include: '#controlSymbol' }
-      { include: '#controlWord' }
       { include: '#lineComment' }
+      { include: '#metaPrimitives' }
+      { include: '#metaAmpersand' }
+      { include: '#metaTilde' }
+
+      { include: '#metaHashtag' }
+      { include: '#doubleCaret' }
+      { include: '#constants' }
+      { include: '#numericConstants' }
       {
         comment: 'Does not look for matching, just shows it is there'
-        match: '(\\$\\$)|(\\$)|(\\{)|(\\})'
+        match: '(\\$\\$)|(\\$)'
         captures:
           1: name: 'markup.other.math.display.latex'
           2: name: 'markup.other.math.inline.latex'
-          3: name: 'punctuation.definition.group.begin.latex'
-          4: name: 'punctuation.definition.group.end.latex'
       }
+      {
+        comment: 'Does not look for matching, just shows it is there'
+        match: '(\\\\\\()|(\\\\\\))|(\\\\\\[)|(\\\\\\])'
+        captures:
+          1: name: 'markup.other.math.inline.begin.latex'
+          2: name: 'markup.other.math.inline.end.latex'
+          3: name: 'markup.other.math.display.begin.latex'
+          4: name: 'markup.other.math.display.end.latex'
+      }
+      {
+        match: '(\\{)|(\\})'
+        captures:
+          1: name: 'punctuation.definition.group.begin.latex'
+          2: name: 'punctuation.definition.group.end.latex'
+      }
+      { include: '#controlSymbol' }
+      { include: '#controlWord' }
+
     ]
   }
   documentclass: {
@@ -1199,14 +1224,14 @@ repository:
   }
   constants: {
     comment: 'Taken from language-latex'
-    match: '(\\\\)(text(s(terling|ixoldstyle|urd|e(ction|venoldstyle|rvicemark))|yen|n(ineoldstyle|umero|aira)|c(ircledP|o(py(left|right)|lonmonetary)|urrency|e(nt(oldstyle)?|lsius))|t(hree(superior|oldstyle|quarters(emdash)?)|i(ldelow|mes)|w(o(superior|oldstyle)|elveudash)|rademark)|interrobang(down)?|zerooldstyle|o(hm|ne(superior|half|oldstyle|quarter)|penbullet|rd(feminine|masculine))|d(i(scount|ed|v(orced)?)|o(ng|wnarrow|llar(oldstyle)?)|egree|agger(dbl)?|blhyphen(char)?)|uparrow|p(ilcrow|e(so|r(t(housand|enthousand)|iodcentered))|aragraph|m)|e(stimated|ightoldstyle|uro)|quotes(traight(dblbase|base)|ingle)|f(iveoldstyle|ouroldstyle|lorin|ractionsolidus)|won|l(not|ira|e(ftarrow|af)|quill|angle|brackdbl)|a(s(cii(caron|dieresis|acute|grave|macron|breve)|teriskcentered)|cutedbl)|r(ightarrow|e(cipe|ferencemark|gistered)|quill|angle|brackdbl)|g(uarani|ravedbl)|m(ho|inus|u(sicalnote)?|arried)|b(igcircle|orn|ullet|lank|a(ht|rdbl)|rokenbar)))(?![a-zA-Z@])'
+    match: '(\\\\)(?>text(?>s(?>terling|ixoldstyle|urd|e(?>ction|venoldstyle|rvicemark))|yen|n(?>ineoldstyle|umero|aira)|c(?>ircledP|o(?>py(?>left|right)|lonmonetary)|urrency|e(?>nt(?>oldstyle)?|lsius))|t(?>hree(?>superior|oldstyle|quarters(?>emdash)?)|i(?>ldelow|mes)|w(?>o(?>superior|oldstyle)|elveudash)|rademark)|interrobang(?>down)?|zerooldstyle|o(?>hm|ne(?>superior|half|oldstyle|quarter)|penbullet|rd(?>feminine|masculine))|d(?>i(?>scount|ed|v(?>orced)?)|o(?>ng|wnarrow|llar(?>oldstyle)?)|egree|agger(?>dbl)?|blhyphen(?>char)?)|uparrow|p(?>ilcrow|e(?>so|r(?>t(?>housand|enthousand)|iodcentered))|aragraph|m)|e(?>stimated|ightoldstyle|uro)|quotes(?>traight(?>dblbase|base)|ingle)|f(?>iveoldstyle|ouroldstyle|lorin|ractionsolidus)|won|l(?>not|ira|e(?>ftarrow|af)|quill|angle|brackdbl)|a(?>s(?>cii(?>caron|dieresis|acute|grave|macron|breve)|teriskcentered)|cutedbl)|r(?>ightarrow|e(?>cipe|ferencemark|gistered)|quill|angle|brackdbl)|g(?>uarani|ravedbl)|m(?>ho|inus|u(?>sicalnote)?|arried)|b(?>igcircle|orn|ullet|lank|a(?>ht|rdbl)|rokenbar)))(?!>[a-zA-Z@])'
     captures:
       0: name: 'constant.character.latex'
       1: name: 'punctuation.definition.constant.latex'
   }
   numericConstants: {
     comment: 'To match numbers of form 12, 1.2, etc.'
-    match: '(\\d*\\.\\d+|(\\d+\\.)?\\d*)'
+    match: '(\\d*\\.\\d+|(\\d+\\.)?\\d+)'
     name: 'constant.numeric.math.latex'
   }
   tikzOptions: {
