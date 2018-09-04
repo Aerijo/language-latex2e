@@ -1,6 +1,6 @@
 scopeName: 'text.tex.bibtex'
 name: 'BiBTeX'
-fileTypes: [ 'exp' ]
+fileTypes: [ 'bib' ]
 limitLineLength: false
 
 patterns: [
