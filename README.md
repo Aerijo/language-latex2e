@@ -6,9 +6,9 @@
 This package is a replacement for the already existing [`language-latex`](https://atom.io/packages/language-latex) package. The design philosophy is if it is valid LaTeX, it gets correct syntax highlighting (within reason). For example, it will correctly highlight the optional arguments to `\usepackage`.
 
 
-NOTE: `bibtex` has a different syntax to `biber`. I have added `bibtex` support, not `biber` support as of writing this. If you're using `biblatex` for citations, and you haven't explicity set `backend=bibtex`, then you are using `biber`.
+NOTE: `bibtex` has a different syntax to `biber`. I have added support for both, but you may need to manually select one or the other. I'll work on making this seamless.
 
-- REQUIRES `make` build tool. 
+- REQUIRES `make` build tool.
 
 ## Current Status
 

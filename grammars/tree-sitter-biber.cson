@@ -1,5 +1,5 @@
-legacyScopeName: 'text.tex.bibtex'  # API changed; this is no longer needed
-scopeName: 'text.tex.bibtex'
+legacyScopeName: 'text.tex.biber'  # API changed; this is no longer needed
+scopeName: 'text.tex.biber'
 
 fileTypes: ['bib']
 
