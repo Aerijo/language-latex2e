@@ -25,7 +25,6 @@
     }
   },
   "dependencies": {
-    "tree-sitter-bibtex": "latest",
     "tree-sitter-biber": "latest"
   },
   "configSchema": {
