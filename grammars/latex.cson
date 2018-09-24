@@ -854,7 +854,7 @@ repository:
         name: 'variable.parameter.optional.function.environment.latex'
         patterns: [{ include: '$self' }]
       9: name: 'punctuation.definition.arguments.optional.end.latex'
-    end: '((\\\\)end)(\\{)(\\4)(\\})'
+    end: '((\\\\)end)(\\{)(\\4)(\\})|(?=})'
     endCaptures:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
@@ -873,7 +873,7 @@ repository:
       3: name: 'punctuation.definition.arguments.begin.latex'
       4: name: 'variable.parameter.function.latex'
       5: name: 'punctuation.definition.arguments.end.latex'
-    end: '((\\\\)end)(\\{)(\\4)(\\})'
+    end: '((\\\\)end)(\\{)(\\4)(\\})|(?=})'
     endCaptures:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
@@ -908,7 +908,7 @@ repository:
         name: 'variable.parameter.optional.function.environment.latex'
         patterns: [{ include: '$self' }]
       9: name: 'punctuation.definition.arguments.optional.end.latex'
-    end: '((\\\\)end)(\\{)(\\4)(\\})'
+    end: '((\\\\)end)(\\{)(\\4)(\\})|(?=})'
     endCaptures:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
@@ -936,7 +936,7 @@ repository:
             name: 'variable.parameter.optional.function.environment.latex'
             patterns: [{ include: '$self' }]
           9: name: 'punctuation.definition.arguments.optional.end.latex'
-        end: '((\\\\)end)(\\{)(\\4)(\\})'
+        end: '((\\\\)end)(\\{)(\\4)(\\})|(?=})'
         endCaptures:
           1: name: 'support.function.environment.end.latex'
           2: name: 'punctuation.definition.function.latex'
@@ -965,7 +965,7 @@ repository:
               { include: '$self' }
             ] # This is amazing! It works!
           9: name: 'punctuation.definition.arguments.end.latex'
-        end: '((\\\\)end)(\\{)(\\4)(\\})'
+        end: '((\\\\)end)(\\{)(\\4)(\\})|(?=})'
         endCaptures:
           1: name: 'support.function.environment.end.latex'
           2: name: 'punctuation.definition.function.latex'
@@ -992,7 +992,7 @@ repository:
         name: 'variable.parameter.optional.function.environment.latex'
         patterns: [{ include: '$self' }]
       9: name: 'punctuation.definition.arguments.optional.end.latex'
-    end: '((\\\\)end)(\\{)(\\4)(\\})'
+    end: '((\\\\)end)(\\{)(\\4)(\\})|(?=})'
     endCaptures:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
@@ -1043,7 +1043,7 @@ repository:
         name: 'variable.parameter.optional.function.environment.latex'
         patterns: [{ include: '$self' }]
       9: name: 'punctuation.definition.arguments.optional.end.latex'
-    end: '((\\\\)end)(\\{)(\\4)(\\})'
+    end: '((\\\\)end)(\\{)(\\4)(\\})|(?=})'
     endCaptures:
       1: name: 'support.function.environment.end.latex'
       2: name: 'punctuation.definition.function.latex'
@@ -1124,7 +1124,7 @@ repository:
             (\\{)
             (\\4)
             (\\})
-            (?:\\s*)?
+            (?:\\s*)?|(?=})
          '''
     name: 'meta.function.environment.tabular.latex'
     patterns: [
