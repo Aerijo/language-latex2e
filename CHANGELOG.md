@@ -2,6 +2,14 @@
 
 <!-- ## Unreleased -->
 
+## 0.17.0
+#### Changed
+- Updated and locked `tree-sitter-biber` to v0.5.0; this adds support for `@` in keys and identifiers (field keys, macro names)
+- Set biber name to `Biber` from `Tree Biber`. This makes it work better with the Language Server Protocol.
+- Added and changed most of the node to scope rules (to match the planned `language-latex` ones)
+
+// TODO: Fill this out.
+
 ## 0.13.4
 #### Added
 - Templates for issues and PR's
